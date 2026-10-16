@@ -219,7 +219,7 @@
   },
   {
    "ref": "2 Timothy 4:2",
-   "text": "Preach the word; be ready in season and out",
+   "text": "Preach the word; be ready in season and out of season",
    "verses": [
     "2 Timothy 4:2"
    ],
@@ -435,7 +435,7 @@
   },
   {
    "ref": "John 4:14",
-   "text": "The water that I will give him will become a spring",
+   "text": "The water that I will give him will become in him a spring",
    "verses": [
     "John 4:14"
    ],
@@ -786,7 +786,7 @@
   },
   {
    "ref": "Matthew 13:46",
-   "text": "On finding one pearl of great value, he sold all",
+   "text": "On finding one pearl of great value... sold all that he had",
    "verses": [
     "Matthew 13:46"
    ],
@@ -796,6 +796,10 @@
      "keep": [
       [
        1,
+       10
+      ],
+      [
+       12,
        17
       ]
      ]
@@ -805,6 +809,10 @@
      "keep": [
       [
        0,
+       7
+      ],
+      [
+       11,
        15
       ]
      ]
@@ -1326,7 +1334,7 @@
   },
   {
    "ref": "Jude 1:3",
-   "text": "Contend for the faith once for all delivered",
+   "text": "Contend for the faith that was once for all delivered to the saints",
    "verses": [
     "Jude 1:3"
    ],
@@ -1336,7 +1344,7 @@
      "keep": [
       [
        30,
-       38
+       41
       ]
      ]
     },
@@ -1345,7 +1353,7 @@
      "keep": [
       [
        25,
-       34
+       37
       ]
      ]
     }
@@ -1794,7 +1802,7 @@
   },
   {
    "ref": "John 3:8",
-   "text": "The wind blows where it wishes... So it is with everyone born of the Spirit",
+   "text": "The wind blows where it wishes... So it is with everyone who is born of the Spirit",
    "verses": [
     "John 3:8"
    ],
@@ -2721,7 +2729,7 @@
   },
   {
    "ref": "Leviticus 11:44",
-   "text": "You shall be holy, for I am holy",
+   "text": "Be holy, for I am holy",
    "verses": [
     "Leviticus 11:44"
    ],
@@ -3539,7 +3547,7 @@
   },
   {
    "ref": "Micah 6:8",
-   "text": "Do justice, love kindness, and walk humbly with your God",
+   "text": "To do justice, and to love kindness, and to walk humbly with your God",
    "verses": [
     "Micah 6:8"
    ],
@@ -3782,7 +3790,7 @@
   },
   {
    "ref": "Luke 2:7",
-   "text": "She laid him in a manger",
+   "text": "She gave birth to her firstborn son... and laid him in a manger",
    "verses": [
     "Luke 2:7"
    ],
@@ -3791,7 +3799,11 @@
      "words": 29,
      "keep": [
       [
-       14,
+       1,
+       7
+      ],
+      [
+       13,
        19
       ]
      ]
@@ -3800,7 +3812,11 @@
      "words": 31,
      "keep": [
       [
-       16,
+       1,
+       9
+      ],
+      [
+       15,
        21
       ]
      ]
@@ -4284,7 +4300,7 @@
   },
   {
    "ref": "2 Peter 1:19",
-   "text": "A lamp shining in a dark place, until the morning star rises",
+   "text": "A lamp shining in a dark place, until the day dawns and the morning star rises",
    "verses": [
     "2 Peter 1:19"
    ],
@@ -4798,7 +4814,7 @@
   },
   {
    "ref": "1 Peter 5:7",
-   "text": "Cast all your anxieties on him, because he cares for you.",
+   "text": "Casting all your anxieties on him, because he cares for you.",
    "verses": [
     "1 Peter 5:7"
    ],

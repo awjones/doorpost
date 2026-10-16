@@ -261,7 +261,7 @@ def test_apibible_fetch(demo_env, monkeypatch):
 def test_faith_pack_keeps_reference_and_shortening(tmp_path):
     folder = pb.build("faith", tmp_path)
     m = json.loads((folder / "pack.json").read_text())
-    assert m["license"] == "CC BY 4.0" and m["version"] == "1.1.0"
+    assert m["license"] == "CC BY 4.0" and m["version"] == "1.1.1"
     clock = next(r for r in m["rules"] if r.get("clock_verses"))
     assert len(clock["passages"]) == len(clock["clock_verses"]) == 7
     palm = next(r for r in m["rules"] if r.get("church") == "palm")

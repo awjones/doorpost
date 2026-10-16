@@ -9,7 +9,7 @@
   "kjv": "we have as an anchor of the soul, both sure and stedfast,",
   "bsb": "We have this hope as an anchor for the soul, firm and secure."
  },
- "John 4:14|The water that I will give him will become a spring": {
+ "John 4:14|The water that I will give him will become in him a spring": {
   "kjv": "the water that I shall give him shall be in him a well of water",
   "bsb": "the water I give him will become in him a fount of water"
  },
@@ -19,9 +19,9 @@
  "Matthew 10:29|Not one of them will fall to the ground apart from your Father": {
   "bsb": "not one of them will fall to the ground apart from the will of your Father."
  },
- "Matthew 13:46|On finding one pearl of great value, he sold all": {
-  "kjv": "when he had found one pearl of great price, went and sold all that he had,",
-  "bsb": "When he found one very precious pearl, he went away and sold all he had"
+ "Matthew 13:46|On finding one pearl of great value... sold all that he had": {
+  "kjv": "when he had found one pearl of great price, ... sold all that he had,",
+  "bsb": "When he found one very precious pearl, ... sold all he had"
  },
  "Matthew 7:14|The gate is narrow and the way is hard that leads to life": {
   "kjv": "strait is the gate, and narrow is the way, which leadeth unto life,",
@@ -65,7 +65,7 @@
  "Revelation 22:13|I am the Alpha and the Omega, the first and the last": {
   "kjv": "I am Alpha and Omega, the beginning and the end, the first and the last."
  },
- "John 3:8|The wind blows where it wishes... So it is with everyone born of the Spirit": {
+ "John 3:8|The wind blows where it wishes... So it is with everyone who is born of the Spirit": {
   "kjv": "The wind bloweth where it listeth, ... so is every one that is born of the Spirit.",
   "bsb": "The wind blows where it wishes. ... So it is with everyone born of the Spirit.”"
  },
@@ -149,7 +149,7 @@
   "kjv": "turn unto the LORD your God: for he is gracious",
   "bsb": "return to the LORD your God. For He is gracious"
  },
- "Micah 6:8|Do justice, love kindness, and walk humbly with your God": {
+ "Micah 6:8|To do justice, and to love kindness, and to walk humbly with your God": {
   "kjv": "to do justly, and to love mercy, and to walk humbly with thy God?",
   "bsb": "to act justly, to love mercy, and to walk humbly with your God?"
  },
@@ -182,7 +182,7 @@
   "kjv": "Ye also, as lively stones, are built up",
   "bsb": "you also, like living stones, are being built"
  },
- "2 Peter 1:19|A lamp shining in a dark place, until the morning star rises": {
+ "2 Peter 1:19|A lamp shining in a dark place, until the day dawns and the morning star rises": {
   "kjv": "a light that shineth in a dark place, until the day dawn, and the day star arise",
   "bsb": "a lamp shining in a dark place, until the day dawns and the morning star rises"
  },
@@ -193,7 +193,24 @@
   "kjv": "It is of the LORD’S mercies that we are not consumed, because his compassions fail not. They are new every morning:",
   "bsb": "Because of the loving devotion of the LORD we are not consumed, for His mercies never fail. They are new every morning;"
  },
- "1 Peter 5:7|Cast all your anxieties on him, because he cares for you.": {
-  "kjv": "Casting all your care upon him; for he careth for you."
+ "1 Peter 5:7|Casting all your anxieties on him, because he cares for you.": {
+  "kjv": "Casting all your care upon him; for he careth for you.",
+  "bsb": "Cast all your anxiety on Him, because He cares for you."
+ },
+ "Luke 2:7|She gave birth to her firstborn son... and laid him in a manger": {
+  "kjv": "she brought forth her firstborn son, ... and laid him in a manger;",
+  "bsb": "she gave birth to her firstborn, a Son. ... and laid Him in a manger,"
+ },
+ "Jude 1:3|Contend for the faith that was once for all delivered to the saints": {
+  "kjv": "contend for the faith which was once delivered unto the saints.",
+  "bsb": "contend earnestly for the faith entrusted once for all to the saints."
+ },
+ "Leviticus 11:44|Be holy, for I am holy": {
+  "kjv": "ye shall be holy; for I am holy:",
+  "bsb": "be holy, because I am holy."
+ },
+ "2 Timothy 4:2|Preach the word; be ready in season and out of season": {
+  "kjv": "Preach the word; be instant in season, out of season;",
+  "bsb": "Preach the word; be prepared in season and out of season;"
  }
 }

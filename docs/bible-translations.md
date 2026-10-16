@@ -42,6 +42,10 @@ Faith pack stores exactly which words of the full verse to keep. For any
 other text, Doorpost keeps the words that best match the pack's own
 shortened quote.
 
+The pack's ESV quotes are never reworded. Each one is the published ESV
+wording, cut to a short piece of the verse; where words in the middle are
+left out, the gap is marked with "...". Every quote shows its reference.
+
 ## The licensing situation, in plain words
 
 ### ESV
@@ -176,3 +180,8 @@ Lockman does not offer its own API. There are two ways to add the NASB:
   `--review` prints every quote in all three translations to check by eye.
   Fix a poor match in `scripts/bible/overrides.json` with the exact words
   to keep, using `...` for a gap.
+- `tests/test_esv_quotes.py` checks every ESV quote in the pack against the
+  published ESV text of its verses (`tests/fixtures/esv_verses.json`, checked
+  on Bible Gateway). A quote must be one exact piece of the verse, or exact
+  pieces in order joined by `...`; only a capital first letter and the end
+  punctuation may differ. A new verse needs its ESV text added there first.

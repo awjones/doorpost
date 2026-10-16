@@ -21,7 +21,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = "1.0.0"
-VERSIONS = {"faith": "1.1.0"}   # 1.1.0: each verse also carries its reference and shortening (Bible translations)
+VERSIONS = {"faith": "1.1.1"}   # 1.1.0: each verse also carries its reference and shortening (Bible translations)
+                               # 1.1.1: every verse is exact ESV wording (trimmed excerpts, gaps marked "...")
 LICENSE = "CC BY 4.0"
 BUILT_IN = ("holidays-us", "seasons", "family-basics")
 OPTIONAL = ("faith", "outings", "kids-activities")
@@ -62,7 +63,7 @@ CLOCK_VERSES = [
     ["The steadfast love of the Lord never ceases; his mercies never come to an end; they are new every morning.", "Lamentations 3:22–23"],
     ["Come to me, all who labor and are heavy laden, and I will give you rest.", "Matthew 11:28"],
     ["This is the day that the Lord has made; let us rejoice and be glad in it.", "Psalm 118:24"],
-    ["Cast all your anxieties on him, because he cares for you.", "1 Peter 5:7"],
+    ["Casting all your anxieties on him, because he cares for you.", "1 Peter 5:7"],
     ["The Lord bless you and keep you; the Lord make his face to shine upon you.", "Numbers 6:24–25"],
 ]
 
