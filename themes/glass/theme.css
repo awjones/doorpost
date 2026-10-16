@@ -1,0 +1,428 @@
+/* Glass View: liquid glass panels over the family photo. The colors come from theme.js (derive), which turns the
+   Glass option (--opt-frost) into --gl-* (panels) and --glp-* (pop-ups, never below about 50) and the frame's own
+   --ink, --soft, --line... Chrome 106: no color-mix, no :has, no nesting. */
+
+body.look-glass { --paper: #2B2A3A; --look-photo-dim: 0.04;
+  --gl-r: 28px; --gl-r-sm: 18px; --gl-acc: #1F6AE0; --gl-alert: #D93A3F;
+  /* in case theme.js hasn't run yet: the Balanced values */
+  --gl-glass: rgba(255, 255, 255, 0.55); --gl-blur: blur(24px) saturate(158%); --gl-edge: rgba(255, 255, 255, 0.58);
+  --gl-shadow: inset 1.5px 1.5px 0 rgba(255, 255, 255, 0.9), 0 14px 34px rgba(10, 8, 20, 0.2); --gl-tshadow: none;
+  --gl-sub: rgba(255, 255, 255, 0.58); --gl-fill: rgba(255, 255, 255, 0.42); --gl-seg-on: rgba(255, 255, 255, 0.92);
+  --gl-acct: #1A5BC4; --gl-acc-btn: #1F6AE0; --gl-ink: #15171C; --gl-ink2: #3B3F48; --gl-ink3: #545964;
+  --ink: #15171C; --soft: #3B3F48; --muted: #545964; --line: rgba(25, 30, 40, 0.14); --line-soft: rgba(25, 30, 40, 0.14);
+  --navy: #1F6AE0; --gilt: #1A5BC4; --card: rgba(255, 255, 255, 0.58); --tile: rgba(255, 255, 255, 0.58);
+  -webkit-font-smoothing: antialiased; }
+body.look-glass #stage { background: var(--paper); text-shadow: var(--gl-tshadow); }
+body.look-glass #screen-clock { background: transparent; }
+
+/* ================= the glass itself ================= */
+body.look-glass .band, body.look-glass .ribbon, body.look-glass .card, body.look-glass .tabs, body.look-glass .homebar,
+body.look-glass .pager, body.look-glass .day, body.look-glass .month,
+body.look-glass .ph-panel, body.look-glass .ph-cap, body.look-glass .ck-main, body.look-glass .ck-side, body.look-glass .navr > .btn-chip,
+body.look-glass .khead, body.look-glass .knext, body.look-glass .krib, body.look-glass .kgrown, body.look-glass .chores-side > .btn-outline, body.look-glass .kkid, body.look-glass .kface, body.look-glass .kscreen, body.look-glass .kbed {
+  background: var(--gl-glass); -webkit-backdrop-filter: var(--gl-blur); backdrop-filter: var(--gl-blur);
+  border: 1px solid var(--gl-edge); box-shadow: var(--gl-shadow); color: var(--ink); }
+
+/* the inner, lighter glass: rows, chips, tiles (no blur of their own: one blur per panel keeps the frame quick) */
+body.look-glass .tile, body.look-glass .ktile, body.look-glass .chore, body.look-glass .hchip, body.look-glass .wday, body.look-glass .witem,
+body.look-glass .fcard, body.look-glass .vp, body.look-glass .btn-outline, body.look-glass .btn-chip, body.look-glass .btn-ghost,
+body.look-glass .chip2, body.look-glass .btn-back, body.look-glass .ck-count, body.look-glass .mcell {
+  background: var(--gl-sub); border: none; box-shadow: var(--gl-sub-shadow); color: var(--ink); }
+
+/* accent buttons: the blue pill with a lit top edge */
+body.look-glass .btn-primary, body.look-glass .btn-small.ok, body.look-glass .keys button.ok, body.look-glass .kb-row button.ok,
+body.look-glass .tab.on, body.look-glass .pick.on, body.look-glass .toggle button.on,
+body.look-glass .vp.on, body.look-glass .chip2.sel, body.look-glass .pager .mid.back {
+  background: var(--gl-acc-btn); color: #FFFFFF; box-shadow: var(--gl-btn-shadow); border: none; text-shadow: none; }
+
+/* ================= header band: a floating glass bar ================= */
+body.look-glass .band { margin: 14px 28px 0; height: 96px; border-radius: 30px; padding: 10px 26px 10px 16px; border-bottom: 1px solid var(--gl-edge); }
+body.look-glass .band.tall { height: 100px; padding-top: 10px; padding-bottom: 10px; }
+body.look-glass .band-left { position: relative; gap: 16px; }
+/* the family mark: a white initial on a blue tile (theme.json "monogram": "initial") */
+body.look-glass .mono { --mono-font: var(--sans); text-shadow: none; }
+body.look-glass .mono-i { font-weight: 700; }
+body.look-glass .band .mono { --mono-w: 60px; border-radius: 17px; background: linear-gradient(160deg, #4C8DF2 0%, #1F6AE0 55%, #1857BF 100%); --mono-color: #FFFFFF;
+  box-shadow: inset 1px 1.5px 0 rgba(255, 255, 255, 0.55), inset 0 -2px 0 rgba(0, 0, 0, 0.12), 0 4px 12px rgba(31, 106, 224, 0.32); }
+body.look-glass .band .script { font-family: var(--sans); font-size: 30px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); line-height: 1.12; }
+body.look-glass .band .kicker { font-size: 15px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--soft); margin-top: 2px; }
+/* Today: the date is the headline, "Our Family" the small line above it */
+body.look-glass .band.tall .band-left > div { display: flex; flex-direction: column-reverse; }
+body.look-glass .band.tall .script { font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gl-acct); line-height: 1.2; }
+body.look-glass .band.tall .kicker { font-size: 32px; font-weight: 700; letter-spacing: -0.015em; text-transform: none; color: var(--ink); margin-top: 0; line-height: 1.1; }
+body.look-glass .band-right { color: var(--ink); }
+body.look-glass .clock .t { font-family: var(--sans); font-size: 74px; font-weight: 300; letter-spacing: -0.03em; color: var(--ink); }
+body.look-glass .clock .ap { font-size: 20px; font-weight: 500; color: var(--ink); }
+body.look-glass .vrule { background: var(--line); height: 56px; }
+body.look-glass .wx { color: var(--gl-acct); }
+body.look-glass .wx .temp { font-family: var(--sans); font-size: 44px; font-weight: 400; color: var(--ink); letter-spacing: -0.02em; }
+body.look-glass .wx .txt { font-family: var(--sans); font-style: normal; font-size: 17px; font-weight: 600; color: var(--ink); }
+body.look-glass .wx .sub { font-size: 14px; color: var(--soft); }
+body.look-glass .legend { gap: 6px 8px; }
+body.look-glass .legend span { background: var(--gl-sub); box-shadow: var(--gl-sub-shadow); border-radius: 999px; padding: 6px 12px; color: var(--ink); }
+body.look-glass .legend i { box-shadow: none; }
+
+/* ================= countdown ribbon ================= */
+body.look-glass .ribbon { margin: 12px 28px 0; height: 70px; border-radius: 24px; padding: 0 24px 0 0; gap: 18px; }
+body.look-glass .ribbon.solemn { border-color: var(--gl-edge); }
+body.look-glass .rb-art { width: 112px; height: 54px; margin-left: 8px; border-right: none; border-radius: 14px; }
+body.look-glass .rb-script { font-family: var(--sans); font-size: 17px; font-weight: 600; color: var(--gl-acct); }
+body.look-glass .rb-ti { font-family: var(--sans); font-size: 24px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); }
+body.look-glass .rb-sub { color: var(--soft); }
+body.look-glass .rb-stars { color: var(--gl-acct); }
+
+/* ================= body, cards ================= */
+body.look-glass .body { padding: 14px 28px 16px; gap: 14px; }
+body.look-glass .main { gap: 16px; }
+body.look-glass .card { border-radius: var(--gl-r); }
+body.look-glass .card-head h2, body.look-glass .hp-head h3 { font-family: var(--sans); font-size: 24px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); }
+body.look-glass .aside { font-family: var(--sans); font-style: normal; font-size: 14px; font-weight: 600; color: var(--gl-acct); }
+body.look-glass .empty, body.look-glass .nothing, body.look-glass .intro, body.look-glass .hp-none { font-family: var(--sans); font-style: normal; color: var(--soft); }
+body.look-glass .av { font-family: var(--sans); font-style: normal; font-weight: 700; text-shadow: none; }
+body.look-glass .av.s, body.look-glass .av.m, body.look-glass .pick .av, body.look-glass .wrow .av.m, body.look-glass .pick2 .pickav .av.m,
+body.look-glass .pick.on .av { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75), 0 2px 6px rgba(0, 0, 0, 0.18); }
+body.look-glass .av.k { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8), 0 3px 10px rgba(0, 0, 0, 0.2); }
+
+/* Today: events with a colored bar, the next one lit */
+body.look-glass .ev { border-bottom: none; padding: 6px 0; grid-template-columns: 84px 4px minmax(0, 1fr); }
+body.look-glass .ev .dot { width: 4px; height: 38px; border-radius: 2px; }
+body.look-glass .ev .tm { font-weight: 500; color: var(--soft); }
+body.look-glass .ev .ti { font-weight: 500; }
+body.look-glass .ev .who { font-family: var(--sans); font-style: normal; font-size: 14px; color: var(--soft); }
+body.look-glass .ev.past { color: var(--muted); }
+body.look-glass .ev.past .dot { opacity: 0.55; }
+body.look-glass .ev.next { background: var(--gl-acc-tint); border-radius: 16px; margin: 4px -10px; padding: 8px 10px; }
+body.look-glass .ev.next .tm { color: var(--ink); }
+body.look-glass .pill-next, body.look-glass .sp-pill { background: var(--gl-acc-btn); box-shadow: var(--gl-btn-shadow); text-shadow: none; }
+body.look-glass .foot { border-top: 1px solid var(--line); color: var(--ink); }
+body.look-glass .foot b { color: var(--soft); }
+body.look-glass .foot i { font-family: var(--sans); font-style: normal; font-size: 16px; }
+
+/* the flip panel: a segmented control */
+body.look-glass .htabs { background: var(--gl-fill); box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06); padding: 3px; }
+body.look-glass .htabs button { color: var(--ink); font-weight: 500; }
+body.look-glass .htabs button.on, body.look-glass .seg2 button.on { background: var(--gl-seg-on); color: var(--ink); box-shadow: var(--gl-seg-shadow); text-shadow: none; font-weight: 600; }
+body.look-glass .seg2 { background: var(--gl-fill); border-radius: 999px; padding: 3px; }
+body.look-glass .seg2 button { color: var(--ink); }
+body.look-glass .hchip { border-radius: 999px; padding: 5px 12px; font-weight: 600; }
+body.look-glass .hchip.done { background: var(--green-bg); }
+body.look-glass .hchip.wait { background: var(--amber-bg); color: var(--amber); }
+body.look-glass .hp-kid { border-bottom: 1px solid var(--line); }
+body.look-glass .hp-total { font-family: var(--sans); font-weight: 700; }
+body.look-glass .total, body.look-glass .big-total, body.look-glass .count .big, body.look-glass .wtemp, body.look-glass .wday .hi, body.look-glass .wh b,
+body.look-glass .medal b, body.look-glass .st-row .amt, body.look-glass .witem .mins, body.look-glass .mn, body.look-glass .day .dn, body.look-glass .fcard b,
+body.look-glass .ck-ev .who, body.look-glass .ck-count b, body.look-glass .wx .txt, body.look-glass .wtxt, body.look-glass .dp-verse,
+body.look-glass .sheet h1, body.look-glass .ptools h2, body.look-glass .dp-head h1, body.look-glass .sheet .sub, body.look-glass .fe .w em,
+body.look-glass .wrow .mn.none, body.look-glass .li-t small.ff, body.look-glass .ce .w, body.look-glass .dp-row .who, body.look-glass .gday b,
+body.look-glass .gday .plus, body.look-glass .ph-cap, body.look-glass .ck-verse { font-family: var(--sans); font-style: normal; }
+body.look-glass .bar { background: var(--gl-fill); }
+body.look-glass .li { border-bottom: 1px solid var(--line); }
+body.look-glass .ring { border: 2.5px solid var(--gl-ring); }
+body.look-glass .ring.on { background: var(--green); border-color: var(--green); }
+body.look-glass .li-t small, body.look-glass .lsec { color: var(--soft); }
+body.look-glass .wnow { border-bottom: 1px solid var(--line); color: var(--gl-acct); }
+body.look-glass .wh { color: var(--gl-acct); }
+body.look-glass .wday { border-radius: 16px; color: var(--gl-acct); }
+body.look-glass .wday.sp { box-shadow: var(--gl-sub-shadow), inset 0 0 0 1.5px var(--gl-acct); }
+body.look-glass .wday .wr { color: var(--gl-acct); }
+body.look-glass .wnote, body.look-glass .waitline, body.look-glass .sp-warn, body.look-glass .nwk, body.look-glass .lnote.stale { background: var(--amber-bg); color: var(--amber); }
+/* the kids' row */
+body.look-glass .krow .card-head h2 { font-size: 17px; font-weight: 600; }
+body.look-glass .krow .aside { color: var(--soft); font-weight: 500; }
+body.look-glass .ktile { border-radius: 20px; }
+body.look-glass .kwait { background: #F4B400; color: #15171C; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85); text-shadow: none; }
+body.look-glass .kct, body.look-glass .tile .ct { color: var(--soft); }
+body.look-glass .kct.good { color: var(--green); }
+
+/* ================= the dock: tabs and house status ================= */
+body.look-glass .nav { height: 62px; }
+body.look-glass .tabs { padding: 6px; border-radius: 999px; gap: 2px; }
+body.look-glass .tab { height: 48px; color: var(--ink); font-weight: 500; }
+body.look-glass .tab.on { font-weight: 600; }
+body.look-glass .tab .badge, body.look-glass .lcount { background: var(--gl-acc); color: #FFFFFF; text-shadow: none; box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.7); }
+body.look-glass .tab.on .badge, body.look-glass .pick.on .lcount { background: #FFFFFF; color: var(--gl-acc); }
+body.look-glass .homebar { height: 58px; padding: 0 22px; border-radius: 999px; font-family: var(--sans); font-style: normal; font-size: 16px; color: var(--soft); }
+body.look-glass .homebar .alert { color: var(--red); }
+body.look-glass .navr { gap: 12px; }
+body.look-glass .navr > .btn-chip { height: 58px; border-radius: 999px; padding: 0 20px; color: var(--ink); }
+
+/* ================= chores ================= */
+body.look-glass .picker, body.look-glass .toggle { padding: 5px; background: var(--gl-fill); border: none; box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.3); }
+body.look-glass .pick { color: var(--ink); }
+body.look-glass .chore { border-radius: 22px; }
+body.look-glass .chore + .chore { margin-top: 10px; }
+body.look-glass .medal { --medal-bg: var(--gl-acc-tint); box-shadow: inset 0 0 0 1px var(--gl-edge); border-radius: 18px; }
+body.look-glass .medal b { color: var(--ink); }
+body.look-glass .medal small { color: var(--soft); }
+body.look-glass .state.wait { background: var(--amber-bg); color: var(--amber); }
+body.look-glass .state.done { background: var(--green-bg); color: var(--green); }
+body.look-glass .leader .dots { border-bottom: 2px dotted var(--line); }
+body.look-glass .btn-outline { border-radius: 999px; }
+body.look-glass .btn-outline .count { background: var(--gl-acc); color: #FFFFFF; text-shadow: none; }
+
+/* ================= screen time ================= */
+body.look-glass .pv { border-radius: var(--gl-r); overflow: hidden; }
+body.look-glass .pv.light { background: #FFFDF8; }
+body.look-glass.pics-match .pv.light { background: var(--art-FFFDF8, #FFFDF8); }
+body.look-glass .pv.dark .pv-top h2, body.look-glass .pv.dark .aside { color: #FFFFFF; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45); }
+body.look-glass .pv.dark .vp { background: rgba(255, 255, 255, 0.18); color: #FFFFFF; box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.4); }
+body.look-glass .pv.dark .vp.on, body.look-glass .vp.on { background: var(--gl-acc-btn); color: #FFFFFF; box-shadow: var(--gl-btn-shadow); }
+/* Match the look: the dark pictures turn pale sky blue (AS-Fruit), so the words over them turn dark */
+body.look-glass.pics-match .pv.dark .pv-top h2, body.look-glass.pics-match .pv.dark .aside { color: #15171C; text-shadow: none; }
+body.look-glass.pics-match .pv.dark .vp { background: rgba(255, 255, 255, 0.7); color: #15171C; }
+body.look-glass.pics-match .pv.dark .vp.on { background: var(--gl-acc-btn); color: #FFFFFF; }
+body.look-glass .pv-share { background: var(--gl-acc-btn); color: #FFFFFF; text-shadow: none; }
+body.look-glass .pv.light .pv-share { background: var(--gl-acc-btn); color: #FFFFFF; }
+body.look-glass .fe { border-bottom: 1px solid var(--line); }
+body.look-glass .fe .d { color: var(--soft); }
+body.look-glass .av.all { background: var(--gl-acc); color: #FFFFFF; }
+body.look-glass .count .sm { color: var(--soft); }
+
+/* ================= calendar ================= */
+body.look-glass .toggle button { color: var(--ink); }
+body.look-glass .days { gap: 10px; }
+/* Week and Next 7 days: the seven days on one glass panel (FV-Week), each day a clear column inside it */
+body.look-glass .week-panel { display: flex; flex: 1; min-height: 0; padding: 8px; border-radius: 28px; background: var(--gl-glass);
+  -webkit-backdrop-filter: var(--gl-blur); backdrop-filter: var(--gl-blur); border: 1px solid var(--gl-edge); box-shadow: var(--gl-shadow); }
+body.look-glass .week-panel > .days { gap: 4px; }
+body.look-glass .week-panel .day:not(.sp) { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; border: none; box-shadow: none; border-radius: 18px; padding: 10px 8px; }
+body.look-glass .week-panel .day.today:not(.sp) { background: var(--gl-acc-tint); }
+body.look-glass .day { border-radius: 22px; padding: 10px; }
+body.look-glass .day.today { background: linear-gradient(var(--gl-acc-tint), var(--gl-acc-tint)), var(--gl-glass); border-color: var(--gl-edge); }
+body.look-glass .day .dh { border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: center; gap: 8px; padding: 2px 0 8px; }
+body.look-glass .day.today .dh { border-bottom-color: var(--line); }
+body.look-glass .day .dw { color: var(--soft); }
+body.look-glass .day .dn { font-size: 26px; font-weight: 600; }
+body.look-glass .day.today .dw { color: var(--gl-acct); }
+body.look-glass .day.today .dn, body.look-glass .mcell.today .mn { color: #FFFFFF; background: var(--gl-acc-btn); box-shadow: var(--gl-btn-shadow); text-shadow: none;
+  border-radius: 999px; min-width: 40px; height: 40px; line-height: 40px; padding: 0 6px; text-align: center; }
+body.look-glass .ce { position: relative; background: var(--gl-sub); box-shadow: var(--gl-sub-shadow); border-radius: 14px; padding: 7px 9px 7px 16px; }
+body.look-glass .ce .ct { color: var(--soft); }
+body.look-glass .ce .ct i { position: absolute; left: 7px; top: 8px; bottom: 8px; width: 3.5px; height: auto; border-radius: 2px; }
+body.look-glass .ce .t { color: var(--ink); }
+body.look-glass .ce .w { color: var(--soft); }
+body.look-glass .hol { background: var(--gl-acc-tint); border: none; border-radius: 12px; color: var(--ink); }
+body.look-glass .me.hol { background: transparent; color: var(--gl-acct); }
+body.look-glass .more, body.look-glass .more-link { color: var(--gl-acct); }
+body.look-glass .month { border-radius: var(--gl-r); padding: 10px; gap: 6px; }
+body.look-glass .mhead { color: var(--soft); }
+body.look-glass .mcell { border-radius: 12px; }
+body.look-glass .mcell.out { background: transparent; box-shadow: none; }
+body.look-glass .mcell.out .mn { color: var(--muted); }
+body.look-glass .mcell.today { background: var(--gl-acc-tint); box-shadow: inset 0 0 0 1.5px var(--gl-acct); }
+body.look-glass .mcell.today .mn { display: inline-block; min-width: 26px; height: 26px; line-height: 26px; font-size: 15px; padding: 0 4px; }
+body.look-glass .mn { font-weight: 600; }
+body.look-glass .pager { padding: 5px; }
+body.look-glass .pager button { color: var(--ink); }
+body.look-glass .pager .mid { color: var(--gl-acct); }
+/* special days keep their picture, with a glass edge */
+body.look-glass .day.sp, body.look-glass button.mcell.sp { border: 1.5px solid rgba(255, 255, 255, 0.75); background: #2C3E63; color: #FFFFFF;
+  box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.25), 0 12px 30px rgba(10, 8, 20, 0.25); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45); }
+body.look-glass .day.sp .dw, body.look-glass .sp-k, body.look-glass .sp-mh b, body.look-glass .sp-mh .of { color: #FFFFFF; }
+body.look-glass .day.sp .dn { color: #FFFFFF; background: none; box-shadow: none; }
+body.look-glass .sp-script, body.look-glass .sp-mscript { font-family: var(--sans); font-size: 18px; font-weight: 700; color: #FFFFFF; }
+body.look-glass .sp-script.big { font-size: 38px; }
+body.look-glass .sp-ti { font-family: var(--sans); font-weight: 700; }
+body.look-glass .sp-card, body.look-glass .sp-mini, body.look-glass .sp-mlabel { background: rgba(14, 18, 30, 0.62); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 14px;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.3); }
+body.look-glass .sp-mini.today { border-color: #FFFFFF; }
+body.look-glass .sp-mlabel { font-family: var(--sans); }
+body.look-glass .sp-l, body.look-glass .sp-ms, body.look-glass .sp-also { color: rgba(255, 255, 255, 0.86); }
+body.look-glass .sp-verse { font-family: var(--sans); color: rgba(255, 255, 255, 0.9); }
+body.look-glass .sp-also { border-top-color: rgba(255, 255, 255, 0.3); }
+body.look-glass .sp-mono { background: #FFFFFF; }
+
+/* ================= lists ================= */
+body.look-glass .lsec { letter-spacing: 0.12em; }
+body.look-glass .ladd-btn { border-radius: 999px; }
+
+/* ================= pop-ups: always well frosted (--glp-*) ================= */
+body.look-glass .overlay { background: rgba(12, 14, 22, 0.28); text-shadow: var(--glp-tshadow);
+  --ink: var(--glp-ink); --soft: var(--glp-ink2); --muted: var(--glp-ink3); --line: var(--glp-line); --line-soft: var(--glp-line);
+  --card: var(--glp-sub); --tile: var(--glp-sub); --gilt: var(--glp-acct); --gilt-soft: var(--glp-ink2); --gilt-dim: var(--glp-ink3);
+  --green: var(--glp-green); --green-bg: var(--glp-green-bg); --amber: var(--glp-amber); --amber-bg: var(--glp-amber-bg); --red: var(--glp-red);
+  --gl-acct: var(--glp-acct); --gl-sub: var(--glp-sub); --gl-sub-shadow: var(--glp-sub-shadow); --gl-fill: var(--glp-fill); --gl-ring: var(--glp-ring);
+  --gl-acc-tint: var(--glp-acc-tint); --gl-acc-btn: var(--glp-acc-btn); --gl-btn-shadow: var(--glp-btn-shadow);
+  --gl-seg-on: var(--glp-seg-on); --gl-seg-shadow: var(--glp-seg-shadow); --gl-edge: var(--glp-edge); }
+body.look-glass .sheet { background: var(--glp-glass); -webkit-backdrop-filter: var(--glp-blur); backdrop-filter: var(--glp-blur);
+  border: 1px solid var(--glp-edge); box-shadow: var(--glp-shadow); border-radius: 34px; color: var(--ink); }
+body.look-glass .sheet h1 { font-weight: 700; letter-spacing: -0.01em; }
+body.look-glass .sheet h1 .mono { background: linear-gradient(160deg, #4C8DF2 0%, #1F6AE0 55%, #1857BF 100%); border-radius: 15px; --mono-color: #FFFFFF; }
+body.look-glass .sheet .sub { color: var(--soft); }
+body.look-glass .witem { border-radius: 16px; }
+body.look-glass .witem .mins { color: var(--green); }
+body.look-glass .pindots i { border: 2.5px solid var(--ink); }
+body.look-glass .pindots i.f { background: var(--ink); }
+body.look-glass .keys { gap: 14px; }
+body.look-glass .keys button { height: 78px; border-radius: 999px; background: var(--glp-key); color: var(--ink); font-weight: 400; font-size: 32px;
+  box-shadow: inset 1px 1.5px 0 rgba(255, 255, 255, 0.9), 0 2px 6px rgba(0, 0, 0, 0.12); }
+body.look-glass .keys button.fn { background: transparent; border: none; box-shadow: none; font-weight: 500; font-size: 19px; }
+body.look-glass .keys button.ok { font-weight: 700; font-size: 20px; }
+body.look-glass .btn-ghost { border-radius: 999px; }
+body.look-glass .btn-small.no { border: none; background: var(--gl-sub); box-shadow: var(--gl-sub-shadow); color: var(--ink); }
+body.look-glass .gday { background: var(--gl-acc-btn); color: #FFFFFF; box-shadow: var(--gl-btn-shadow); text-shadow: none; border-radius: 18px; }
+body.look-glass .gday b, body.look-glass .gday .plus { color: #FFFFFF; }
+body.look-glass .gday small { color: rgba(255, 255, 255, 0.88); }
+body.look-glass .gday.done { background: var(--green-bg); color: var(--green); box-shadow: none; }
+body.look-glass .gday.done b, body.look-glass .gday.done small { color: var(--green); }
+body.look-glass .ptools .lbl { color: var(--soft); }
+body.look-glass .pick2 > button.sel { box-shadow: 0 0 0 3px #FFFFFF, 0 0 0 6px var(--gl-acc); }
+body.look-glass .confirm { border-top: 1px solid var(--line); }
+/* a day's pop-up */
+body.look-glass .dp-head { border-bottom: 1px solid var(--line); }
+body.look-glass .dp-head .kick, body.look-glass .dp-sub, body.look-glass .sp-head2 .sp-k { color: var(--gl-acct); }
+body.look-glass .dp-head h1 { font-weight: 700; letter-spacing: -0.01em; }
+body.look-glass .dp-row { border-bottom: 1px solid var(--line); }
+body.look-glass .dp-row .dot { width: 4px; height: 34px; border-radius: 2px; }
+body.look-glass .dp-row .ic { color: var(--gl-acct); }
+body.look-glass .dp-facts b { color: var(--soft); }
+body.look-glass .dp-day { color: var(--soft); border-bottom: 1px solid var(--line); }
+body.look-glass .dp-tag { background: var(--amber-bg); color: var(--amber); }
+body.look-glass .btn-back { border-radius: 999px; }
+/* the special-day pop-up: picture on the left, frosted details on the right */
+body.look-glass .sheet.daypop.spop { border-radius: 34px; }
+body.look-glass .sp-side { background: #2C3E63; border-right: 1px solid var(--glp-edge); }
+body.look-glass .sp-sscript { font-family: var(--sans); font-size: 30px; font-weight: 700; color: #FFFFFF; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
+body.look-glass .sp-head2 { border-bottom: 1px solid var(--line); }
+body.look-glass .sp-head2 .sp-bti { font-family: var(--sans); font-weight: 700; letter-spacing: -0.01em; }
+body.look-glass .sp-banner { border-bottom: 1px solid var(--line); background: #2C3E63; }
+body.look-glass .sp-bti { font-family: var(--sans); font-weight: 700; }
+body.look-glass .sp-x { border: 1px solid var(--glp-edge); background: var(--glp-key); color: var(--ink); text-shadow: none;
+  box-shadow: inset 1px 1.5px 0 rgba(255, 255, 255, 0.9), 0 2px 8px rgba(0, 0, 0, 0.16); }
+body.look-glass .sp-main .sp-x { background: var(--glp-key); color: var(--ink); }
+/* add to a list: on-screen keyboard */
+body.look-glass .la-input { background: var(--glp-field); border: 2px solid var(--gl-acc); border-radius: 18px; color: var(--ink); }
+body.look-glass .caret { background: var(--gl-acc); }
+body.look-glass .kb-row button { background: var(--glp-key); color: var(--ink); border-radius: 14px; font-weight: 500;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.85), 0 1px 3px rgba(0, 0, 0, 0.12); }
+body.look-glass .kb-row button.wide, body.look-glass .kb-row button.space { background: var(--glp-key-mod); }
+body.look-glass .kb-row button.ok { background: var(--gl-acc-btn); color: #FFFFFF; }
+body.look-glass .chip2 { border-radius: 999px; }
+/* this frame's menu */
+body.look-glass .fcard { border-radius: 20px; }
+body.look-glass .fcard.on { background: var(--gl-acc-tint); box-shadow: inset 0 0 0 1.5px var(--gl-acct); }
+body.look-glass .ftoast, body.look-glass .frame-name { background: var(--glp-glass); -webkit-backdrop-filter: var(--glp-blur); backdrop-filter: var(--glp-blur);
+  color: var(--glp-ink); border: 1px solid var(--glp-edge); box-shadow: var(--glp-shadow); text-shadow: var(--glp-tshadow); }
+body.look-glass .frame-name { font-family: var(--sans); font-size: 40px; font-weight: 700; border-radius: 30px; }
+
+/* ================= photos ================= */
+body.look-glass .ph-panel { border-radius: 30px; padding: 22px 28px; color: var(--ink); display: block; min-width: 420px; }
+body.look-glass .ph-panel .clock .t { font-size: 84px; color: var(--ink); }
+body.look-glass .ph-panel .clock .ap { color: var(--ink); }
+body.look-glass .ph-panel .d { color: var(--ink); font-weight: 500; }
+body.look-glass .ph-panel .n { border-top: 1px solid var(--line); }
+body.look-glass .ph-panel .n b { color: var(--gl-acct); }
+body.look-glass .ph-cap { border-radius: 999px; font-size: 16px; padding: 10px 18px; color: var(--ink); }
+body.look-glass .ph-empty { background: transparent; }
+
+/* ================= clock & today (a bedroom frame) ================= */
+body.look-glass .ck { gap: 24px; padding: 32px 36px 16px; }
+body.look-glass .ck-main, body.look-glass .ck-side { border-radius: 34px; padding: 30px 34px; }
+body.look-glass .ck-date { color: var(--gl-acct); letter-spacing: 0.1em; }
+body.look-glass .ck-time { font-family: var(--sans); font-weight: 300; letter-spacing: -0.03em; }
+body.look-glass .ck-time span { color: var(--ink); }
+body.look-glass .ck-wx .ic { color: var(--gl-acct); }
+body.look-glass .ck-verse { color: var(--soft); }
+body.look-glass .ck-verse cite { color: var(--muted); }
+body.look-glass .ck-side h2 { font-family: var(--sans); font-weight: 700; }
+body.look-glass .ck-ev { border-bottom: 1px solid var(--line); }
+body.look-glass .ck-count { border-radius: 18px; }
+
+/* ================= night: the photo, dimmed way down, behind a quiet clock ================= */
+body.look-glass #screen-night { background: rgba(4, 6, 12, 0.86); color: #9AA0B4; text-shadow: none; }
+body.look-glass #screen-night .mono { background: transparent; --mono-color: #4A5068; }
+body.look-glass #screen-night .t { font-family: var(--sans); font-weight: 200; font-size: 190px; letter-spacing: -0.03em; color: #9AA0B4; }
+body.look-glass #screen-night .d { color: #7F869B; }
+body.look-glass #screen-night .n { color: #7F869B; }
+
+/* ================= the Kids home screen ================= */
+body.look-glass #screen-kids { background: transparent; color: var(--ink); --k-ink: var(--ink); --k-soft: var(--soft); --k-line: var(--line); }
+body.look-glass .khead { border-radius: 32px; color: var(--ink); }
+body.look-glass .khead.eve { color: var(--ink); }
+body.look-glass .kpart { border-radius: 22px; background: rgba(255, 236, 170, 0.9); color: #E8A400; box-shadow: inset 1px 1.5px 0 #FFFFFF, 0 3px 10px rgba(0, 0, 0, 0.12); }
+body.look-glass .khead.eve .kpart { background: rgba(214, 218, 255, 0.9); color: #3B3F9A; }
+body.look-glass .khi { color: var(--gl-acct); opacity: 1; }
+body.look-glass .kdate { color: var(--soft); opacity: 1; }
+body.look-glass .kt { font-weight: 300; letter-spacing: -0.03em; }
+body.look-glass .kwx { background: transparent; color: var(--ink); }
+body.look-glass .kwx .ic { color: var(--gl-acct); }
+body.look-glass .knext { border-radius: 30px; padding: 12px 14px 14px; }
+body.look-glass .knext h2 .kpic { color: var(--gl-acct); }
+body.look-glass .knc { background: var(--gl-sub); border: none; box-shadow: var(--gl-sub-shadow); border-radius: 22px; color: var(--ink); }
+body.look-glass .knc.next { box-shadow: var(--gl-sub-shadow), inset 0 0 0 2px var(--gl-acc); }
+body.look-glass .knc.now { box-shadow: var(--gl-sub-shadow), inset 0 0 0 2px var(--green); }
+body.look-glass .knc.bed { background: rgba(30, 32, 44, 0.82); color: #FFFFFF; text-shadow: none; }
+body.look-glass .ktag { background: var(--gl-acc-btn); box-shadow: var(--gl-btn-shadow); text-shadow: none; }
+body.look-glass .knt span { color: var(--soft); }
+body.look-glass .kdots i.all { background: var(--gl-fill); color: var(--ink); }
+body.look-glass .kkid { border-radius: 26px; border-top: 1px solid var(--gl-edge); }
+body.look-glass .kkn span { color: var(--soft); }
+body.look-glass .av.kx { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8), 0 3px 10px rgba(0, 0, 0, 0.2); }
+body.look-glass .kch { background: var(--gl-sub); border: none; box-shadow: var(--gl-sub-shadow); border-radius: 18px; color: var(--ink); }
+body.look-glass .kch.todo { box-shadow: var(--gl-sub-shadow); }
+body.look-glass .kch.todo:active { transform: scale(0.98); box-shadow: var(--gl-sub-shadow); }
+body.look-glass .kch.waiting { background: var(--amber-bg); }
+body.look-glass .kch.done { background: var(--green-bg); }
+body.look-glass .kcp { background: rgba(255, 255, 255, 0.92); border-radius: 12px; }
+body.look-glass .kcb { border: 2px solid var(--gl-acct); }
+body.look-glass .kcb b { color: var(--gl-acct); text-shadow: none; }
+body.look-glass .kch.done .kcb { background: #1E9E52; border-color: #1E9E52; }
+body.look-glass .kch.waiting .kcb { background: #E9A800; border-color: #E9A800; }
+body.look-glass .kprog i { border-color: var(--gl-ring); }
+body.look-glass .kmore { background: var(--amber-bg); color: var(--amber); }
+body.look-glass .kface { border-radius: 22px; }
+body.look-glass .kface.on { box-shadow: var(--gl-shadow), inset 0 0 0 2px var(--gl-acc); }
+body.look-glass .kscreen { border-radius: 30px; }
+body.look-glass .kscreen.dark { background: #16324F; color: #FFFFFF; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4); }
+body.look-glass .kscreen.light { border: 1px solid var(--gl-edge); }
+body.look-glass .ks-when { color: var(--gl-acct); }
+body.look-glass .kscreen.dark .ks-when { color: #FFD873; }
+body.look-glass .kbed { border-radius: 30px; color: var(--ink); }
+body.look-glass .kmoon { background: rgba(214, 218, 255, 0.9); color: #3B3F9A; }
+
+/* ================= tall frames ================= */
+body.look-glass.vert .band { margin: 12px 20px 0; height: auto; min-height: 104px; padding: 14px 22px 14px 16px; border-radius: 30px; }
+body.look-glass.vert .band.tall { height: 104px; }
+body.look-glass.vert .clock .t { font-size: 60px; }
+body.look-glass.vert .band.tall .kicker { font-size: 26px; }
+body.look-glass.vert .ribbon { margin: 12px 20px 0; }
+body.look-glass.vert .body { padding: 12px 20px 14px; }
+body.look-glass.vert .tab { height: 62px; }
+body.look-glass.vert .nav { height: auto; gap: 12px; }
+body.look-glass.vert .homebar { height: 48px; align-self: center; }
+body.look-glass.vert .day:not(.sp) .dh { border-right: 1px solid var(--line); flex-direction: column; gap: 4px; }
+body.look-glass.vert .day.today:not(.sp) .dh { border-right-color: var(--line); }
+body.look-glass.vert .ph-panel { min-width: 0; }
+
+/* ================= Reduce glass effects: theme.js already turns every blur off (--gl-blur: none) and swaps in plain
+   see-through fills; here only the slow fades go too ================= */
+body.look-glass[data-opt-reduce-effects="1"] #look-bg img { transition: none; }
+
+/* ================= fixes found on the frame ================= */
+body.look-glass .homebar span { white-space: nowrap; }
+body.look-glass .navr .homebar { gap: 14px; padding: 0 16px; font-size: 15px; }
+body.look-glass .pv .pv-wait { background: #FFE6A8; color: #5A3A00; text-shadow: none; }
+/* the two small lines under Lists' side cards sit right on the photo: give them their own glass */
+body.look-glass .lside > .lnote, body.look-glass .lside > .aside { flex-shrink: 0; margin: 0; padding: 8px 16px; border-radius: 18px; font-size: 14px; font-weight: 500;
+  background: var(--gl-glass); -webkit-backdrop-filter: var(--gl-blur); backdrop-filter: var(--gl-blur); border: 1px solid var(--gl-edge);
+  box-shadow: var(--gl-shadow); color: var(--soft); }
+body.look-glass .lside > .lnote.stale { background: var(--amber-bg); color: var(--amber); }
+body.look-glass .sp-mscript { font-size: 12px; top: 4px; }
+body.look-glass.pics-match .kscreen.dark { background: var(--art-16324F, #16324F); }
+body.look-glass .krib { border-radius: 26px; }
+body.look-glass .krib-t small { color: var(--soft); }
+body.look-glass .krib-n { background: var(--gl-acc-btn); box-shadow: var(--gl-btn-shadow); text-shadow: none; }
+body.look-glass .kgrown { color: var(--ink); }
+body.look-glass .chores-side > .btn-outline { color: var(--ink); }
+/* night: one big, dark glass pane around the clock, and the next thing in a small pill */
+body.look-glass #screen-night::before { content: ''; position: absolute; left: 50%; top: 50%; width: 820px; height: 470px; margin: -255px 0 0 -410px;
+  border-radius: 46px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 45%), rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.13); box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.10), 0 24px 60px rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: var(--gl-night-blur, blur(12px)); backdrop-filter: var(--gl-night-blur, blur(12px)); }
+body.look-glass[data-opt-reduce-effects="1"] #screen-night::before { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255, 255, 255, 0.04); }
+body.look-glass #screen-night > * { position: relative; }
+body.look-glass #screen-night .n { position: absolute; bottom: 40px; padding: 10px 22px; border-radius: 999px; font-size: 18px; color: #8C93A8;
+  background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); }
+body.look-glass.vert #screen-night::before { width: 680px; height: 560px; margin: -300px 0 0 -340px; }
+body.look-glass.pics-match .kscreen.dark { color: #15171C; text-shadow: none; }
+body.look-glass.pics-match .kscreen.dark .ks-when { color: #8A5A00; }

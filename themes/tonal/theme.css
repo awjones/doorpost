@@ -1,0 +1,646 @@
+/* Tonal View: one seed color makes every tone (theme.js derive() builds them; the values here are the default
+   seed's, for the moment before it runs). Rounded, expressive shapes: 28px+ cards, pill buttons, segmented
+   buttons, chips, a scalloped family mark, a different shape for each kid, wavy progress bars, a bottom bar
+   with a pill under the current screen, and a dim scalloped night clock.
+   Chrome 106: -webkit-mask for the shapes, no color mixing, no :has(), no nesting. */
+
+@font-face { font-family: "Nunito Tonal"; font-weight: 800; src: url(fonts/nunito-latin-800-normal.woff2) format("woff2"); font-display: swap; }
+@font-face { font-family: "Nunito Tonal"; font-weight: 900; src: url(fonts/nunito-latin-900-normal.woff2) format("woff2"); font-display: swap; }
+
+body.look-tonal {
+  --tv-pri: #286859; --tv-pri-c: #CBE9E1; --tv-on-pri-c: #0C1F1A; --tv-pri-80: #9DD1C4; --tv-pri-30: #1E4F43;
+  --tv-sec-c: #C6E3DC; --tv-on-sec-c: #13231F; --tv-ter: #4C5D91; --tv-ter-c: #DEE2EF; --tv-on-ter-c: #161F39;
+  --tv-surf: #F6FAF9; --tv-s-low: #EEF5F3; --tv-s-cont: #E6F0ED; --tv-s-high: #DEEBE7; --tv-s-highest: #D4E3DF;
+  --tv-on: #151D1B; --tv-on-v: #384A46; --tv-muted: #4D625D; --tv-outl: #657B76; --tv-outl-v: #B7CBC6;
+  --tv-err: #B5271D; --tv-err-c: #FADCD9; --tv-on-err-c: #46100C; --tv-ok: #225A37; --tv-ok-c: #C5ECD3;
+  --tv-on-ok-c: #0D2818; --tv-warn-c: #F9D58E; --tv-on-warn-c: #4D2D09; --tv-warn: #E59D0C; --tv-inv: #283230;
+  --tv-on-inv: #EDF2F0; --tv-inv-c: #344641; --tv-on-inv-v: #AACDC5; --tv-n-bg: #060C0B; --tv-n-card: #0E1917;
+  --tv-n-ring: #213934; --tv-n-pri: #5FA292; --tv-n-on: #698E85; --tv-n-on-v: #516762;
+  --tv-m-cookie: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M50.0 0.3L53.2 1.0L56.2 2.8L58.9 5.4L61.2 8.1L63.5 10.4L65.8 11.8L68.5 12.5L71.7 12.4L75.3 12.2L79.0 12.2L82.4 13.1L85.1 14.9L86.9 17.6L87.8 21.0L87.8 24.7L87.6 28.3L87.5 31.5L88.2 34.2L89.6 36.5L91.9 38.8L94.6 41.1L97.2 43.8L99.0 46.8L99.7 50.0L99.0 53.2L97.2 56.2L94.6 58.9L91.9 61.2L89.6 63.5L88.2 65.8L87.5 68.5L87.6 71.7L87.8 75.3L87.8 79.0L86.9 82.4L85.1 85.1L82.4 86.9L79.0 87.8L75.3 87.8L71.7 87.6L68.5 87.5L65.8 88.2L63.5 89.6L61.2 91.9L58.9 94.6L56.2 97.2L53.2 99.0L50.0 99.7L46.8 99.0L43.8 97.2L41.1 94.6L38.8 91.9L36.5 89.6L34.2 88.2L31.5 87.5L28.3 87.6L24.7 87.8L21.0 87.8L17.6 86.9L14.9 85.1L13.1 82.4L12.2 79.0L12.2 75.3L12.4 71.7L12.5 68.5L11.8 65.8L10.4 63.5L8.1 61.2L5.4 58.9L2.8 56.2L1.0 53.2L0.3 50.0L1.0 46.8L2.8 43.8L5.4 41.1L8.1 38.8L10.4 36.5L11.8 34.2L12.5 31.5L12.4 28.3L12.2 24.7L12.2 21.0L13.1 17.6L14.9 14.9L17.6 13.1L21.0 12.2L24.7 12.2L28.3 12.4L31.5 12.5L34.2 11.8L36.5 10.4L38.8 8.1L41.1 5.4L43.8 2.8L46.8 1.0Z'/%3E%3C/svg%3E");
+  --tv-m-clover: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M50.0 1.0L53.2 1.4L56.3 2.4L59.1 4.1L61.7 6.3L64.0 8.9L65.9 11.7L67.5 14.5L68.9 17.3L70.1 19.9L71.3 22.2L72.6 24.2L74.0 26.0L75.8 27.4L77.8 28.7L80.1 29.9L82.7 31.1L85.5 32.5L88.3 34.1L91.1 36.0L93.7 38.3L95.9 40.9L97.6 43.7L98.6 46.8L99.0 50.0L98.6 53.2L97.6 56.3L95.9 59.1L93.7 61.7L91.1 64.0L88.3 65.9L85.5 67.5L82.7 68.9L80.1 70.1L77.8 71.3L75.8 72.6L74.0 74.0L72.6 75.8L71.3 77.8L70.1 80.1L68.9 82.7L67.5 85.5L65.9 88.3L64.0 91.1L61.7 93.7L59.1 95.9L56.3 97.6L53.2 98.6L50.0 99.0L46.8 98.6L43.7 97.6L40.9 95.9L38.3 93.7L36.0 91.1L34.1 88.3L32.5 85.5L31.1 82.7L29.9 80.1L28.7 77.8L27.4 75.8L26.0 74.0L24.2 72.6L22.2 71.3L19.9 70.1L17.3 68.9L14.5 67.5L11.7 65.9L8.9 64.0L6.3 61.7L4.1 59.1L2.4 56.3L1.4 53.2L1.0 50.0L1.4 46.8L2.4 43.7L4.1 40.9L6.3 38.3L8.9 36.0L11.7 34.1L14.5 32.5L17.3 31.1L19.9 29.9L22.2 28.7L24.2 27.4L26.0 26.0L27.4 24.2L28.7 22.2L29.9 19.9L31.1 17.3L32.5 14.5L34.1 11.7L36.0 8.9L38.3 6.3L40.9 4.1L43.7 2.4L46.8 1.4Z'/%3E%3C/svg%3E");
+  --tv-m-flower: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M50.0 0.0L53.2 0.5L56.3 2.0L59.1 4.3L61.5 7.0L63.6 9.9L65.5 12.5L67.4 14.6L69.5 16.2L71.9 17.2L74.7 17.8L78.0 18.1L81.5 18.5L85.0 19.3L88.4 20.5L91.2 22.5L93.3 25.0L94.5 28.1L94.7 31.5L94.1 35.0L93.0 38.5L91.6 41.7L90.3 44.7L89.3 47.4L89.0 50.0L89.3 52.6L90.3 55.3L91.6 58.3L93.0 61.5L94.1 65.0L94.7 68.5L94.5 71.9L93.3 75.0L91.2 77.5L88.4 79.5L85.0 80.7L81.5 81.5L78.0 81.9L74.7 82.2L71.9 82.8L69.5 83.8L67.4 85.4L65.5 87.5L63.6 90.1L61.5 93.0L59.1 95.7L56.3 98.0L53.2 99.5L50.0 100.0L46.8 99.5L43.7 98.0L40.9 95.7L38.5 93.0L36.4 90.1L34.5 87.5L32.6 85.4L30.5 83.8L28.1 82.8L25.3 82.2L22.0 81.9L18.5 81.5L15.0 80.7L11.6 79.5L8.8 77.5L6.7 75.0L5.5 71.9L5.3 68.5L5.9 65.0L7.0 61.5L8.4 58.3L9.7 55.3L10.7 52.6L11.0 50.0L10.7 47.4L9.7 44.7L8.4 41.7L7.0 38.5L5.9 35.0L5.3 31.5L5.5 28.1L6.7 25.0L8.8 22.5L11.6 20.5L15.0 19.3L18.5 18.5L22.0 18.1L25.3 17.8L28.1 17.2L30.5 16.2L32.6 14.6L34.5 12.5L36.4 9.9L38.5 7.0L40.9 4.3L43.7 2.0L46.8 0.5Z'/%3E%3C/svg%3E");
+  --tv-m-sunny: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M50.0 0.9L53.2 1.8L56.1 3.9L58.7 6.2L61.4 7.6L64.4 7.7L67.8 7.0L71.4 6.6L74.5 7.5L76.9 9.8L78.3 13.1L79.4 16.4L81.0 19.0L83.6 20.6L86.9 21.7L90.2 23.1L92.5 25.4L93.4 28.6L93.0 32.2L92.3 35.6L92.4 38.6L93.8 41.3L96.1 43.9L98.2 46.8L99.1 50.0L98.2 53.2L96.1 56.1L93.8 58.7L92.4 61.4L92.3 64.4L93.0 67.8L93.4 71.4L92.5 74.5L90.2 76.9L86.9 78.3L83.6 79.4L81.0 81.0L79.4 83.6L78.3 86.9L76.9 90.2L74.5 92.5L71.4 93.4L67.8 93.0L64.4 92.3L61.4 92.4L58.7 93.8L56.1 96.1L53.2 98.2L50.0 99.1L46.8 98.2L43.9 96.1L41.3 93.8L38.6 92.4L35.6 92.3L32.2 93.0L28.6 93.4L25.5 92.5L23.1 90.2L21.7 86.9L20.6 83.6L19.0 81.0L16.4 79.4L13.1 78.3L9.8 76.9L7.5 74.6L6.6 71.4L7.0 67.8L7.7 64.4L7.6 61.4L6.2 58.7L3.9 56.1L1.8 53.2L0.9 50.0L1.8 46.8L3.9 43.9L6.2 41.3L7.6 38.6L7.7 35.6L7.0 32.2L6.6 28.6L7.5 25.4L9.8 23.1L13.1 21.7L16.4 20.6L19.0 19.0L20.6 16.4L21.7 13.1L23.1 9.8L25.4 7.5L28.6 6.6L32.2 7.0L35.6 7.7L38.6 7.6L41.3 6.2L43.9 3.9L46.8 1.8Z'/%3E%3C/svg%3E");
+  --tv-m-penta: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M50.0 0.9L53.2 1.2L56.3 2.1L59.3 3.4L62.0 5.2L64.5 7.1L66.9 9.2L69.1 11.3L71.2 13.3L73.3 15.1L75.5 16.7L77.9 18.2L80.4 19.6L83.0 21.0L85.7 22.6L88.4 24.3L91.0 26.4L93.2 28.7L95.1 31.3L96.5 34.2L97.3 37.3L97.6 40.5L97.3 43.8L96.6 46.9L95.5 50.0L94.2 52.9L92.9 55.7L91.7 58.3L90.6 60.9L89.7 63.5L89.0 66.1L88.4 68.9L87.8 71.8L87.2 74.9L86.5 78.0L85.4 81.1L84.0 84.0L82.1 86.6L79.9 88.9L77.2 90.8L74.3 92.1L71.2 92.9L67.9 93.3L64.7 93.3L61.5 93.0L58.5 92.7L55.6 92.3L52.8 92.0L50.0 91.9L47.2 92.0L44.4 92.3L41.5 92.7L38.5 93.0L35.3 93.3L32.1 93.3L28.8 92.9L25.7 92.1L22.8 90.8L20.1 88.9L17.9 86.6L16.0 84.0L14.6 81.1L13.5 78.0L12.8 74.9L12.2 71.9L11.6 68.9L11.0 66.1L10.3 63.5L9.4 60.9L8.3 58.3L7.1 55.7L5.8 52.9L4.5 50.0L3.4 46.9L2.7 43.8L2.4 40.5L2.7 37.3L3.5 34.2L4.9 31.3L6.8 28.7L9.0 26.3L11.6 24.3L14.3 22.6L17.0 21.0L19.6 19.6L22.1 18.2L24.5 16.7L26.7 15.1L28.8 13.3L30.9 11.3L33.1 9.2L35.5 7.1L38.0 5.2L40.7 3.4L43.7 2.1L46.8 1.2Z'/%3E%3C/svg%3E");
+  --tv-m-night: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M50.0 0.5L51.9 0.8L53.8 1.7L55.6 3.1L57.1 4.9L58.6 6.8L59.9 8.9L61.1 10.8L62.2 12.4L63.4 13.6L64.7 14.4L66.2 14.8L68.0 14.8L69.9 14.4L72.1 13.9L74.4 13.4L76.9 13.0L79.2 12.9L81.5 13.2L83.4 13.8L85.0 15.0L86.2 16.6L86.8 18.5L87.1 20.8L87.0 23.1L86.6 25.6L86.1 27.9L85.6 30.1L85.2 32.0L85.2 33.8L85.6 35.3L86.4 36.6L87.6 37.8L89.2 38.9L91.1 40.1L93.2 41.4L95.1 42.9L96.9 44.4L98.3 46.2L99.2 48.1L99.5 50.0L99.2 51.9L98.3 53.8L96.9 55.6L95.1 57.1L93.2 58.6L91.1 59.9L89.2 61.1L87.6 62.2L86.4 63.4L85.6 64.7L85.2 66.2L85.2 68.0L85.6 69.9L86.1 72.1L86.6 74.4L87.0 76.9L87.1 79.2L86.8 81.5L86.2 83.4L85.0 85.0L83.4 86.2L81.5 86.8L79.2 87.1L76.9 87.0L74.4 86.6L72.1 86.1L69.9 85.6L68.0 85.2L66.2 85.2L64.7 85.6L63.4 86.4L62.2 87.6L61.1 89.2L59.9 91.1L58.6 93.2L57.1 95.1L55.6 96.9L53.8 98.3L51.9 99.2L50.0 99.5L48.1 99.2L46.2 98.3L44.4 96.9L42.9 95.1L41.4 93.2L40.1 91.1L38.9 89.2L37.8 87.6L36.6 86.4L35.3 85.6L33.8 85.2L32.0 85.2L30.1 85.6L27.9 86.1L25.6 86.6L23.1 87.0L20.8 87.1L18.5 86.8L16.6 86.2L15.0 85.0L13.8 83.4L13.2 81.5L12.9 79.2L13.0 76.9L13.4 74.4L13.9 72.1L14.4 69.9L14.8 68.0L14.8 66.2L14.4 64.7L13.6 63.4L12.4 62.2L10.8 61.1L8.9 59.9L6.8 58.6L4.9 57.1L3.1 55.6L1.7 53.8L0.8 51.9L0.5 50.0L0.8 48.1L1.7 46.2L3.1 44.4L4.9 42.9L6.8 41.4L8.9 40.1L10.8 38.9L12.4 37.8L13.6 36.6L14.4 35.3L14.8 33.8L14.8 32.0L14.4 30.1L13.9 27.9L13.4 25.6L13.0 23.1L12.9 20.8L13.2 18.5L13.8 16.6L15.0 15.0L16.6 13.8L18.5 13.2L20.8 12.9L23.1 13.0L25.6 13.4L27.9 13.9L30.1 14.4L32.0 14.8L33.8 14.8L35.3 14.4L36.6 13.6L37.8 12.4L38.9 10.8L40.1 8.9L41.4 6.8L42.9 4.9L44.4 3.1L46.2 1.7L48.1 0.8Z'/%3E%3C/svg%3E");
+  --tv-m-arch: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M8 92V50A42 42 0 0 1 92 50V84Q92 92 84 92H16Q8 92 8 84Z'/%3E%3C/svg%3E");
+  --tv-m-squircle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M50 4C88 4 96 12 96 50C96 88 88 96 50 96C12 96 4 88 4 50C4 12 12 4 50 4Z'/%3E%3C/svg%3E");
+  --tv-m-wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 18'%3E%3Cpath d='M-6 9 Q0 1 6 9 T18 9 T30 9' fill='none' stroke='black' stroke-width='4.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  --tv-glass: rgba(246, 250, 249, 0.9);
+  --tv-disp: "Nunito Tonal", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --paper: var(--tv-surf); --card: var(--tv-s-low); --tile: var(--tv-s-cont); --line: var(--tv-outl-v); --line-soft: var(--tv-s-high);
+  --ink: var(--tv-on); --soft: var(--tv-on-v); --muted: var(--tv-muted);
+  --navy: var(--tv-pri); --gilt: var(--tv-pri); --gilt-soft: var(--tv-on-v); --gilt-dim: var(--tv-pri);
+  --red: var(--tv-err); --next-bg: var(--tv-pri-c);
+  --amber: var(--tv-on-warn-c); --amber-bg: var(--tv-warn-c); --green: var(--tv-ok); --green-bg: var(--tv-ok-c);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- type: rounded display face for headings and numbers, no italics ---------- */
+body.look-tonal .aside, body.look-tonal .ev .who, body.look-tonal .homebar, body.look-tonal .intro, body.look-tonal .empty,
+body.look-tonal .wx .txt, body.look-tonal .wtxt, body.look-tonal .ce .w, body.look-tonal .dp-row .who, body.look-tonal .fe .w em,
+body.look-tonal .wrow .mn.none, body.look-tonal .sheet .sub, body.look-tonal .foot i, body.look-tonal .nothing, body.look-tonal .hp-none,
+body.look-tonal .li-t small.ff, body.look-tonal .ck-ev .who, body.look-tonal .ph-cap, body.look-tonal .dp-verse, body.look-tonal .sp-verse,
+body.look-tonal .ck-verse, body.look-tonal .ph-empty p {
+  font-family: var(--sans); font-style: normal; }
+body.look-tonal .aside { font-size: 15px; font-weight: 700; color: var(--tv-on-v); }
+body.look-tonal .card-head h2, body.look-tonal .hp-head h3, body.look-tonal .ck-side h2, body.look-tonal .ptools h2, body.look-tonal .sheet h1,
+body.look-tonal .dp-head h1, body.look-tonal .fcard b {
+  font-family: var(--tv-disp); font-weight: 900; letter-spacing: -0.005em; }
+body.look-tonal .card-head h2 { font-size: 28px; }
+body.look-tonal .hp-head h3 { font-size: 24px; }
+
+/* ---------- shapes: masks any element can wear ---------- */
+body.look-tonal .tv-sh-flower, body.look-tonal .tv-sh-clover, body.look-tonal .tv-sh-penta, body.look-tonal .tv-sh-cookie,
+body.look-tonal .tv-sh-sunny, body.look-tonal .tv-sh-arch, body.look-tonal .tv-sh-squircle {
+  -webkit-mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center; border-radius: 0 !important; box-shadow: none !important; }
+body.look-tonal .tv-sh-flower.tv-sh-flower { -webkit-mask-image: var(--tv-m-flower); }
+body.look-tonal .tv-sh-clover.tv-sh-clover { -webkit-mask-image: var(--tv-m-clover); }
+body.look-tonal .tv-sh-penta.tv-sh-penta { -webkit-mask-image: var(--tv-m-penta); }
+body.look-tonal .tv-sh-cookie.tv-sh-cookie { -webkit-mask-image: var(--tv-m-cookie); }
+body.look-tonal .tv-sh-sunny.tv-sh-sunny { -webkit-mask-image: var(--tv-m-sunny); }
+body.look-tonal .tv-sh-arch.tv-sh-arch { -webkit-mask-image: var(--tv-m-arch); }
+body.look-tonal .tv-sh-squircle.tv-sh-squircle { -webkit-mask-image: var(--tv-m-squircle); }
+
+/* avatars: no rings, the shape does the work; the initial in the rounded face */
+body.look-tonal .av { box-shadow: none !important; font-family: var(--tv-disp); font-style: normal; font-weight: 900; color: #FFFFFF;
+  -webkit-mask-image: var(--tv-m-cookie); -webkit-mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; border-radius: 0; }
+body.look-tonal .av.s { width: 36px; height: 36px; font-size: 17px; }
+body.look-tonal .av.m { width: 44px; height: 44px; font-size: 21px; }
+body.look-tonal .av.all { background: var(--tv-pri); color: #FFFFFF; font-family: var(--tv-disp); font-weight: 900; font-size: 11px; }
+
+/* ---------- the header: no band, a big title beside a scalloped family mark ---------- */
+body.look-tonal #stage { background: var(--tv-surf); }
+body.look-tonal .band { background: transparent; border-bottom: none; color: var(--tv-on); height: 108px; padding: 14px 28px 0 28px; }
+body.look-tonal .band.tall { height: 124px; padding: 18px 24px 0 24px; }
+body.look-tonal .band-left { position: relative; gap: 16px; }
+/* The family mark: the family's letter (theme.json "monogram": "initial") on a scallop, here and on the pop-ups, photos and night clock. */
+body.look-tonal .mono { -webkit-mask-image: var(--tv-m-cookie); mask-image: var(--tv-m-cookie); -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+  background: var(--tv-pri-c); --mono-font: var(--tv-disp); --mono-color: var(--tv-on-pri-c); }
+body.look-tonal .mono-i { font-weight: 900; }
+body.look-tonal .sp-mono { -webkit-mask-image: url("themes/../static/img/monogram.png"); mask-image: url("themes/../static/img/monogram.png");
+  -webkit-mask-size: contain; mask-size: contain; background: var(--gilt); }
+body.look-tonal .band .mono { --mono-w: 64px; }
+body.look-tonal .band.tall .mono { --mono-w: 76px; }
+body.look-tonal .band .script, body.look-tonal .band .script.big { font-family: var(--tv-disp); font-weight: 900; font-size: 38px; line-height: 1.15;
+  color: var(--tv-on); letter-spacing: -0.01em; }
+body.look-tonal .band .kicker { font-size: 18px; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--tv-on-v); margin-top: 2px; }
+body.look-tonal .band-right { gap: 14px; }
+body.look-tonal .vrule { display: none; }
+/* the clock: a big tonal pill */
+body.look-tonal .band .clock { height: 100px; padding: 0 34px; border-radius: 999px; background: var(--tv-pri-c); color: var(--tv-on-pri-c);
+  align-items: center; gap: 6px; }
+body.look-tonal .band .clock .t { font-family: var(--tv-disp); font-weight: 900; font-size: 84px; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+body.look-tonal .band .clock .ap { font-family: var(--tv-disp); font-weight: 900; font-size: 24px; color: var(--tv-on-pri-c); align-self: flex-end; margin-bottom: 24px; }
+body.look-tonal .band:not(.tall) .clock { height: 72px; padding: 0 26px; }
+body.look-tonal .band:not(.tall) .clock .t { font-size: 52px; }
+body.look-tonal .band:not(.tall) .clock .ap { font-size: 18px; margin-bottom: 15px; }
+/* weather: the icon sits in a soft scallop */
+body.look-tonal .wx { color: var(--tv-on); gap: 12px; }
+body.look-tonal .wx > svg { width: 78px !important; height: 78px !important; padding: 15px; background: var(--tv-ter-c); color: var(--tv-on-ter-c);
+  -webkit-mask-image: var(--tv-m-sunny); -webkit-mask-size: 100% 100%; }
+body.look-tonal .wx .temp { font-family: var(--tv-disp); font-weight: 900; font-size: 56px; }
+body.look-tonal .wx .txt { font-size: 18px; font-weight: 600; color: var(--tv-on-v); }
+body.look-tonal .wx .sub { font-size: 16px; font-weight: 600; color: var(--tv-on-v); }
+/* "2 sleeps": a tertiary pill */
+body.look-tonal .count { background: var(--tv-ter-c); color: var(--tv-on-ter-c); border-radius: 999px; padding: 10px 26px; text-align: center; }
+body.look-tonal .count .big { font-family: var(--tv-disp); font-weight: 900; font-size: 28px; }
+body.look-tonal .count .sm { font-size: 14px; font-weight: 700; color: var(--tv-on-ter-c); }
+
+/* ---------- countdown to a special day: a tertiary card with a scalloped number ---------- */
+body.look-tonal .ribbon { height: 56px; margin: 10px 24px 0; padding: 0 22px 0 0; border: none; border-radius: 32px; background: var(--tv-ter-c);
+  color: var(--tv-on-ter-c); gap: 18px; }
+body.look-tonal .ribbon.solemn { border: none; }
+body.look-tonal .rb-art { width: 150px; border-right: none; border-radius: 32px 0 0 32px; }
+body.look-tonal .rb-script { font-family: var(--tv-disp); font-weight: 800; font-size: 20px; color: var(--tv-on-ter-c); }
+body.look-tonal .rb-ti { font-family: var(--tv-disp); font-weight: 900; font-size: 28px; color: var(--tv-on-ter-c); }
+body.look-tonal .rb-sub { font-size: 16px; font-weight: 600; color: var(--tv-on-ter-c); }
+body.look-tonal .rb-stars { width: 42px; height: 42px; flex-shrink: 0; gap: 0; align-items: center; justify-content: center; background: var(--tv-ter);
+  color: #FFFFFF; -webkit-mask-image: var(--tv-m-sunny); -webkit-mask-size: 100% 100%; }
+body.look-tonal .rb-stars > * + * { display: none; }
+body.look-tonal .rb-stars svg { width: 20px !important; height: 20px !important; }
+
+/* ---------- cards ---------- */
+body.look-tonal .body { padding: 14px 24px 0; gap: 14px; }
+body.look-tonal .main { gap: 16px; }
+body.look-tonal .card { background: var(--tv-s-low); border: none; border-radius: 32px; padding: 20px 26px; }
+
+/* ---------- the bottom bar: icons over labels, a pill under the current one ---------- */
+body.look-tonal .nav { height: 92px; margin: 0 -24px; padding: 0 24px 0 16px; background: var(--tv-s-cont); }
+body.look-tonal .tabs { background: transparent; border: none; padding: 0; gap: 0; }
+body.look-tonal .tab { flex-direction: column; justify-content: center; width: 112px; height: 76px; padding: 0 !important; gap: 5px; border-radius: 0;
+  font-size: 16px; font-weight: 600; color: var(--tv-on-v); }
+body.look-tonal .tab svg { width: 68px !important; height: 36px !important; padding: 6px 22px; border-radius: 999px; color: var(--tv-on-v); }
+body.look-tonal .tab.on { background: transparent; box-shadow: none; color: var(--tv-on); font-weight: 800; }
+body.look-tonal .tab.on svg { background: var(--tv-sec-c); color: var(--tv-on-sec-c); }
+body.look-tonal .tab .badge { position: absolute; top: 2px; left: 64px; min-width: 22px; height: 22px; padding: 0 6px; display: flex; align-items: center;
+  justify-content: center; font-size: 13px; font-weight: 800; background: var(--tv-err); }
+body.look-tonal .homebar { font-family: var(--sans); font-size: 16px; font-weight: 600; color: var(--tv-on-v); gap: 10px; }
+body.look-tonal .homebar span { height: 44px; padding: 0 16px; border: 1px solid var(--tv-outl-v); border-radius: 999px; gap: 8px; }
+body.look-tonal .homebar .alert { color: var(--tv-on-err-c); background: var(--tv-err-c); border-color: var(--tv-err-c); }
+body.look-tonal .navr { gap: 10px; }
+body.look-tonal .btn-chip { height: 48px; padding: 0 22px; border: none; background: var(--tv-pri-c); color: var(--tv-on-pri-c); font-size: 17px; font-weight: 800; }
+
+/* ---------- Today: the schedule ---------- */
+body.look-tonal .today-card .card-head .aside { background: var(--tv-s-high); color: var(--tv-on-v); border-radius: 999px; padding: 5px 14px; }
+body.look-tonal .ev { border-bottom: none; padding: 3px 0; grid-template-columns: 96px 12px minmax(0, 1fr); }
+body.look-tonal .ev .tm { font-size: 16px; font-weight: 700; color: var(--tv-on); }
+body.look-tonal .ev.past .tm, body.look-tonal .ev.past .ti { color: var(--tv-muted); }
+body.look-tonal .ev .ti { font-size: 19px; line-height: 1.2; }
+body.look-tonal .ev .who { font-size: 13px; font-weight: 600; color: var(--tv-on-v); line-height: 1.2; }
+body.look-tonal .ev.next { background: var(--tv-pri-c); color: var(--tv-on-pri-c); border-radius: 24px; margin: 2px -14px; padding: 6px 14px; }
+body.look-tonal .ev.next .ti { font-size: 21px; font-weight: 800; }
+body.look-tonal .ev.next .who { color: var(--tv-on-pri-c); }
+body.look-tonal .pill-next { background: var(--tv-pri); color: #FFFFFF; font-size: 14px; font-weight: 800; padding: 8px 14px; }
+body.look-tonal .foot { padding-top: 8px; border-top: 1px solid var(--tv-outl-v); font-size: 18px; font-weight: 600; color: var(--tv-on); display: flex; align-items: center; gap: 4px; }
+body.look-tonal .foot b { background: var(--tv-pri-c); color: var(--tv-on-pri-c); border-radius: 999px; padding: 6px 14px; letter-spacing: 0; text-transform: none;
+  font-size: 15px; font-weight: 800; margin-right: 8px; }
+body.look-tonal .foot i { font-size: 18px; font-weight: 600; }
+
+/* ---------- Today: the flip panel ---------- */
+body.look-tonal .hpanel { padding: 14px 20px 14px; gap: 8px; }
+/* segmented buttons: one outlined pill, a tonal fill and a check on the chosen one */
+body.look-tonal .htabs, body.look-tonal .toggle { background: transparent; border: 1px solid var(--tv-outl); border-radius: 999px; padding: 0; gap: 0; overflow: hidden; }
+body.look-tonal .htabs button, body.look-tonal .toggle button { height: 44px; border-radius: 0; font-size: 16px; font-weight: 600; color: var(--tv-on);
+  border-left: 1px solid var(--tv-outl); display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0 16px; }
+body.look-tonal .htabs button:first-child, body.look-tonal .toggle button:first-child { border-left: none; }
+body.look-tonal .htabs button.on, body.look-tonal .toggle button.on { background: var(--tv-sec-c); color: var(--tv-on-sec-c); box-shadow: none; font-weight: 700; }
+body.look-tonal .htabs button.on::before, body.look-tonal .toggle button.on::before, body.look-tonal .seg2 button.on::before, body.look-tonal .vp.on::before,
+body.look-tonal .pick.lpick.on::before, body.look-tonal .chip2.sel::before {
+  content: ""; width: 16px; height: 16px; flex-shrink: 0; background: currentColor; -webkit-mask-size: 100% 100%;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 12.5l5 5 10-11' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+body.look-tonal .seg2 { gap: 8px; }
+body.look-tonal .seg2 button { height: 38px; padding: 0 16px; border: 1px solid var(--tv-outl); font-size: 15px; font-weight: 700; color: var(--tv-on-v);
+  display: flex; align-items: center; gap: 6px; }
+body.look-tonal .seg2 button.on { background: var(--tv-sec-c); color: var(--tv-on-sec-c); border-color: var(--tv-sec-c); }
+body.look-tonal .hp-kid { border-bottom: 1px solid var(--tv-outl-v); padding: 4px 0; gap: 12px; }
+body.look-tonal .hp-kid:first-child { border-top: 1px solid var(--tv-outl-v); }
+body.look-tonal .hp-kid:last-child { border-bottom: none; }
+body.look-tonal .hp-kid .av.s { width: 36px; height: 36px; font-size: 17px; }
+body.look-tonal .hp-kid > b { width: 90px; font-size: 18px; font-weight: 700; }
+body.look-tonal .hchip { background: var(--tv-s-highest); border: none; font-size: 16px; padding: 6px 14px; color: var(--tv-on); gap: 6px; }
+body.look-tonal .hchip b { color: var(--tv-ok); font-weight: 800; }
+body.look-tonal .hchip.done { background: var(--tv-ok-c); color: var(--tv-on-ok-c); }
+body.look-tonal .hchip.done b { color: var(--tv-on-ok-c); }
+body.look-tonal .hchip.wait { background: var(--tv-warn-c); color: var(--tv-on-warn-c); }
+body.look-tonal .hchip.more { color: var(--tv-on-v); }
+body.look-tonal .chip { padding: 4px 12px; font-size: 13px; }
+body.look-tonal .chip.good { background: var(--tv-ok-c); color: var(--tv-on-ok-c); }
+body.look-tonal .chip.wait { background: var(--tv-warn-c); color: var(--tv-on-warn-c); }
+body.look-tonal .chip.plain { background: var(--tv-s-highest); color: var(--tv-on-v); }
+body.look-tonal .hp-none { font-family: var(--sans); font-size: 15px; font-weight: 600; color: var(--tv-on-v); }
+body.look-tonal .hp-sync { font-size: 14px; font-weight: 600; color: var(--tv-on-v); }
+body.look-tonal .hp-total { font-family: var(--tv-disp); font-weight: 900; font-size: 30px; }
+body.look-tonal .hp-more { font-size: 15px; font-weight: 700; color: var(--tv-on-v); }
+body.look-tonal .hp-btns > button { height: 48px; font-size: 18px; }
+body.look-tonal .hp-body .li { padding: 4px 0; }
+body.look-tonal .hp-body .ring { width: 28px; height: 28px; }
+body.look-tonal .hp-body .li-t b { font-size: 18px; }
+/* list rows */
+body.look-tonal .li { border-bottom: 1px solid var(--tv-outl-v); padding: 8px 0; gap: 14px; }
+body.look-tonal .ring { width: 32px; height: 32px; border-radius: 16px; border: 2.5px solid var(--tv-outl); }
+body.look-tonal .ring:active { background: var(--tv-pri-c); }
+body.look-tonal .ring.on { background: var(--tv-pri); border-color: var(--tv-pri); color: #FFFFFF; }
+body.look-tonal .li-t b { font-size: 20px; font-weight: 700; }
+body.look-tonal .li-t small { font-size: 15px; font-weight: 600; color: var(--tv-on-v); margin-left: 6px; }
+body.look-tonal .li-wait { color: var(--tv-on-v); }
+body.look-tonal .li.done .li-t b { color: var(--tv-on-v); }
+/* weather */
+body.look-tonal .wnow { border-bottom: none; color: var(--tv-on-ter-c); gap: 18px; }
+body.look-tonal .wnow > svg { width: 62px !important; height: 62px !important; padding: 11px; background: var(--tv-ter-c); -webkit-mask-image: var(--tv-m-sunny); -webkit-mask-size: 100% 100%; }
+body.look-tonal .wnow { padding: 0 0 4px; }
+body.look-tonal .wtemp { font-family: var(--tv-disp); font-weight: 900; font-size: 52px; }
+body.look-tonal .wtxt { font-size: 21px; font-weight: 700; color: var(--tv-on); }
+body.look-tonal .wsub { font-size: 15px; font-weight: 600; color: var(--tv-on-v); }
+body.look-tonal .whours { gap: 10px; }
+body.look-tonal .whours { padding-top: 4px; }
+body.look-tonal .wh { background: var(--tv-s-high); border-radius: 999px; padding: 6px 0 7px; color: var(--tv-on); gap: 1px; }
+body.look-tonal .wh svg { width: 26px !important; height: 26px !important; }
+body.look-tonal .wh:first-child { background: var(--tv-pri-c); color: var(--tv-on-pri-c); }
+body.look-tonal .wh span { font-size: 15px; font-weight: 700; color: inherit; }
+body.look-tonal .wh b { font-family: var(--tv-disp); font-weight: 900; font-size: 19px; color: inherit; line-height: 1.1; }
+body.look-tonal .wnote { background: var(--tv-warn-c); color: var(--tv-on-warn-c); border-radius: 999px; padding: 10px 20px; font-size: 16px; font-weight: 700; }
+body.look-tonal .wday { background: var(--tv-s-high); border: none; border-radius: 28px; color: var(--tv-on); padding: 6px 8px; gap: 1px; }
+body.look-tonal .wday svg { width: 34px !important; height: 34px !important; }
+body.look-tonal .wday.sp { background: var(--tv-ter-c); border: none; color: var(--tv-on-ter-c); }
+body.look-tonal .wday > b { font-family: var(--tv-disp); font-weight: 900; font-size: 18px; color: inherit; }
+body.look-tonal .wday .hi { font-family: var(--tv-disp); font-weight: 900; font-size: 26px; color: inherit; }
+body.look-tonal .wday .lo { font-weight: 700; color: var(--tv-on-v); }
+body.look-tonal .wday .wt { font-weight: 600; color: var(--tv-on); }
+body.look-tonal .wday .wr { color: var(--tv-ok); font-weight: 800; }
+body.look-tonal .wsp { background: var(--tv-ter); color: #FFFFFF; border-radius: 999px; padding: 4px 10px; }
+/* screen time, small */
+body.look-tonal .st-row { grid-template-columns: 40px 84px minmax(0, 1fr) 90px; }
+body.look-tonal .st-row .nm { font-size: 18px; font-weight: 700; }
+body.look-tonal .st-row .amt { font-family: var(--tv-disp); font-weight: 900; font-size: 20px; }
+body.look-tonal .st-row .amt.none { font-family: var(--sans); font-weight: 600; color: var(--tv-on-v); }
+/* wavy progress: the filled part is a wave, the rest a thin flat track */
+body.look-tonal .bar { height: 18px; border-radius: 0; overflow: visible; position: relative;
+  background: linear-gradient(var(--tv-s-highest), var(--tv-s-highest)) right center / 100% 5px no-repeat; }
+body.look-tonal .bar > span { height: 18px; border-radius: 0; position: relative; z-index: 1; box-shadow: 8px 0 0 var(--tv-s-low);
+  -webkit-mask-image: var(--tv-m-wave); -webkit-mask-size: 24px 18px; -webkit-mask-repeat: repeat-x; -webkit-mask-position: left center; }
+body.look-tonal .wrow .bar, body.look-tonal .wrow .bar > span { height: 18px; border-radius: 0; }
+
+/* ---------- Today: the kids' row ---------- */
+body.look-tonal .krow { padding: 12px 18px 12px; gap: 8px; }
+body.look-tonal .krow .card-head h2 { font-size: 20px; }
+body.look-tonal .krow .aside { font-size: 14px; }
+body.look-tonal .ktiles { gap: 12px; }
+body.look-tonal .ktile { background: var(--tv-tint, var(--tv-s-high)); border: none; border-radius: 28px; padding: 10px 6px 10px; gap: 3px; }
+body.look-tonal .ktile:active { background: var(--tv-s-highest); }
+body.look-tonal .av.k { width: 54px; height: 54px; font-size: 25px; }
+body.look-tonal .kwait { background: var(--tv-warn-c); color: var(--tv-on-warn-c); box-shadow: none; font-size: 12px; padding: 2px 7px; }
+body.look-tonal .ktile b { font-family: var(--tv-disp); font-weight: 900; font-size: 19px; }
+body.look-tonal .kct { font-size: 14px; color: var(--tv-on-v); }
+body.look-tonal .kct.good { color: var(--tv-ok); }
+
+/* ---------- Chores ---------- */
+body.look-tonal .picker { background: transparent; gap: 10px; padding: 0; }
+body.look-tonal .pick { height: 64px; padding: 0 22px 0 8px; border: 1px solid var(--tv-outl); border-radius: 999px; font-size: 19px; font-weight: 700; color: var(--tv-on); gap: 10px; }
+body.look-tonal .pick .av { width: 46px; height: 46px; font-size: 21px; }
+body.look-tonal .pick.on { background: var(--tv-sec-c); color: var(--tv-on-sec-c); border-color: var(--tv-sec-c); box-shadow: none; font-weight: 800; }
+body.look-tonal .pick.lpick { padding: 0 22px; height: 52px; gap: 8px; display: flex; align-items: center; }
+body.look-tonal .lcount { background: var(--tv-s-highest); color: var(--tv-on); font-size: 14px; padding: 2px 9px; }
+body.look-tonal .pick.on .lcount { background: var(--tv-pri); color: #FFFFFF; }
+body.look-tonal .intro { font-size: 18px; font-weight: 500; color: var(--tv-on-v); margin-bottom: 8px; }
+body.look-tonal .chore { background: var(--tv-s-high); border: none; border-radius: 32px; padding: 12px 16px 12px 14px; min-height: 92px; gap: 18px; }
+body.look-tonal .chore + .chore { margin-top: 10px; }
+body.look-tonal .chore .ti { font-family: var(--tv-disp); font-weight: 900; font-size: 26px; }
+body.look-tonal .medal { width: 70px; height: 70px; border-radius: 0; box-shadow: none; color: var(--tv-on);
+  -webkit-mask-image: var(--tv-m-sunny); -webkit-mask-size: 100% 100%; }
+body.look-tonal .medal b { font-family: var(--tv-disp); font-weight: 900; font-size: 26px; }
+body.look-tonal .medal small { font-size: 11px; font-weight: 800; color: var(--tv-on); }
+body.look-tonal .btn-primary { height: 60px; padding: 0 30px; background: var(--tv-pri); color: #FFFFFF; box-shadow: none; font-size: 19px; font-weight: 800;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+body.look-tonal .state { height: 52px; padding: 0 22px; font-size: 18px; font-weight: 700; }
+body.look-tonal .state.wait { background: var(--tv-warn-c); color: var(--tv-on-warn-c); }
+body.look-tonal .state.done { background: var(--tv-ok-c); color: var(--tv-on-ok-c); }
+body.look-tonal .chores-side > .card h2 { font-family: var(--tv-disp) !important; font-weight: 900 !important; font-size: 26px !important; }
+body.look-tonal .big-total { font-family: var(--tv-disp); font-weight: 900; font-size: 50px; letter-spacing: -0.02em; white-space: nowrap; }
+body.look-tonal { --minibar-empty: var(--tv-s-highest); }
+body.look-tonal .leader { font-size: 17px; font-weight: 600; }
+body.look-tonal .leader .l { color: var(--tv-on); }
+body.look-tonal .leader .dots { border-bottom: none; }
+body.look-tonal .leader .v { font-weight: 800; }
+body.look-tonal .waitline { background: var(--tv-warn-c); color: var(--tv-on-warn-c); border-radius: 999px; padding: 10px 18px; font-size: 16px; }
+body.look-tonal .minibars span.b { width: 34px; border-radius: 17px; }
+body.look-tonal .minibars span.l { font-size: 15px; font-weight: 700; color: var(--tv-on-v); }
+body.look-tonal .btn-outline { height: 60px; border: 1px solid var(--tv-outl); background: transparent; font-size: 18px; font-weight: 700; color: var(--tv-on); }
+body.look-tonal .chores-side .btn-outline { height: 60px; border: none; background: var(--tv-pri-c); color: var(--tv-on-pri-c); font-size: 19px; font-weight: 800; }
+body.look-tonal .btn-outline .count { background: var(--tv-pri); color: #FFFFFF; padding: 2px 9px; font-size: 14px; border-radius: 999px; }
+
+/* ---------- Screen Time ---------- */
+body.look-tonal .pv { border-radius: 32px; }
+body.look-tonal .pv.dark { background: var(--tv-inv); border: none; }
+body.look-tonal.pics-original .pv.light { background: #FFFDF8; }
+body.look-tonal.pics-original .pv.dark { background: #16324F; }   /* pictures as drawn: their own navy around a tall frame's picture */
+body.look-tonal .pv-top { padding: 14px 22px 0; }
+body.look-tonal .pv .card-head h2 { font-size: 24px; line-height: 1.15; }
+body.look-tonal .pv.dark .pv-top h2 { color: var(--tv-on-inv); }
+body.look-tonal .pv.dark .aside { color: var(--tv-on-inv-v); }
+body.look-tonal .vpick { gap: 0; margin-top: 8px; border: 1px solid var(--tv-outl); border-radius: 999px; overflow: hidden; background: var(--tv-surf); }
+body.look-tonal .vp { height: 36px; border: none; border-left: 1px solid var(--tv-outl); border-radius: 0; background: transparent; color: var(--tv-on);
+  font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 0 4px; }
+body.look-tonal .vp:first-child { border-left: none; }
+body.look-tonal .vp.on { background: var(--tv-sec-c); color: var(--tv-on-sec-c); box-shadow: none; font-weight: 800; }
+body.look-tonal .vp.on::before { width: 14px; height: 14px; }
+body.look-tonal .pv.dark .vp { background: transparent; border-color: var(--tv-outl); color: var(--tv-on); }
+body.look-tonal .pv.dark .vp.on { background: var(--tv-sec-c); color: var(--tv-on-sec-c); }
+body.look-tonal .pv-bot { left: 20px; right: 20px; bottom: 18px; }
+body.look-tonal .pv-wait { border-radius: 999px; padding: 14px 22px; font-size: 18px; }
+body.look-tonal .pv-share, body.look-tonal .pv.light .pv-share { background: var(--tv-pri-c); color: var(--tv-on-pri-c); border-radius: 999px; padding: 14px 22px; font-size: 17px; }
+body.look-tonal .who { gap: 12px; margin-top: 14px; }
+body.look-tonal .wrow { grid-template-columns: 46px 104px minmax(0, 1fr) 100px; gap: 14px; }
+body.look-tonal .wrow .av.m { width: 44px; height: 44px; font-size: 20px; }
+body.look-tonal .wrow .nm { font-size: 20px; font-weight: 700; }
+body.look-tonal .wrow .mn { font-family: var(--tv-disp); font-weight: 900; font-size: 21px; }
+body.look-tonal .wrow .mn.none { font-family: var(--sans); font-weight: 600; font-size: 15px; color: var(--tv-on-v); }
+body.look-tonal .feed { margin-top: 10px; }
+body.look-tonal .fe { grid-template-columns: 50px 38px minmax(0, 1fr) auto; border-bottom: none; border-top: 1px solid var(--tv-outl-v); padding: 7px 0; font-size: 19px; gap: 14px; }
+body.look-tonal .fe .av.s { width: 38px; height: 38px; }
+body.look-tonal .fe .d { font-size: 14px; font-weight: 800; color: var(--tv-on-v); }
+body.look-tonal .fe .w em { font-size: 18px; font-weight: 500; color: var(--tv-on-v); }
+body.look-tonal .fe .m { background: var(--tv-ok-c); color: var(--tv-on-ok-c); border-radius: 999px; padding: 5px 14px; font-weight: 800; font-size: 17px; min-width: 56px; text-align: center; }
+body.look-tonal .fe .m.neg { background: var(--tv-err-c); color: var(--tv-on-err-c); }
+
+/* ---------- Calendar ---------- */
+body.look-tonal .legend { display: flex; gap: 8px; font-size: 16px; font-weight: 700; }
+body.look-tonal .legend span { background: var(--tv-s-high); border-radius: 999px; height: 38px; padding: 0 14px; gap: 8px; }
+body.look-tonal .legend i { width: 14px; height: 14px; border-radius: 7px; box-shadow: none; }
+body.look-tonal .toggle button { height: 48px; padding: 0 20px; font-size: 17px; }
+body.look-tonal .pager { background: transparent; border: none; padding: 0; gap: 8px; }
+body.look-tonal .pager button { height: 52px; background: var(--tv-s-high); color: var(--tv-on); }
+body.look-tonal .pager .step { padding: 0 16px; font-size: 16px; font-weight: 700; }
+body.look-tonal .pager .mid { padding: 0 24px; font-size: 17px; font-weight: 700; background: var(--tv-pri-c); color: var(--tv-on-pri-c); }
+body.look-tonal .pager .mid.back { background: var(--tv-pri); color: #FFFFFF; box-shadow: none; }
+body.look-tonal .days { gap: 10px; }
+body.look-tonal .day { background: var(--tv-s-low); border: none; border-radius: 32px; padding: 12px 8px; gap: 8px; }
+body.look-tonal .day.today { background: var(--tv-pri-c); box-shadow: inset 0 0 0 2px var(--tv-pri); }
+body.look-tonal .day .dh { border-bottom: none; padding: 4px 0 2px; }
+body.look-tonal .day .dw { font-size: 15px; font-weight: 800; letter-spacing: 0.12em; color: var(--tv-on); }
+body.look-tonal .day .dn { font-family: var(--tv-disp); font-weight: 900; font-size: 34px; color: var(--tv-on); }
+body.look-tonal .day.today .dw { color: var(--tv-pri); }
+body.look-tonal .day.today .dn { width: 48px; height: 48px; margin: 2px auto 0; display: flex; align-items: center; justify-content: center; font-size: 25px;
+  background: var(--tv-pri); color: #FFFFFF; -webkit-mask-image: var(--tv-m-sunny); -webkit-mask-size: 100% 100%; }
+body.look-tonal .ce { border-radius: 18px; padding: 5px 9px; }
+body.look-tonal .day .dh { flex-shrink: 0; }
+body.look-tonal .evs { gap: 6px; }
+body.look-tonal .rolling .day.today .ce .t { font-size: 16px; }
+body.look-tonal .ce.past { opacity: 0.6; }
+body.look-tonal .ce .ct { font-size: 13px; font-weight: 800; color: var(--tv-on-v); }
+body.look-tonal .ce .t { font-size: 15px; font-weight: 800; color: var(--tv-on); line-height: 1.15; }
+body.look-tonal .ce .w { font-size: 13px; line-height: 1.2; font-weight: 600; color: var(--tv-on-v); }
+body.look-tonal .more { color: var(--tv-pri); font-weight: 800; }
+body.look-tonal .hol { border: none; background: var(--tv-ter-c); color: var(--tv-on-ter-c); border-radius: 999px; padding: 6px 12px; font-weight: 700; }
+body.look-tonal .me.hol { background: transparent; color: var(--tv-ter); padding: 0; }
+body.look-tonal .month { gap: 8px; }
+body.look-tonal .mhead { font-size: 15px; font-weight: 800; letter-spacing: 0.12em; color: var(--tv-on); }
+body.look-tonal .mcell { background: var(--tv-s-low); border: none; border-radius: 22px; padding: 7px 12px; }
+body.look-tonal .mcell.out { background: transparent; border: 1px dashed var(--tv-outl-v); }
+body.look-tonal .mcell.out .mn { color: var(--tv-muted); }
+body.look-tonal .mcell.today { background: var(--tv-pri-c); border: none; box-shadow: inset 0 0 0 2px var(--tv-pri); }
+body.look-tonal .mcell.today .mn { color: var(--tv-pri); }
+body.look-tonal .mn { font-family: var(--tv-disp); font-weight: 900; font-size: 20px; }
+body.look-tonal .me { font-size: 13px; font-weight: 700; }
+body.look-tonal .me i { width: 8px; height: 8px; border-radius: 4px; }
+body.look-tonal .more-link { color: var(--tv-pri); }
+body.look-tonal button.mcell { display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; }
+body.look-tonal button.mcell.sp { display: block; }
+body.look-tonal button.mcell:active, body.look-tonal button.more:active { background: var(--tv-s-highest); }
+
+/* ---------- special days: a picture panel, a light card on it ---------- */
+body.look-tonal .day.sp { border: none; border-radius: 32px; background: var(--tv-ter-c); color: var(--tv-on-ter-c); }
+body.look-tonal .day.sp.solemn { border: none; }
+body.look-tonal .day.sp .sp-top { align-self: center; margin-top: 10px; padding: 8px 16px 10px; border-radius: 28px; background: var(--tv-glass); }
+body.look-tonal .day.sp .dw { color: var(--tv-on); }
+body.look-tonal .day.sp .dn { color: var(--tv-on); font-family: var(--tv-disp); font-weight: 900; }
+body.look-tonal .sp-script, body.look-tonal .solemn .sp-script { display: inline-block; margin-top: 6px; font-family: var(--sans); font-weight: 800; font-size: 15px;
+  line-height: 1; color: #FFFFFF; background: var(--tv-ter); border-radius: 999px; padding: 8px 14px; }
+body.look-tonal .sp-card { margin: 10px; padding: 14px 16px; border-radius: 28px; background: var(--tv-s-low); border: none; color: var(--tv-on);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16); }
+body.look-tonal .sp-ti { font-family: var(--tv-disp); font-weight: 900; font-size: 22px; color: var(--tv-on); }
+body.look-tonal .sp-ti .star, body.look-tonal .sp-bti .star { color: var(--tv-ter); }
+body.look-tonal .sp-l { font-size: 15px; font-weight: 600; color: var(--tv-on-v); }
+body.look-tonal .sp-pill { background: var(--tv-ter); color: #FFFFFF; font-size: 14px; font-weight: 800; padding: 6px 12px; }
+body.look-tonal .sp-verse { color: var(--tv-on-v); font-size: 14px; }
+body.look-tonal .sp-also { border-top: 1px solid var(--tv-outl-v); color: var(--tv-on-v); font-size: 13px; }
+body.look-tonal .sp-k { color: var(--tv-on-ter-c); font-weight: 800; }
+body.look-tonal .sp-mini { background: var(--tv-s-low); border: none; border-radius: 22px; color: var(--tv-on); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); }
+body.look-tonal .sp-mini.today { box-shadow: inset 0 0 0 2px var(--tv-pri), 0 4px 12px rgba(0, 0, 0, 0.12); }
+body.look-tonal .sp-mh b { color: var(--tv-on-v); }
+body.look-tonal .sp-mh .n { font-family: var(--tv-disp); font-weight: 900; }
+body.look-tonal .sp-mh .of { color: var(--tv-pri); }
+body.look-tonal .sp-ms { color: var(--tv-on-v); }
+body.look-tonal button.mcell.sp { border: none; border-radius: 22px; background: var(--tv-ter-c); color: var(--tv-on-ter-c); }
+body.look-tonal .mcell.sp .mn { left: 6px; top: 5px; color: var(--tv-on); background: var(--tv-glass); border-radius: 999px; padding: 0 8px; font-size: 17px; line-height: 1.4; }
+body.look-tonal .sp-mscript { display: none; }
+body.look-tonal .sp-mlabel { background: var(--tv-ter); border: none; border-radius: 999px; color: #FFFFFF; font-family: var(--sans); font-weight: 800; font-size: 13px; padding: 5px 10px; }
+body.look-tonal .sp-mlabel .star { color: #FFFFFF; }
+
+/* ---------- pop-ups ---------- */
+body.look-tonal .overlay { background: rgba(8, 14, 13, 0.42); }
+body.look-tonal .sheet { background: var(--tv-s-low); border: none; border-radius: 40px; box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28); }
+body.look-tonal .sheet h1 { font-size: 34px; gap: 14px; }
+body.look-tonal .sheet h1 .mono { width: 56px; height: 56px; --mono-w: 56px; }
+body.look-tonal .sheet .sub { font-size: 18px; font-weight: 500; color: var(--tv-on-v); }
+body.look-tonal .witem { background: var(--tv-surf); border: none; border-radius: 26px; padding: 12px 18px 12px 12px; }
+body.look-tonal .witem .ti { font-size: 20px; font-weight: 800; }
+body.look-tonal .witem .ti small { font-size: 15px; font-weight: 600; }
+body.look-tonal .witem .mins { font-family: var(--tv-disp); font-weight: 900; font-size: 22px; color: var(--tv-ok); }
+body.look-tonal .pindots i { width: 22px; height: 22px; border: 2px solid var(--tv-outl); }
+body.look-tonal .pindots i.f { background: var(--tv-pri); border-color: var(--tv-pri); }
+body.look-tonal .keys { gap: 12px; }
+body.look-tonal .keys button { height: 84px; border-radius: 999px; background: var(--tv-s-highest); color: var(--tv-on); font-family: var(--tv-disp); font-weight: 900; font-size: 32px; }
+body.look-tonal .keys button.fn { background: transparent; border: 1px solid var(--tv-outl); font-size: 19px; }
+body.look-tonal .keys button.ok { background: var(--tv-pri); color: #FFFFFF; box-shadow: none; font-size: 22px; }
+body.look-tonal .btn-ghost { height: 56px; border: none; color: var(--tv-pri); font-size: 19px; font-weight: 800; padding: 0 20px; }
+body.look-tonal .btn-small { height: 48px; padding: 0 20px; font-size: 16px; font-weight: 800; }
+body.look-tonal .btn-small.ok { background: var(--tv-pri); color: #FFFFFF; box-shadow: none; }
+body.look-tonal .btn-small.no { border: 1px solid var(--tv-outl); color: var(--tv-on); }
+body.look-tonal .msg { color: var(--tv-err); }
+body.look-tonal .msg.good { color: var(--tv-ok); }
+/* parent tools */
+body.look-tonal .ptools .lbl { color: var(--tv-pri); letter-spacing: 0.1em; font-weight: 800; }
+body.look-tonal .gday { background: var(--tv-pri-c); color: var(--tv-on-pri-c); border-radius: 28px; box-shadow: none; }
+body.look-tonal .gday b { font-family: var(--tv-disp); font-weight: 900; color: var(--tv-on-pri-c); }
+body.look-tonal .gday small { color: var(--tv-on-pri-c); }
+body.look-tonal .gday .plus { font-family: var(--tv-disp); color: var(--tv-on-pri-c); }
+body.look-tonal .gday.done { background: var(--tv-ok-c); color: var(--tv-on-ok-c); }
+body.look-tonal .gday.done b, body.look-tonal .gday.done small { color: var(--tv-on-ok-c); }
+body.look-tonal .nwk { background: var(--tv-warn-c); color: var(--tv-on-warn-c); border-radius: 28px; }
+body.look-tonal .pick2 > button.sel { box-shadow: none; }
+body.look-tonal .pick2 > button { border-radius: 0; }
+body.look-tonal .chip2 { height: 48px; border-radius: 999px; border: 1px solid var(--tv-outl); background: transparent; color: var(--tv-on);
+  display: inline-flex; align-items: center; gap: 6px; }
+body.look-tonal .chip2.neg { color: var(--tv-err); }
+body.look-tonal .chip2.sel { background: var(--tv-sec-c); color: var(--tv-on-sec-c); border-color: var(--tv-sec-c); }
+body.look-tonal .confirm { border-top: 1px solid var(--tv-outl-v); color: var(--tv-on-v); }
+/* a day's pop-up */
+body.look-tonal .dp-head { border-bottom: 1px solid var(--tv-outl-v); }
+body.look-tonal .dp-head .kick { color: var(--tv-pri); letter-spacing: 0.12em; }
+body.look-tonal .dp-row { border-bottom: 1px solid var(--tv-outl-v); }
+body.look-tonal .dp-row .ti { font-weight: 800; }
+body.look-tonal .dp-sub { color: var(--tv-pri); letter-spacing: 0.12em; }
+body.look-tonal .dp-day { color: var(--tv-pri); border-bottom: 1px solid var(--tv-outl-v); }
+body.look-tonal .dp-tag { background: var(--tv-warn-c); color: var(--tv-on-warn-c); }
+body.look-tonal .dp-row .ic { color: var(--tv-on-v); }
+body.look-tonal .btn-back { border: 1px solid var(--tv-outl); }
+body.look-tonal button.dp-row.tap:active { background: var(--tv-s-high); }
+body.look-tonal .sp-warn { background: var(--tv-warn-c); color: var(--tv-on-warn-c); border-radius: 22px; }
+body.look-tonal .sheet.daypop.spop { border-radius: 40px; }
+body.look-tonal .sp-side { background: var(--tv-ter-c); border-right: none; }
+body.look-tonal .sp-sshade { background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 75%); }
+body.look-tonal .sp-sscript, body.look-tonal .solemn .sp-sscript { font-family: var(--tv-disp); font-weight: 900; font-size: 30px; color: #FFFFFF; }
+body.look-tonal .sp-head2 { border-bottom: 1px solid var(--tv-outl-v); }
+body.look-tonal .sp-head2 .sp-k { color: var(--tv-pri); }
+body.look-tonal .sp-bti { font-family: var(--tv-disp); font-weight: 900; }
+body.look-tonal .sp-x { border: none; background: var(--tv-s-highest); color: var(--tv-on); }
+body.look-tonal .sp-main .sp-x { background: var(--tv-s-highest); }
+body.look-tonal .sp-banner { border-bottom: none; background: var(--tv-ter-c); }
+
+/* ---------- Lists ---------- */
+body.look-tonal .litems { padding: 20px 28px; }
+body.look-tonal .litems .card-head .aside { background: var(--tv-s-high); border-radius: 999px; padding: 5px 14px; }
+body.look-tonal .lcols { column-gap: 36px; }
+body.look-tonal .lsec { color: var(--tv-pri); font-size: 14px; font-weight: 800; letter-spacing: 0.12em; margin: 14px 0 2px; }
+body.look-tonal .ladd-btn { height: 96px; border-radius: 40px; background: var(--tv-pri-c); color: var(--tv-on-pri-c); font-family: var(--tv-disp); font-weight: 900; font-size: 26px; }
+body.look-tonal .lnote { font-size: 15px; font-weight: 700; color: var(--tv-on-v); }
+body.look-tonal .lnote.stale { background: var(--tv-warn-c); color: var(--tv-on-warn-c); border-radius: 22px; }
+body.look-tonal .lside > .aside { font-size: 14px; font-weight: 500; }
+/* adding to a list */
+body.look-tonal .sheet.ladd { border-radius: 40px; padding: 24px 28px; }
+body.look-tonal .la-input { height: 64px; border: 2px solid var(--tv-pri); border-radius: 999px; background: var(--tv-surf); padding: 0 26px; font-weight: 700; }
+body.look-tonal .caret { background: var(--tv-pri); }
+body.look-tonal .la-to, body.look-tonal .la-sugg { color: var(--tv-on-v); font-weight: 600; }
+body.look-tonal .chip2.r { height: 42px; font-size: 16px; font-weight: 700; padding: 0 16px; }
+body.look-tonal .kb-row button { border-radius: 999px; background: var(--tv-s-highest); color: var(--tv-on); font-family: var(--tv-disp); font-weight: 900; }
+body.look-tonal .kb-row button:active { background: var(--tv-outl-v); }
+body.look-tonal .kb-row button.space { color: var(--tv-on-v); font-family: var(--sans); font-weight: 700; }
+body.look-tonal .kb-row button.ok { background: var(--tv-pri); color: #FFFFFF; box-shadow: none; font-family: var(--sans); font-weight: 800; }
+
+/* ---------- Photos ---------- */
+body.look-tonal .ph-panel { left: 32px; bottom: 32px; background: var(--tv-surf); border: none; border-radius: 40px; color: var(--tv-on); padding: 18px 30px 18px 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22); gap: 18px; }
+body.look-tonal .ph-panel .mono { --mono-w: 84px; }
+body.look-tonal .ph-panel .clock .t { font-family: var(--tv-disp); font-weight: 900; font-size: 64px; color: var(--tv-on); letter-spacing: -0.02em; }
+body.look-tonal .ph-panel .clock .ap { font-family: var(--tv-disp); font-weight: 900; color: var(--tv-on); }
+body.look-tonal .ph-panel .d { font-size: 18px; font-weight: 700; color: var(--tv-on-v); }
+body.look-tonal .ph-panel .n { border-top: none; margin-top: 6px; padding-top: 0; font-size: 18px; font-weight: 700; }
+body.look-tonal .ph-panel .n b { display: inline-block; background: var(--tv-pri); color: #FFFFFF; border-radius: 999px; padding: 3px 12px; margin-right: 2px; }
+body.look-tonal .ph-cap { background: var(--tv-surf); color: var(--tv-on); border-radius: 999px; padding: 12px 22px; font-size: 18px; font-weight: 700;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18); }
+body.look-tonal .ph-empty { background: var(--tv-s-cont); }
+body.look-tonal .ph-empty .mono { --mono-w: 160px; background: var(--tv-pri); --mono-color: #FFFFFF; }
+body.look-tonal .ph-empty p { color: var(--tv-on-v); font-weight: 600; }
+
+/* ---------- Night clock: dim tones in a big scallop ---------- */
+body.look-tonal #screen-night { background: var(--tv-n-bg); color: var(--tv-n-on); gap: 4px; }
+body.look-tonal #screen-night::before, body.look-tonal #screen-night::after { content: ""; position: absolute; left: 50%; top: 50%;
+  -webkit-mask-image: var(--tv-m-night); -webkit-mask-size: 100% 100%; }
+body.look-tonal #screen-night::before { width: 560px; height: 560px; margin: -326px 0 0 -280px; background: var(--tv-n-ring); }
+body.look-tonal #screen-night::after { width: 552px; height: 552px; margin: -322px 0 0 -276px; background: var(--tv-n-card); }
+body.look-tonal #screen-night > * { position: relative; z-index: 1; }
+body.look-tonal #screen-night .mono { width: 60px; height: 60px; --mono-w: 60px; background: var(--tv-n-ring); --mono-color: var(--tv-n-card); margin: -50px 0 6px; }
+body.look-tonal #screen-night .t { font-family: var(--tv-disp); font-weight: 900; font-size: 150px; letter-spacing: -0.02em; color: var(--tv-n-pri); }
+body.look-tonal #screen-night .d { font-size: 26px; font-weight: 700; color: var(--tv-n-on); }
+body.look-tonal #screen-night .n { position: absolute; bottom: 70px; background: var(--tv-n-card); color: var(--tv-n-on); border-radius: 999px; padding: 12px 26px;
+  font-size: 20px; font-weight: 700; }
+
+/* ---------- Clock & today (a bedroom frame) ---------- */
+body.look-tonal #screen-clock { background: var(--tv-surf); }
+body.look-tonal .ck-date { color: var(--tv-pri); letter-spacing: 0.12em; font-weight: 800; }
+body.look-tonal .ck-time { font-family: var(--tv-disp); font-weight: 900; font-size: 150px; letter-spacing: -0.03em; color: var(--tv-on-pri-c);
+  background: var(--tv-pri-c); border-radius: 999px; padding: 14px 48px 18px; align-self: flex-start; }
+body.look-tonal .ck-time span { font-family: var(--tv-disp); font-weight: 900; color: var(--tv-on-pri-c); }
+body.look-tonal .ck-wx { font-weight: 600; color: var(--tv-on-v); }
+body.look-tonal .ck-wx .ic { color: var(--tv-ter); }
+body.look-tonal .ck-verse { color: var(--tv-on-v); font-weight: 500; }
+body.look-tonal .ck-verse cite { color: var(--tv-pri); }
+body.look-tonal .ck-side { background: var(--tv-s-low); border-radius: 32px; padding: 22px 26px; justify-content: flex-start; }
+body.look-tonal .ck-ev { border-bottom: 1px solid var(--tv-outl-v); }
+body.look-tonal .ck-count { background: var(--tv-ter-c); color: var(--tv-on-ter-c); border: none; border-radius: 999px; font-weight: 600; }
+body.look-tonal .ck-count b { font-family: var(--tv-disp); font-weight: 900; color: var(--tv-on-ter-c); }
+
+/* ---------- this frame: menu, name, toast ---------- */
+body.look-tonal .frame-name { background: var(--tv-pri-c); color: var(--tv-on-pri-c); border: none; border-radius: 999px; font-family: var(--tv-disp); font-weight: 900; font-size: 48px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); }
+body.look-tonal .ftoast { background: var(--tv-inv); color: var(--tv-on-inv); border: none; }
+body.look-tonal .fcard { background: var(--tv-surf); border: 1px solid var(--tv-outl-v); border-radius: 28px; }
+body.look-tonal .fcard.on { background: var(--tv-sec-c); border-color: var(--tv-sec-c); box-shadow: none; }
+body.look-tonal .fcard.on .ic { color: var(--tv-pri); }
+body.look-tonal .fm-size { color: var(--tv-on-v); }
+body.look-tonal .gear { opacity: 0.5; }
+
+/* ---------- the Kids home screen ---------- */
+body.look-tonal #screen-kids { --k-ink: var(--tv-on); --k-soft: var(--tv-on-v); --k-sky: var(--tv-pri); --k-sky2: var(--tv-pri); --k-sun: var(--tv-warn);
+  --k-green: var(--tv-ok); --k-green-bg: var(--tv-ok-c); --k-green-line: var(--tv-ok-c); --k-wait-bg: var(--tv-warn-c); --k-wait-line: var(--tv-warn-c);
+  --k-line: var(--tv-s-highest); background: var(--tv-surf); color: var(--tv-on); }
+body.look-tonal .khead { background: var(--tv-pri-c); color: var(--tv-on-pri-c); box-shadow: none; border-radius: 40px; }
+body.look-tonal .khead.eve { background: var(--tv-inv); color: var(--tv-on-inv); }
+body.look-tonal .kpart { border-radius: 0; box-shadow: none; color: var(--tv-on); -webkit-mask-image: var(--tv-m-sunny); -webkit-mask-size: 100% 100%; }
+body.look-tonal .kdow, body.look-tonal .kt { font-family: var(--tv-disp); font-weight: 900; }
+body.look-tonal .kwx { background: var(--tv-surf); color: var(--tv-on); }
+body.look-tonal .knext h2 { font-family: var(--tv-disp); font-weight: 900; }
+body.look-tonal .knext h2 .kpic { color: var(--tv-pri); }
+
+/* ================= tall frames ================= */
+body.look-tonal.vert .band { padding: 16px 24px 0; row-gap: 12px; height: auto; min-height: 0; }
+body.look-tonal.vert .band.tall { height: 128px; padding: 18px 20px 0; }
+body.look-tonal.vert .band.tall .mono { --mono-w: 64px; }
+body.look-tonal.vert .band .script { font-size: 32px; }
+body.look-tonal.vert .band .clock .t { font-size: 64px; }
+body.look-tonal.vert .band.tall .clock { height: 92px; padding: 0 26px; }
+body.look-tonal.vert .band.tall .clock .ap { margin-bottom: 21px; font-size: 20px; }
+body.look-tonal.vert .wx > svg { width: 64px !important; height: 64px !important; padding: 12px; }
+body.look-tonal.vert .wx .temp { font-size: 44px; }
+body.look-tonal.vert .body { padding: 12px 20px 0; gap: 12px; }
+body.look-tonal.vert .ribbon { margin: 10px 20px 0; }
+body.look-tonal.vert .nav { margin: 0 -20px; padding: 10px 16px 6px; height: auto; background: var(--tv-s-cont); gap: 8px; }
+body.look-tonal.vert .tabs { background: transparent; }
+body.look-tonal.vert .tab { width: auto; height: 70px; font-size: 14px; }
+body.look-tonal.vert .tab svg { width: 60px !important; height: 34px !important; padding: 5px 19px; }
+body.look-tonal.vert .tab .badge { top: 0; left: auto; right: 8px; }
+body.look-tonal.vert .homebar span { height: 38px; font-size: 15px; }
+body.look-tonal.vert .picker { gap: 6px; }
+body.look-tonal.vert .pick { height: 56px; padding: 0 14px 0 6px; font-size: 17px; }
+body.look-tonal.vert .pick .av { width: 40px; height: 40px; }
+body.look-tonal.vert .day:not(.sp) { border-radius: 28px; padding: 10px 12px; }
+body.look-tonal.vert .day:not(.sp) .dh { border-right: none; }
+body.look-tonal.vert .day.today:not(.sp) .dh { border-right: none; }
+body.look-tonal.vert .legend { display: flex; }
+body.look-tonal.vert .day.sp:not(.span) .sp-top { align-self: center; margin: 10px; padding: 8px 18px 10px; border-radius: 26px; background: var(--tv-glass); }
+body.look-tonal.vert .who { gap: 6px; margin-top: 8px; }
+body.look-tonal.vert .fe { padding: 5px 0; }
+body.look-tonal.vert .right-col { gap: 12px; }
+body.look-tonal.vert .ck-time { font-size: 130px; }
+body.look-tonal.vert .ph-panel { left: 24px; right: 24px; bottom: 24px; }
+body.look-tonal.vert #screen-night::before { width: 640px; height: 640px; margin: -360px 0 0 -320px; }
+body.look-tonal.vert #screen-night::after { width: 632px; height: 632px; margin: -356px 0 0 -316px; }
+body.look-tonal.vert #screen-night .t { font-size: 140px; }
+body.look-tonal.vert .sheet { border-radius: 40px; }
+
+/* the Kids screen's parts */
+body.look-tonal .kv { padding: 16px 22px 0; }
+body.look-tonal .knc { background: var(--tv-s-low); border: none; border-radius: 30px; box-shadow: none; }
+body.look-tonal .knc.next { background: var(--tv-pri); color: #FFFFFF; box-shadow: none; }
+body.look-tonal .knc.next .knt span { color: var(--tv-pri-80); }
+body.look-tonal .knc.now { background: var(--tv-ok-c); color: var(--tv-on-ok-c); }
+body.look-tonal .knc.bed { background: var(--tv-inv); color: var(--tv-on-inv); border: none; }
+body.look-tonal .knc.bed .knt span { color: var(--tv-on-inv-v); }
+body.look-tonal .knc.bed .kbub { color: var(--tv-inv); }
+body.look-tonal .ktag, body.look-tonal .ktag.now { background: var(--tv-surf); color: var(--tv-pri); top: -11px; font-size: 14px; letter-spacing: 0.04em; text-transform: none; font-weight: 800; }
+body.look-tonal .kbub { border-radius: 0; -webkit-mask-image: var(--tv-m-sunny); -webkit-mask-size: 100% 100%; }
+body.look-tonal .knt, body.look-tonal .kkn b, body.look-tonal .krib-t b, body.look-tonal .kbed-t b, body.look-tonal .ks-total, body.look-tonal .ktk-script {
+  font-family: var(--tv-disp); font-weight: 900; }
+body.look-tonal .knti { font-weight: 700; }
+body.look-tonal .kdots i.all { background: var(--tv-s-highest); color: var(--tv-on-v); }
+body.look-tonal .knc.next .kdots i.all, body.look-tonal .knc.bed .kdots i.all { background: rgba(255, 255, 255, 0.18); color: #FFFFFF; }
+body.look-tonal .kkid { background: var(--tv-tint, var(--tv-s-low)); border: none; border-radius: 32px; padding: 12px 10px; }
+body.look-tonal .av.kx { box-shadow: none !important; font-family: var(--tv-disp); font-weight: 900; }
+body.look-tonal .kkn span { color: var(--tv-on-v); }
+body.look-tonal .kprog i { border-color: var(--tv-outl-v); }
+body.look-tonal .kprog i.done { background: var(--tv-ok); border-color: var(--tv-ok); }
+body.look-tonal .kprog i.waiting { background: var(--tv-warn); border-color: var(--tv-warn); }
+body.look-tonal .kmore { background: rgba(255, 255, 255, 0.75); color: var(--tv-on-v); }
+body.look-tonal .kch { background: var(--tv-surf); border: none; border-radius: 22px; }
+body.look-tonal .kch.todo { border: none; box-shadow: none; }
+body.look-tonal .kch.todo:active { transform: none; box-shadow: none; background: var(--tv-s-high); }
+body.look-tonal .kch.waiting { background: var(--tv-warn-c); color: var(--tv-on-warn-c); }
+body.look-tonal .kch.done { background: var(--tv-ok-c); color: var(--tv-on-ok-c); }
+body.look-tonal .kcp { background: var(--tv-s-cont); border-radius: 14px; }
+body.look-tonal .kcb { border: none; background: var(--kc, var(--tv-pri)); }
+body.look-tonal .kcb b { color: #FFFFFF; font-family: var(--tv-disp); font-weight: 900; }
+body.look-tonal .kch.done .kcb { background: var(--tv-ok); }
+body.look-tonal .kch.waiting .kcb { background: var(--tv-warn); }
+body.look-tonal .kface { background: var(--tv-tint, var(--tv-s-low)); border: 2px solid transparent; border-radius: 28px; }
+body.look-tonal .kface.on { border-color: var(--kc); background: var(--tv-tint, var(--tv-s-low)); }
+body.look-tonal .kscreen { border-radius: 32px; }
+body.look-tonal .kscreen.dark { background: var(--tv-inv); color: var(--tv-on-inv); }
+body.look-tonal .kscreen.light { background: var(--tv-s-low); border: none; }
+body.look-tonal.pics-original .kscreen.light { background: #FFFDF8; }
+body.look-tonal.pics-original .kscreen.dark { background: #16324F; }   /* the picture as drawn sits on its own navy */
+body.look-tonal .ks-info small { color: var(--tv-on-inv-v); opacity: 1; }
+body.look-tonal .kscreen.light .ks-info small { color: var(--tv-on-v); }
+body.look-tonal .ks-when { color: var(--tv-warn); }
+body.look-tonal .kscreen.light .ks-when { color: var(--tv-on-warn-c); }
+body.look-tonal .kbed { background: var(--tv-inv); color: var(--tv-on-inv); border-radius: 32px; }
+body.look-tonal .kmoon { border-radius: 0; background: var(--tv-warn-c); color: var(--tv-on-warn-c); -webkit-mask-image: var(--tv-m-sunny); -webkit-mask-size: 100% 100%; }
+body.look-tonal .kbar span { background: var(--tv-warn); }
+body.look-tonal .kbar i { background: var(--tv-warn-c); color: var(--tv-on-warn-c); }
+body.look-tonal .kstep .kpic { color: var(--tv-warn-c); }
+body.look-tonal .krib { background: var(--tv-ter-c); color: var(--tv-on-ter-c); border: none; border-radius: 32px; }
+body.look-tonal .krib-t small { color: var(--tv-on-ter-c); font-weight: 700; }
+body.look-tonal .krib-n { border-radius: 0; background: var(--tv-ter); color: #FFFFFF; font-family: var(--tv-disp); font-weight: 900; width: 72px; height: 72px;
+  -webkit-mask-image: var(--tv-m-sunny); -webkit-mask-size: 100% 100%; }
+body.look-tonal .ktake { border-radius: 32px; background: var(--tv-inv); }
+body.look-tonal .ktk-today { background: var(--tv-warn-c); color: var(--tv-on-warn-c); letter-spacing: 0.04em; }
+body.look-tonal .ktk-chip { background: var(--tv-surf); color: var(--tv-on); }
+body.look-tonal .knav { height: 92px; margin: 0 -22px; padding: 0 22px 0 14px; background: var(--tv-s-cont); }
+body.look-tonal .knav .tabs { border: none; }
+body.look-tonal .knav .tab, body.look-tonal.vert .knav .tab { flex: 0 0 auto; flex-direction: column; width: 112px; height: 76px; padding: 0 !important; gap: 5px; font-size: 16px; font-weight: 600; }
+body.look-tonal .knav .tab.on { font-weight: 800; }
+body.look-tonal .kgrown { white-space: nowrap; flex-shrink: 0; height: 56px; background: transparent; border: 1px solid var(--tv-outl); color: var(--tv-pri); font-weight: 800; }
+body.look-tonal .kgrown .kpic { color: var(--tv-pri); }
+body.look-tonal.vert .kv { padding: 18px 20px 0; }
+body.look-tonal.vert .knav { margin: 0 -20px; padding: 0 20px 0 12px; }
+body.look-tonal.vert .knav .tabs { flex: 0 1 auto; min-width: 0; }
+body.look-tonal.vert .knav .tab, body.look-tonal.vert .knav .tab:first-child { width: 104px; }

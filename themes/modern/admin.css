@@ -1,0 +1,8 @@
+/* Modern in Settings: white bar, one bright rule, bold type. Decoration only. */
+body.admin-look-modern .aband { border-bottom: 4px solid var(--a-head-rule); }
+body.admin-look-modern .aband .script { font-weight: 800; letter-spacing: -0.01em; font-size: 30px; }
+body.admin-look-modern .aband .kicker { letter-spacing: 0.08em; }
+body.admin-look-modern .card { border-color: transparent; }
+body.admin-look-modern .card > h2 { font-weight: 800; letter-spacing: -0.01em; }
+body.admin-look-modern .stat b { font-weight: 800; }
+@media (max-width: 760px) { body.admin-look-modern .aband .script { font-size: 24px; } }

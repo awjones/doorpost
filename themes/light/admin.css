@@ -1,0 +1,4 @@
+/* Light in Settings: warm paper header with a gold double rule. Decoration only. */
+body.admin-look-light .aband { border-bottom: 3px double var(--a-head-rule); }
+body.admin-look-light .card { border-color: #E2D3B0; }
+body.admin-look-light .card > h2 { font-weight: 500; }

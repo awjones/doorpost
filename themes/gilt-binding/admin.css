@@ -1,0 +1,6 @@
+/* Gilt binding in Settings: navy leather with gold tooling around each card and under the header. Decoration only. */
+body.admin-look-gilt-binding .aband { border-bottom: 4px double var(--a-head-rule); }
+body.admin-look-gilt-binding .card { border: 1px solid #A88A4A; box-shadow: inset 0 0 0 4px var(--a-card), inset 0 0 0 5px rgba(201, 165, 90, 0.55); }
+body.admin-look-gilt-binding .card > h2 { font-weight: 600; letter-spacing: 0.04em; font-variant: small-caps; }
+body.admin-look-gilt-binding .kick { letter-spacing: 0.24em; }
+body.admin-look-gilt-binding .side a.on { box-shadow: inset 0 0 0 1px var(--a-accent-ink); }

@@ -1,0 +1,487 @@
+/* Mica View: layered, softly tinted surfaces. A light wallpaper wash under a translucent layer, white cards at 74%,
+   8px corners, hairline borders, soft shadows, a dock across the bottom with an accent pill under the open tab,
+   pivot tabs and segmented controls. The accent color is an option; theme.js derives its tints (--mica-*).
+   Chrome 106: no color-mix, no :has, no nesting, no blur. */
+
+body.look-mica {
+  --mica-accent: #1F6FC5; --mica-ink: #1F6FC5; --mica-soft: rgba(31, 111, 197, 0.12); --mica-line: rgba(31, 111, 197, 0.35);
+  --mica-faint: rgba(31, 111, 197, 0.06); --mica-tint: #E4EDF8; --mica-wash: rgba(191, 211, 242, 0.9); --mica-night: #060E17;
+  --mica-card: rgba(255, 255, 255, 0.74); --mica-solid: #FFFFFF; --mica-track: rgba(0, 0, 0, 0.05); --mica-hair: rgba(0, 0, 0, 0.07);
+  --mica-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.05);
+  --mica-lift: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  --paper: #EEF1F5; --card: #FFFFFF; --tile: #FFFFFF; --line: #E1E4E8; --line-soft: #E9EBEE;
+  --ink: #1B1B1B; --soft: #5A5A5A; --muted: #6B6B6B;
+  --navy: #1F6FC5; --gilt: #1F6FC5; --gilt-soft: #5A5A5A; --gilt-dim: #5F6368;
+  --red: #C42B1C; --next-bg: rgba(31, 111, 197, 0.12);
+  --amber: #7A5200; --amber-bg: #FFF4CE; --green: #0F7B0F; --green-bg: #DFF6DD;
+}
+
+/* ---------- the wallpaper: a soft wash, then a translucent layer over it ---------- */
+body.look-mica #stage {
+  background:
+    linear-gradient(rgba(243, 243, 243, 0.5), rgba(243, 243, 243, 0.5)),
+    radial-gradient(ellipse 50% 50% at 12% 15%, var(--mica-wash), rgba(191, 211, 242, 0) 100%),
+    radial-gradient(ellipse 45% 45% at 85% 10%, rgba(226, 210, 240, 0.9), rgba(226, 210, 240, 0) 100%),
+    radial-gradient(ellipse 55% 45% at 62% 95%, rgba(244, 217, 196, 0.85), rgba(244, 217, 196, 0) 100%),
+    radial-gradient(ellipse 40% 40% at 5% 92%, rgba(201, 229, 223, 0.85), rgba(201, 229, 223, 0) 100%),
+    #E6ECF4;
+}
+body.look-mica #screen-clock { background: transparent; }
+
+/* ---------- monogram: white on an accent tile ---------- */
+body.look-mica .mono { position: relative; -webkit-mask-image: none; mask-image: none; background: var(--mica-accent); border-radius: 8px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25), 0 2px 6px rgba(0, 0, 0, 0.12); }
+body.look-mica .mono::after { content: ""; position: absolute; left: 16%; top: 16%; right: 16%; bottom: 16%; background: #FFFFFF;
+  -webkit-mask-image: url(themes/../static/img/monogram.png); mask-image: url(themes/../static/img/monogram.png);
+  -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center; }
+
+/* ---------- header: no band, just the title, clock and weather on the wash ---------- */
+body.look-mica .band, body.look-mica .band.tall { background: transparent; border-bottom: none; color: var(--ink); height: 92px; padding: 18px 24px 8px; }
+body.look-mica .band-left { gap: 16px; }
+body.look-mica .band .mono { --mono-w: 48px; }
+body.look-mica .band .script, body.look-mica .band .script.big { font-family: var(--sans); font-size: 30px; font-weight: 600; line-height: 1.15; color: var(--ink); }
+body.look-mica .band .kicker { font-size: 17px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--soft); margin-top: 2px; }
+body.look-mica .clock .t { font-family: var(--sans); font-size: 60px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); }
+body.look-mica .clock .ap { font-size: 20px; font-weight: 500; color: var(--soft); }
+body.look-mica .vrule { height: 48px; background: rgba(0, 0, 0, 0.12); }
+body.look-mica .wx { color: var(--ink); }
+body.look-mica .wx .temp { font-family: var(--sans); font-size: 34px; font-weight: 600; }
+body.look-mica .wx .txt { font-family: var(--sans); font-style: normal; font-size: 15px; color: var(--soft); }
+body.look-mica .wx .sub { font-size: 15px; color: var(--soft); }
+
+/* ---------- body and cards ---------- */
+body.look-mica .body { padding: 10px 24px 12px; gap: 12px; }
+body.look-mica .main { gap: 14px; }
+body.look-mica .card { background: var(--mica-card); border: 1px solid var(--mica-hair); border-radius: 8px; box-shadow: var(--mica-shadow); padding: 16px 22px; }
+body.look-mica .card-head h2 { font-family: var(--sans); font-size: 25px; font-weight: 600; }
+body.look-mica .aside { font-family: var(--sans); font-style: normal; font-size: 15px; color: var(--soft); }
+body.look-mica .empty, body.look-mica .nothing, body.look-mica .intro, body.look-mica .sheet .sub { font-family: var(--sans); font-style: normal; }
+body.look-mica .av { font-family: var(--sans); font-style: normal; font-weight: 600; }
+body.look-mica .av.s, body.look-mica .av.m, body.look-mica .wrow .av.m, body.look-mica .pick .av, body.look-mica .pick.on .av,
+body.look-mica .pick2 .pickav .av.m, body.look-mica .av.k { box-shadow: none; }
+
+/* today: events */
+body.look-mica .ev { grid-template-columns: 92px 12px minmax(0, 1fr); padding: 9px 0; border-bottom-color: var(--line); }
+body.look-mica .ev .tm { font-size: 16px; font-weight: 600; color: #4A4A4A; }
+body.look-mica .ev .dot { width: 9px; height: 9px; }
+body.look-mica .ev .ti { font-size: 19px; font-weight: 400; }
+body.look-mica .ev .who { font-family: var(--sans); font-style: normal; font-size: 14px; color: var(--soft); }
+body.look-mica .ev.past .ti, body.look-mica .ev.past .tm { color: var(--muted); }
+body.look-mica .ev.next { background: var(--mica-soft); border-radius: 6px; margin: 2px -12px; padding: 9px 12px; }
+body.look-mica .ev.next .ti { font-size: 21px; font-weight: 600; }
+body.look-mica .pill-next { background: var(--mica-accent); font-size: 15px; font-weight: 600; padding: 6px 14px; }
+body.look-mica .foot { border-top-color: var(--line); color: var(--ink); }
+body.look-mica .foot b { font-size: 13px; letter-spacing: 0.1em; color: var(--soft); }
+body.look-mica .foot i { font-family: var(--sans); font-style: normal; font-size: 17px; }
+
+/* today: the flip panel (pivot tabs) */
+body.look-mica .hpanel { padding: 12px 18px 14px; gap: 8px; }
+body.look-mica .htabs { background: transparent; padding: 0; gap: 6px; }
+body.look-mica .htabs button { flex: 0 1 auto; position: relative; height: 40px; padding: 0 10px; border-radius: 4px; font-size: 17px; font-weight: 400; color: var(--soft); }
+body.look-mica .htabs button.on { background: transparent; box-shadow: none; color: var(--ink); font-weight: 600; }
+body.look-mica .htabs button.on::after { content: ""; position: absolute; left: 50%; bottom: 2px; width: 18px; height: 3px; margin-left: -9px; border-radius: 2px; background: var(--mica-accent); }
+body.look-mica .hp-head h3 { font-family: var(--sans); font-size: 21px; font-weight: 600; }
+body.look-mica .seg2 { background: var(--mica-track); border: 1px solid var(--mica-hair); border-radius: 6px; padding: 3px; gap: 2px; }
+body.look-mica .seg2 button { height: 32px; border-radius: 4px; padding: 0 14px; font-size: 14px; font-weight: 500; color: var(--soft); }
+body.look-mica .seg2 button.on { background: var(--mica-solid); color: var(--ink); font-weight: 600; box-shadow: var(--mica-lift); }
+body.look-mica .hp-kid { border-bottom-color: var(--line); padding: 6px 0; }
+body.look-mica .hp-kid > b { font-size: 17px; font-weight: 600; width: 76px; }
+body.look-mica .hchip { background: var(--mica-solid); border: 1px solid var(--line); border-radius: 4px; padding: 5px 10px; font-size: 15px; font-weight: 500; }
+body.look-mica .hchip.done { background: var(--green-bg); border-color: var(--green-bg); }
+body.look-mica .hchip.wait { background: var(--amber-bg); border-color: var(--amber-bg); }
+body.look-mica .hp-none { font-family: var(--sans); color: var(--soft); }
+body.look-mica .hp-total { font-family: var(--sans); font-weight: 600; }
+body.look-mica .chip { border-radius: 4px; }
+body.look-mica .bar { background: rgba(0, 0, 0, 0.07); border-radius: 3px; }
+
+/* list rows */
+body.look-mica .li { border-bottom-color: var(--line); padding: 7px 0; }
+body.look-mica .ring { border: 2px solid #8A8A8A; }
+body.look-mica .ring:active { background: var(--mica-soft); }
+body.look-mica .ring.on { background: var(--mica-accent); border-color: var(--mica-accent); }
+body.look-mica .li-t b { font-size: 19px; font-weight: 600; }
+body.look-mica .li-t small { font-size: 14px; color: var(--soft); }
+body.look-mica .li-t small.ff { font-family: var(--sans); font-style: normal; }
+body.look-mica .lsec { color: var(--soft); letter-spacing: 0.1em; }
+
+/* weather panel */
+body.look-mica .wnow { color: var(--ink); border-bottom-color: var(--line); }
+body.look-mica .wtemp, body.look-mica .wh b, body.look-mica .wday .hi { font-family: var(--sans); font-weight: 600; }
+body.look-mica .wtxt { font-family: var(--sans); font-style: normal; }
+body.look-mica .wh, body.look-mica .wday { color: var(--ink); }
+body.look-mica .wday { background: var(--mica-solid); border: 1px solid var(--line); border-radius: 6px; }
+body.look-mica .wday.sp { border-color: var(--mica-line); background: var(--mica-tint); }
+body.look-mica .wday .wr { color: #1D6FA5; }
+body.look-mica .wnote { border-radius: 6px; }
+
+/* the kids' row */
+body.look-mica .krow { padding: 12px 16px 14px; }
+body.look-mica .krow .card-head h2 { font-size: 19px; }
+body.look-mica .ktile { background: var(--mica-solid); border: 1px solid var(--line); border-radius: 6px; padding: 10px 4px 9px; }
+body.look-mica .ktile:active { background: var(--mica-faint); }
+body.look-mica .kwait { background: #F2B200; box-shadow: 0 0 0 2px #FFFFFF; }
+body.look-mica .ktile b { font-size: 17px; font-weight: 600; }
+body.look-mica .ktile .kct { font-size: 13px; font-weight: 500; color: var(--soft); }
+body.look-mica .ktile .kct.good { color: var(--green); font-weight: 600; }
+
+/* special-day countdown */
+body.look-mica .ribbon { margin: 2px 24px 0; height: 62px; border-radius: 8px; background: var(--mica-tint); border: 1px solid var(--mica-line);
+  color: var(--ink); box-shadow: var(--mica-shadow); gap: 14px; padding-right: 22px; }
+body.look-mica .ribbon.solemn { border-color: var(--mica-hair); background: var(--mica-card); }
+body.look-mica .rb-art { width: 76px; height: 48px; margin-left: 7px; border-right: none; border-radius: 6px; }
+body.look-mica .rb-script { font-family: var(--sans); font-size: 20px; font-weight: 400; color: var(--soft); }
+body.look-mica .rb-ti { font-family: var(--sans); font-size: 21px; font-weight: 600; color: var(--ink); }
+body.look-mica .rb-sub { font-size: 15px; color: var(--soft); }
+body.look-mica .rb-stars { color: var(--mica-accent); }
+
+/* ---------- the dock ---------- */
+body.look-mica .nav { height: 70px; margin: 0 -12px -2px; padding: 0 12px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px;
+  background: var(--mica-card); border: 1px solid var(--mica-hair); border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07); }
+body.look-mica .nav > .tabs { grid-column: 2; }
+body.look-mica .nav > :nth-child(2) { grid-column: 3; justify-self: end; }
+body.look-mica .tabs { background: transparent; border: none; padding: 0; gap: 2px; border-radius: 0; }
+body.look-mica .tab { flex-direction: column; justify-content: center; gap: 3px; height: 58px; min-width: 92px; padding: 0 10px; border-radius: 6px;
+  font-size: 14px; font-weight: 400; color: var(--ink); }
+body.look-mica .tab svg { width: 21px; height: 21px; }
+body.look-mica .tab.on { background: var(--mica-solid); color: var(--ink); font-weight: 600; box-shadow: var(--mica-lift); }
+body.look-mica .tab.on svg { color: var(--mica-ink); }
+body.look-mica .tab.on::after { content: ""; position: absolute; left: 50%; bottom: 3px; width: 18px; height: 3px; margin-left: -9px; border-radius: 2px; background: var(--mica-accent); }
+body.look-mica .tab .badge { position: absolute; top: 3px; left: 50%; margin-left: 4px; min-width: 18px; height: 18px; padding: 0 5px; font-size: 11px; line-height: 18px; text-align: center; background: var(--red); }
+body.look-mica .homebar { font-family: var(--sans); font-style: normal; font-size: 15px; color: var(--soft); gap: 20px; }
+body.look-mica .homebar .alert { color: var(--red); }
+body.look-mica .navr { gap: 14px; }
+body.look-mica .btn-chip { height: 46px; border-radius: 6px; background: var(--mica-solid); border: 1px solid var(--line); color: var(--ink); font-size: 16px; box-shadow: var(--mica-shadow); }
+
+/* ---------- buttons and states ---------- */
+body.look-mica .btn-primary { border-radius: 4px; background: var(--mica-accent); color: #FFFFFF; box-shadow: none; font-weight: 600; }
+body.look-mica .btn-primary:active { opacity: 0.88; }
+body.look-mica .btn-outline { border-radius: 6px; border: 1px solid var(--line); background: var(--mica-solid); color: var(--ink); box-shadow: var(--mica-shadow); }
+body.look-mica .btn-outline .count { background: var(--mica-accent); color: #FFFFFF; }
+body.look-mica .btn-ghost { border-radius: 4px; border: 1px solid var(--line); background: var(--mica-solid); box-shadow: var(--mica-shadow); }
+body.look-mica .btn-small { border-radius: 4px; }
+body.look-mica .btn-small.ok { background: var(--mica-accent); color: #FFFFFF; box-shadow: none; }
+body.look-mica .btn-small.no { border: 1px solid var(--line); background: var(--mica-solid); color: var(--ink); }
+body.look-mica .btn-back { border-radius: 4px; background: var(--mica-solid); }
+body.look-mica .state { border-radius: 4px; font-weight: 600; }
+
+/* ---------- chores ---------- */
+body.look-mica .picker { background: var(--mica-track); border: 1px solid var(--mica-hair); border-radius: 8px; padding: 4px; gap: 2px; }
+body.look-mica .pick { position: relative; height: 50px; border-radius: 6px; padding: 0 16px 0 7px; font-size: 18px; font-weight: 400; color: var(--ink); }
+body.look-mica .pick .av { width: 36px; height: 36px; font-size: 17px; }
+body.look-mica .pick.on { background: var(--mica-solid); color: var(--ink); font-weight: 600; box-shadow: var(--mica-lift); }
+body.look-mica .pick.on::after { content: ""; position: absolute; left: 50%; bottom: 3px; width: 18px; height: 3px; margin-left: -9px; border-radius: 2px; background: var(--mica-accent); }
+body.look-mica .intro { font-size: 16px; color: var(--soft); }
+body.look-mica .chore { background: var(--mica-solid); border: 1px solid var(--line); border-radius: 6px; padding: 12px 18px; min-height: 92px; }
+body.look-mica .medal { width: 54px; height: 54px; border-radius: 6px; --medal-bg: var(--mica-soft); box-shadow: none; color: var(--mica-ink); }
+body.look-mica .medal b { font-family: var(--sans); font-size: 21px; font-weight: 600; }
+body.look-mica .medal small { color: var(--mica-ink); letter-spacing: 0.04em; }
+body.look-mica .chore .ti { font-size: 22px; font-weight: 600; }
+body.look-mica .big-total { font-family: var(--sans); font-size: 56px; font-weight: 700; letter-spacing: -0.02em; }
+body.look-mica .leader .dots { border-bottom: 1px solid var(--line); }
+body.look-mica .waitline { border-radius: 4px; }
+body.look-mica .minibars span.b { width: 30px; border-radius: 2px; }
+
+/* ---------- screen time ---------- */
+body.look-mica .total, body.look-mica .count .big, body.look-mica .st-row .amt, body.look-mica .witem .mins { font-family: var(--sans); font-weight: 600; }
+body.look-mica .wrow .nm { font-weight: 600; }
+body.look-mica .wrow .bar, body.look-mica .wrow .bar > span { height: 10px; border-radius: 5px; }
+body.look-mica .wrow .mn.none { font-family: var(--sans); font-style: normal; }
+body.look-mica .fe { border-bottom-color: var(--line); padding: 10px 0; font-size: 17px; }
+body.look-mica .fe .d { color: var(--soft); }
+body.look-mica .fe .w em { font-family: var(--sans); font-style: normal; }
+body.look-mica .av.all { background: #3A3A3A; color: #FFFFFF; }
+body.look-mica .vpick { background: var(--mica-track); border: 1px solid var(--mica-hair); border-radius: 6px; padding: 3px; gap: 2px; align-self: flex-start; }
+body.look-mica .vp { flex: 0 0 auto; height: 34px; padding: 0 16px; border-radius: 4px; background: transparent; border: none; color: var(--soft); font-weight: 500; }
+body.look-mica .vp.on { background: var(--mica-solid); color: var(--ink); font-weight: 600; box-shadow: var(--mica-lift); border: none; }
+body.look-mica .pv.dark { background: #1C2633; border-color: var(--mica-hair); }
+body.look-mica .pv.dark .pv-top h2 { color: #FFFFFF; }
+body.look-mica .pv.dark .aside { color: #C9D1DC; }
+body.look-mica .pv.dark .vpick { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.14); }
+body.look-mica .pv.dark .vp { background: transparent; border: none; color: #D5DBE3; }
+body.look-mica .pv.dark .vp.on { background: #FFFFFF; color: var(--ink); }
+body.look-mica .pv-wait { border-radius: 4px; }
+body.look-mica .pv-share, body.look-mica .pv.light .pv-share { background: var(--mica-accent); color: #FFFFFF; border-radius: 6px; }
+
+/* ---------- parent tools ---------- */
+body.look-mica .overlay { background: rgba(30, 36, 46, 0.32); }
+body.look-mica .sheet { background: #F6F7F9; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 8px; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.08); }
+body.look-mica .sheet h1, body.look-mica .ptools h2 { font-family: var(--sans); font-weight: 600; }
+body.look-mica .sheet h1 .mono { width: 40px; height: 40px; background: var(--mica-accent); }
+body.look-mica .sheet .sub { font-size: 16px; }
+body.look-mica .witem { background: var(--mica-solid); border: 1px solid var(--line); border-radius: 6px; }
+body.look-mica .pindots i { border: 2px solid #4A4A4A; }
+body.look-mica .pindots i.f { background: #1B1B1B; border-color: #1B1B1B; }
+body.look-mica .keys button { border-radius: 6px; background: var(--mica-solid); border: 1px solid var(--line); font-weight: 500; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); }
+body.look-mica .keys button:active { background: #EDEFF2; }
+body.look-mica .keys button.fn { background: rgba(255, 255, 255, 0.5); font-weight: 600; }
+body.look-mica .keys button.ok { background: var(--mica-accent); color: #FFFFFF; border-color: var(--mica-accent); box-shadow: none; font-weight: 600; }
+body.look-mica .ptools .lbl { color: var(--soft); letter-spacing: 0.1em; }
+body.look-mica .gday { border-radius: 8px; background: var(--mica-accent); color: #FFFFFF; box-shadow: none; }
+body.look-mica .gday b, body.look-mica .gday .plus { font-family: var(--sans); color: #FFFFFF; }
+body.look-mica .gday small { color: rgba(255, 255, 255, 0.88); }
+body.look-mica .gday.done { background: var(--green-bg); }
+body.look-mica .gday.done b, body.look-mica .gday.done small { color: var(--green); }
+body.look-mica .nwk { border-radius: 6px; }
+body.look-mica .pick2 > button.sel { box-shadow: 0 0 0 3px #F6F7F9, 0 0 0 5px var(--mica-accent); }
+body.look-mica .chip2 { border-radius: 4px; background: var(--mica-solid); border: 1px solid var(--line); }
+body.look-mica .chip2.sel { background: var(--mica-accent); color: #FFFFFF; border-color: var(--mica-accent); }
+body.look-mica .confirm { border-top-color: var(--line); }
+
+/* ---------- calendar ---------- */
+body.look-mica .legend { font-weight: 500; }
+body.look-mica .legend i { box-shadow: none; }
+body.look-mica .toggle { background: var(--mica-track); border: 1px solid var(--mica-hair); border-radius: 8px; padding: 4px; }
+body.look-mica .toggle button { height: 44px; border-radius: 6px; padding: 0 20px; font-size: 17px; font-weight: 400; color: var(--soft); }
+body.look-mica .toggle button.on { background: var(--mica-solid); color: var(--ink); font-weight: 600; box-shadow: var(--mica-lift); }
+body.look-mica .days { gap: 10px; }
+body.look-mica .day { background: var(--mica-card); border: 1px solid var(--mica-hair); border-radius: 8px; box-shadow: var(--mica-shadow); }
+body.look-mica .day.today { border: 2px solid var(--mica-accent); }
+body.look-mica .day .dh { border-bottom-color: var(--line); }
+body.look-mica .day.today .dh { border-bottom-color: var(--line); }
+body.look-mica .day .dw { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; color: #4A4A4A; }
+body.look-mica .day .dn { font-family: var(--sans); font-size: 27px; font-weight: 600; line-height: 1.3; }
+body.look-mica .day.today .dw { color: var(--mica-ink); }
+body.look-mica .day.today:not(.sp) .dn { color: #FFFFFF; background: var(--mica-accent); width: 44px; height: 44px; line-height: 44px; border-radius: 22px; margin: 0 auto; font-size: 24px; }
+body.look-mica .ce { border-radius: 4px; border: 1px solid rgba(0, 0, 0, 0.06); }
+body.look-mica .ce .ct { font-size: 13px; font-weight: 600; color: #3D3D3D; }
+body.look-mica .ce .t { font-size: 16px; }
+body.look-mica .ce .w { font-family: var(--sans); font-style: normal; font-size: 13px; color: #555555; }
+body.look-mica .more, body.look-mica .more-link { color: var(--mica-ink); }
+body.look-mica .mhead { color: #4A4A4A; letter-spacing: 0.1em; font-weight: 600; }
+body.look-mica .mcell { background: var(--mica-card); border: 1px solid var(--mica-hair); border-radius: 6px; box-shadow: var(--mica-shadow); padding: 6px 9px; }
+body.look-mica .mcell.out { background: rgba(255, 255, 255, 0.32); border-color: rgba(0, 0, 0, 0.04); box-shadow: none; }
+body.look-mica .mcell.out .mn { color: #707070; }
+body.look-mica .mcell.today { border: 2px solid var(--mica-accent); box-shadow: var(--mica-shadow); }
+body.look-mica .mcell.today:not(.sp) .mn { display: inline-block; min-width: 30px; height: 30px; line-height: 30px; border-radius: 15px; text-align: center; color: #FFFFFF; background: var(--mica-accent); font-size: 16px; }
+body.look-mica .mn { font-family: var(--sans); font-size: 18px; font-weight: 600; }
+body.look-mica .me { font-size: 13px; font-weight: 500; }
+body.look-mica .pager { background: transparent; border: none; padding: 0; }
+body.look-mica .pager button { height: 46px; border-radius: 6px; color: var(--ink); }
+body.look-mica .pager .step { font-weight: 600; }
+body.look-mica .pager .mid { font-weight: 400; color: var(--soft); }
+body.look-mica .pager .mid.back { background: var(--mica-solid); color: var(--ink); box-shadow: var(--mica-lift); font-weight: 600; }
+body.look-mica .hol { border: 1px solid var(--mica-line); background: var(--mica-tint); border-radius: 4px; }
+body.look-mica .me.hol { border: none; background: transparent; color: #8A5A00; }
+
+/* the day pop-up */
+body.look-mica .dp-head { border-bottom: 1px solid var(--line); }
+body.look-mica .dp-head .kick, body.look-mica .sp-k { letter-spacing: 0.08em; color: var(--mica-ink); }
+body.look-mica .dp-head h1 { font-family: var(--sans); font-weight: 600; }
+body.look-mica .dp-row { border-bottom-color: var(--line); }
+body.look-mica .dp-row .who, body.look-mica .dp-verse { font-family: var(--sans); font-style: normal; }
+body.look-mica .dp-row .ic { color: #6B6B6B; }
+body.look-mica .dp-tag { border-radius: 4px; }
+body.look-mica .dp-sub { color: var(--soft); letter-spacing: 0.08em; }
+body.look-mica .dp-day { color: var(--soft); border-bottom-color: var(--line); }
+body.look-mica .sp-warn { border-radius: 6px; }
+
+/* ---------- special days: the picture with a light card on it ---------- */
+body.look-mica .day.sp { border: 1px solid var(--mica-line); border-radius: 8px; background: var(--mica-tint); color: var(--ink); }
+body.look-mica .day.sp.solemn { border-color: var(--mica-hair); }
+body.look-mica .sp-top { margin: 8px 8px 0; padding: 6px 8px 7px; border-radius: 6px; background: rgba(255, 255, 255, 0.82); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08); }
+body.look-mica .day.sp .dw { color: #3D3D3D; letter-spacing: 0.1em; }
+body.look-mica .day.sp .dn { color: var(--ink); font-size: 27px; }
+body.look-mica .sp-script { font-family: var(--sans); font-size: 15px; font-weight: 600; line-height: 1.3; color: var(--mica-ink); }
+body.look-mica .solemn .sp-script { color: #4A4A4A; }
+body.look-mica .sp-card, body.look-mica .sp-mini { background: rgba(255, 255, 255, 0.92); border: 1px solid rgba(0, 0, 0, 0.06); border-radius: 8px; color: var(--ink);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12); }
+body.look-mica .sp-mini.today { border-color: var(--mica-accent); }
+body.look-mica .sp-ti { font-family: var(--sans); font-size: 19px; font-weight: 600; }
+body.look-mica .sp-ti .star, body.look-mica .sp-bti .star { color: var(--mica-ink); }
+body.look-mica .sp-l, body.look-mica .sp-ms { color: var(--soft); }
+body.look-mica .sp-pill { background: var(--mica-accent); border-radius: 999px; font-weight: 600; }
+body.look-mica .sp-verse { font-family: var(--sans); font-style: normal; color: var(--soft); }
+body.look-mica .sp-also { border-top-color: var(--line); color: var(--soft); }
+body.look-mica .sp-head { margin: 10px 10px 0; padding: 10px 14px; border-radius: 8px; background: rgba(255, 255, 255, 0.85); align-self: flex-start; }
+body.look-mica .sp-k { color: var(--mica-ink); }
+body.look-mica .sp-script.big { font-size: 26px; }
+body.look-mica .sp-mh b, body.look-mica .sp-mh .of { color: var(--mica-ink); }
+body.look-mica .sp-mh .n { font-family: var(--sans); }
+body.look-mica .sp-mono { background: #FFFFFF; }
+body.look-mica button.mcell.sp { background: var(--mica-tint); border: 1px solid var(--mica-line); color: var(--ink); }
+body.look-mica button.mcell.sp.today { border: 2px solid var(--mica-accent); }
+body.look-mica .mcell.sp .mn { color: var(--ink); text-shadow: 0 0 6px rgba(255, 255, 255, 0.9); }
+body.look-mica .sp-mscript { display: none; }
+body.look-mica .sp-mlabel { background: rgba(255, 255, 255, 0.92); border: 1px solid rgba(0, 0, 0, 0.06); border-radius: 4px; font-family: var(--sans); font-size: 14px; color: var(--ink); }
+body.look-mica .sp-mlabel .star, body.look-mica .sp-mlabel svg { color: var(--mica-ink); }
+
+/* the special-day pop-up */
+body.look-mica .sheet.daypop.spop { background: #F6F7F9; }
+body.look-mica .sp-side { border-right: none; background: var(--mica-tint); }
+body.look-mica .sp-sshade { height: 120px; background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)); }
+body.look-mica .sp-sscript { left: 20px; right: auto; bottom: 20px; padding: 8px 16px; border-radius: 6px; background: rgba(255, 255, 255, 0.92);
+  font-family: var(--sans); font-size: 19px; font-weight: 600; color: var(--ink); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); }
+body.look-mica .solemn .sp-sscript { color: var(--ink); }
+body.look-mica .sp-head2 { border-bottom: 1px solid var(--line); }
+body.look-mica .sp-head2 .sp-k { color: var(--mica-ink); }
+body.look-mica .sp-bti { font-family: var(--sans); font-weight: 600; }
+body.look-mica .sp-main .sp-x, body.look-mica .sp-x { border-radius: 6px; border: 1px solid var(--line); background: var(--mica-solid); color: var(--ink); box-shadow: var(--mica-shadow); }
+body.look-mica .sp-banner { border-bottom: 1px solid var(--line); background: var(--mica-tint); }
+body.look-mica .sp-shade { background: linear-gradient(90deg, rgba(246, 247, 249, 0.92) 0%, rgba(246, 247, 249, 0.7) 55%, rgba(246, 247, 249, 0) 100%); }
+body.look-mica .sp-bt { color: var(--ink); }
+body.look-mica .dp-facts b { color: var(--soft); font-weight: 400; }
+
+/* ---------- lists ---------- */
+body.look-mica .lcount { background: var(--mica-accent); }
+body.look-mica .pick .lcount { background: rgba(0, 0, 0, 0.12); color: #3D3D3D; }
+body.look-mica .pick.on .lcount { background: var(--mica-accent); color: #FFFFFF; }
+body.look-mica .ladd-btn { border-radius: 4px; }
+body.look-mica .lnote.stale { border-radius: 6px; }
+body.look-mica .la-input { border: 2px solid var(--mica-accent); border-radius: 6px; }
+body.look-mica .caret { background: var(--mica-accent); }
+body.look-mica .kb-row button { border-radius: 6px; background: var(--mica-solid); border: 1px solid var(--line); font-weight: 500; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); }
+body.look-mica .kb-row button:active { background: #EDEFF2; }
+body.look-mica .kb-row button.ok { background: var(--mica-accent); color: #FFFFFF; border-color: var(--mica-accent); box-shadow: none; }
+body.look-mica .la-sugg .chip2, body.look-mica .la-to .chip2 { border-radius: 4px; }
+
+/* ---------- photos ---------- */
+body.look-mica .ph-panel { background: rgba(243, 245, 247, 0.86); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 8px; color: var(--ink);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18); padding: 18px 24px; align-items: flex-start; }
+body.look-mica .ph-panel .mono { --mono-w: 48px; }
+body.look-mica .ph-panel .clock .t { color: var(--ink); font-size: 64px; }
+body.look-mica .ph-panel .clock .ap { color: var(--soft); }
+body.look-mica .ph-panel .d { color: #2B2B2B; font-weight: 400; }
+body.look-mica .ph-panel .n { border-top: 1px solid rgba(0, 0, 0, 0.1); }
+body.look-mica .ph-panel .n b { color: var(--mica-ink); }
+body.look-mica .ph-cap { background: rgba(243, 245, 247, 0.86); border-radius: 6px; font-family: var(--sans); font-style: normal; font-size: 16px; color: var(--ink);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); }
+body.look-mica .ph-empty { background: transparent; color: var(--soft); }
+body.look-mica .ph-empty p { font-family: var(--sans); font-style: normal; color: var(--soft); }
+
+/* ---------- night: a dim dark clock ---------- */
+body.look-mica #screen-night { color: #7C8290;
+  background: radial-gradient(ellipse 45% 40% at 28% 78%, rgba(25, 45, 80, 0.55), rgba(25, 45, 80, 0) 100%),
+    radial-gradient(ellipse 40% 35% at 80% 14%, rgba(40, 30, 70, 0.55), rgba(40, 30, 70, 0) 100%), #040507; }
+body.look-mica #screen-night .mono { width: 54px; height: 54px; margin-bottom: 26px; background: rgba(255, 255, 255, 0.04); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16); }
+body.look-mica #screen-night .mono::after { background: #6E7480; }
+body.look-mica #screen-night .t { font-family: var(--sans); font-size: 190px; font-weight: 300; letter-spacing: -0.02em; color: #80868F; }
+body.look-mica #screen-night .d { font-size: 27px; font-weight: 400; color: #747A84; margin-top: 18px; }
+body.look-mica #screen-night .n { bottom: 48px; font-size: 20px; color: #747A84; padding: 12px 22px; border-radius: 6px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); }
+
+/* ---------- clock & today ---------- */
+body.look-mica .ck-date { letter-spacing: 0.08em; color: var(--soft); font-weight: 600; }
+body.look-mica .ck-time { font-family: var(--sans); font-weight: 300; letter-spacing: -0.02em; }
+body.look-mica .ck-time span { color: var(--soft); }
+body.look-mica .ck-wx .ic { color: var(--ink); }
+body.look-mica .ck-verse { font-family: var(--sans); font-style: normal; }
+body.look-mica .ck-verse cite { color: var(--soft); }
+body.look-mica .ck-side { padding: 22px 26px; border-radius: 8px; background: var(--mica-card); border: 1px solid var(--mica-hair); box-shadow: var(--mica-shadow); justify-content: flex-start; align-self: center; }
+body.look-mica .ck-side h2 { font-family: var(--sans); }
+body.look-mica .ck-ev { border-bottom-color: var(--line); }
+body.look-mica .ck-ev .who { font-family: var(--sans); font-style: normal; }
+body.look-mica .ck-count { border-radius: 6px; background: var(--mica-tint); border-color: var(--mica-line); color: var(--ink); }
+body.look-mica .ck-count b { font-family: var(--sans); }
+
+/* ---------- frame menu, toast, name ---------- */
+body.look-mica .fcard { background: var(--mica-solid); border: 1px solid var(--line); border-radius: 6px; }
+body.look-mica .fcard b { font-family: var(--sans); font-weight: 600; }
+body.look-mica .fcard.on { border-color: var(--mica-accent); box-shadow: inset 0 0 0 1px var(--mica-accent); background: var(--mica-faint); }
+body.look-mica .ftoast { background: #FFFFFF; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; }
+body.look-mica .frame-name { background: #FFFFFF; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; font-family: var(--sans); font-weight: 600; font-size: 44px; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2); }
+body.look-mica .gear { background-color: rgba(255, 255, 255, 0.6); border-radius: 8px; }
+body.look-mica .hotcorner:active { background: radial-gradient(circle at 0 0, var(--mica-line), rgba(255, 255, 255, 0) 70%); }
+
+/* ================= tall frames ================= */
+body.look-mica.vert .band { padding: 20px 20px 8px; min-height: 0; height: auto; }
+body.look-mica.vert .band.tall { height: 96px; }
+body.look-mica.vert .band .mono { --mono-w: 48px; }
+body.look-mica.vert .band .script { font-size: 28px; }
+body.look-mica.vert .clock .t { font-size: 54px; }
+body.look-mica.vert .wx .temp { font-size: 32px; }
+body.look-mica.vert .body { padding: 10px 20px 12px; gap: 12px; }
+body.look-mica.vert .ribbon { margin: 2px 20px 0; }
+body.look-mica.vert .nav { display: flex; flex-direction: column-reverse; height: auto; margin: 0 -8px; padding: 0; gap: 10px; background: transparent; border: none; box-shadow: none; border-radius: 0; }
+body.look-mica.vert .nav > :nth-child(2) { align-self: center; }
+body.look-mica.vert .tabs { width: 100%; padding: 6px; background: var(--mica-card); border: 1px solid var(--mica-hair); border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07); }
+body.look-mica.vert .tab { min-width: 0; height: 58px; font-size: 14px; }
+body.look-mica.vert .day:not(.sp) .dh { border-right-color: var(--line); }
+body.look-mica.vert .day.today:not(.sp) .dh { border-right-color: var(--line); }
+body.look-mica.vert .day.today:not(.sp) .dn { width: 40px; height: 40px; line-height: 40px; font-size: 21px; }
+body.look-mica.vert .day.sp:not(.span) .sp-top { background: rgba(255, 255, 255, 0.85); margin: 8px; }
+body.look-mica.vert .picker { width: auto; }
+
+/* ================= the Kids home screen ================= */
+body.look-mica #screen-kids { --k-ink: #1B1B1B; --k-soft: #5A5A5A; --k-line: #E1E4E8; --k-green: #0F7B0F; --k-green-bg: #DFF6DD; --k-green-line: #B7E1B4;
+  --k-wait-bg: #FFF4CE; --k-wait-line: #F2D27A; background: transparent; }
+body.look-mica .khead { border-radius: 8px; background: var(--mica-card); color: var(--ink); border: 1px solid var(--mica-hair); box-shadow: var(--mica-shadow); padding: 14px 26px 14px 18px; }
+body.look-mica .khead.eve { background: var(--mica-card); }
+body.look-mica .kpart { border-radius: 8px; background: #FFF4CE; color: #D99A00; box-shadow: none; }
+body.look-mica .khead.eve .kpart { background: #E5E7F6; color: #4A4FA8; }
+body.look-mica .khi { color: var(--mica-ink); opacity: 1; font-weight: 600; }
+body.look-mica .kdate { color: var(--soft); opacity: 1; font-weight: 400; }
+body.look-mica .kdow { font-weight: 700; }
+body.look-mica .kt { font-weight: 300; letter-spacing: -0.03em; }
+body.look-mica .kt span { font-weight: 500; color: var(--soft); }
+body.look-mica .kwx { background: transparent; padding: 0; color: var(--ink); }
+body.look-mica .kwx b { font-weight: 600; }
+body.look-mica .knext h2 { font-size: 22px; font-weight: 600; }
+body.look-mica .knext h2 .kpic { color: var(--mica-ink); }
+body.look-mica .knc { background: var(--mica-card); border: 1px solid var(--mica-hair); border-radius: 8px; box-shadow: var(--mica-shadow); }
+body.look-mica .knc.next { border: 2px solid var(--mica-accent); box-shadow: var(--mica-shadow); }
+body.look-mica .knc.now { border: 2px solid var(--k-green); background: rgba(223, 246, 221, 0.8); }
+body.look-mica .knc.bed { background: var(--mica-card); border-color: var(--mica-hair); color: var(--ink); }
+body.look-mica .knc.bed.next { border-color: var(--mica-accent); }
+body.look-mica .knc.bed .kbub { background: #4A4FA8 !important; color: #FFFFFF; }
+body.look-mica .knc.bed .knt span { color: var(--soft); }
+body.look-mica .knc.bed .kdots i.all { background: rgba(0, 0, 0, 0.06); color: var(--soft); }
+body.look-mica .ktag { background: var(--mica-accent); border-radius: 4px; font-size: 13px; letter-spacing: 0.06em; }
+body.look-mica .ktag.now { background: var(--k-green); }
+body.look-mica .knt { font-weight: 600; }
+body.look-mica .knti { font-weight: 600; }
+body.look-mica .kdots i.all { background: rgba(0, 0, 0, 0.06); border-radius: 999px; }
+body.look-mica .kkid { background: var(--mica-card); border: 1px solid var(--mica-hair); border-top: 1px solid var(--mica-hair); border-radius: 8px; box-shadow: var(--mica-shadow); }
+body.look-mica .av.kx { box-shadow: none; font-weight: 600; }
+body.look-mica .kkn b { font-weight: 600; }
+body.look-mica .kkn span { font-weight: 400; }
+body.look-mica .kprog i { border: 2px solid #C9CDD2; }
+body.look-mica .kch { height: 60px; border-radius: 6px; border: 1px solid var(--line); background: var(--mica-solid); }
+body.look-mica .kch.todo { border-color: var(--line); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); }
+body.look-mica .kch.todo:active { transform: none; box-shadow: none; background: var(--mica-faint); }
+body.look-mica .kch.waiting { background: var(--k-wait-bg); border-color: var(--k-wait-line); }
+body.look-mica .kch.done { background: var(--k-green-bg); border-color: var(--k-green-line); }
+body.look-mica .kcp { border-radius: 4px; background: transparent; }
+body.look-mica .kct { font-weight: 600; }
+body.look-mica .kcb { border: 2px solid var(--mica-accent); }
+body.look-mica .kcb b { color: var(--mica-ink); font-weight: 600; }
+body.look-mica .kch.waiting .kcb { background: #E9A800; border-color: #E9A800; }
+body.look-mica .kmore { background: rgba(0, 0, 0, 0.06); color: #4A4A4A; }
+body.look-mica .kface { background: var(--mica-card); border: 1px solid var(--mica-hair); border-radius: 8px; }
+body.look-mica .kface.on { border: 2px solid var(--kc); background: var(--mica-solid); }
+body.look-mica .kscreen { border-radius: 8px; box-shadow: var(--mica-shadow); }
+body.look-mica .kscreen.light { background: var(--mica-card); border: 1px solid var(--mica-hair); }
+body.look-mica .kscreen.dark { background: #1C2633; }
+body.look-mica .kscreen.light .ks-when { color: var(--mica-ink); }
+body.look-mica .ks-info small { letter-spacing: 0.08em; }
+body.look-mica .kbed { border-radius: 8px; background: linear-gradient(135deg, #2A3352, #3B3570); }
+body.look-mica .kstep { border-radius: 6px; }
+body.look-mica .krib { border-radius: 8px; border: 1px solid var(--mica-line); background: var(--mica-tint); box-shadow: var(--mica-shadow); }
+body.look-mica .krib-art { margin-left: 8px; height: 84px; border-radius: 6px; }
+body.look-mica .krib-n { background: var(--mica-accent); font-weight: 600; }
+body.look-mica .ktake { border-radius: 8px; }
+body.look-mica .ktk-today { background: #FFFFFF; border-radius: 4px; }
+body.look-mica .ktk-chip { border-radius: 6px; }
+body.look-mica .knav { margin: 0 -8px; padding: 6px 8px; background: var(--mica-card); border: 1px solid var(--mica-hair); border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07); }
+body.look-mica .knav .tabs { border: none; background: transparent; }
+body.look-mica .knav .tab { flex-direction: column; height: 58px; font-size: 15px; font-weight: 400; padding: 0 18px; }
+body.look-mica .knav .tab.on { font-weight: 600; }
+body.look-mica .knav .tab svg { width: 22px; height: 22px; }
+body.look-mica .kgrown { border-radius: 6px; border: 1px solid var(--line); background: var(--mica-solid); color: var(--ink); font-weight: 600; height: 54px; box-shadow: var(--mica-shadow); }
+body.look-mica.vert .knav .tab { flex-direction: column; height: 58px; font-size: 15px; }
+body.look-mica.vert .knav .tabs { padding: 0; box-shadow: none; border: none; background: transparent; }
+
+/* ---------- small fixes ---------- */
+body.look-mica .star { fill: var(--mica-ink); }
+body.look-mica .ktiles { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+body.look-mica { --minibar-empty: #E3E5E8; }
+body.look-mica .homebar, body.look-mica .homebar span { white-space: nowrap; }
+body.look-mica.vert .tab .badge { right: auto; top: 3px; }
+body.look-mica .pv { padding: 0; }
+body.look-mica .pv.dark, body.look-mica .kscreen.dark { background: var(--draw-navy, var(--art-16324F, #16324F)); }
+/* the screen time drawings: the dark ones on the slate of the dark panels in Original, words in the look's sans */
+body.look-mica { --draw-serif: var(--sans); }
+body.look-mica.pics-original { --draw-navy: #1C2633; }
+body.look-mica.vert .band:not(.tall) .vrule { display: none; }
+body.look-mica .day.sp.today { border: 2px solid var(--mica-accent); }
+body.look-mica .mcell.sp .mn { left: 5px; top: 5px; padding: 0 6px; border-radius: 4px; line-height: 1.35; background: rgba(255, 255, 255, 0.9); text-shadow: none; font-size: 17px; }
+body.look-mica .mcell.sp.out .mn { color: #707070; }

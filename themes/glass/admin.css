@@ -1,0 +1,8 @@
+/* Glass View in Settings: frosted cards over the dimmed family photo (or a soft gradient when there is none).
+   The Glass option sets how frosted; Reduce glass effects turns the blur off. Decoration only. */
+body.admin-look-glass { background-image: linear-gradient(160deg, #C9D6EA, #E8DDEA 55%, #D6E6E4); }
+body.admin-look-glass.admin-look-photo { background-image: none; }
+body.admin-look-glass .aband { background-image: linear-gradient(rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0)); border-bottom: 1px solid var(--a-head-rule); }
+body.admin-look-glass .card { border: 1.5px solid rgba(255, 255, 255, 0.7); backdrop-filter: blur(calc(var(--opt-frost, 60) * 0.3px + 4px)) saturate(1.4); -webkit-backdrop-filter: blur(calc(var(--opt-frost, 60) * 0.3px + 4px)) saturate(1.4); }
+body.admin-look-glass[data-opt-reduce-effects="1"] .card { backdrop-filter: none; -webkit-backdrop-filter: none; }
+body.admin-look-glass .card > h2 { font-weight: 700; letter-spacing: -0.01em; }

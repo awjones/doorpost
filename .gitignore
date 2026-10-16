@@ -1,0 +1,26 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Secrets and household data: never commit
+.env
+config/frame.yaml
+config/chores.yaml
+data/*
+!data/.gitkeep
+photos/*
+!photos/.gitkeep
+
+.DS_Store
+
+# Built add-on (scripts/build-addon.sh)
+dist/
+
+# Frame diagnostics and backups (scripts/frame-watch.py, scripts/a33-backup.py): hold serial numbers
+frame-diagnostics/
+frame-backups/
+
+# The private overlay: one household's own settings, scripts and art (docs/private-overlay.md). Never public.
+/local/

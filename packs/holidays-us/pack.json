@@ -1,0 +1,200 @@
+{
+ "id": "holidays-us",
+ "name": "U.S. holidays",
+ "version": "1.0.0",
+ "priority": 10,
+ "description": "Pictures for New Year's Day, Memorial Day, the 4th of July, Thanksgiving and the other U.S. holidays, and which ones take over their day by default.",
+ "license": "CC BY 4.0",
+ "preview": "scenes/july4.svg",
+ "groups": [
+  {
+   "name": "U.S. holidays",
+   "order": 1,
+   "scenes": [
+    "newyear",
+    "mlk",
+    "valentine",
+    "presidents",
+    "mothers",
+    "memorial",
+    "fathers",
+    "july4",
+    "labor",
+    "veterans",
+    "thanksgiving"
+   ]
+  }
+ ],
+ "scenes": {
+  "fathers": {
+   "title": "Father's Day",
+   "about": "A fishing pole cast at sunset.",
+   "auto": "Comes up by itself on the holiday when it's set to Special under Holidays from Google.",
+   "file": "scenes/fathers.svg"
+  },
+  "july4": {
+   "title": "4th of July",
+   "about": "Fireworks over the flag.",
+   "auto": "Comes up by itself on the holiday when it's set to Special under Holidays from Google.",
+   "file": "scenes/july4.svg"
+  },
+  "labor": {
+   "title": "Labor Day",
+   "about": "A golden wheat field under a full moon.",
+   "auto": "Comes up by itself on the holiday when it's set to Special under Holidays from Google.",
+   "file": "scenes/labor.svg"
+  },
+  "memorial": {
+   "title": "Memorial Day",
+   "about": "Rows of white headstones with a flag at half staff.",
+   "auto": "Comes up by itself on the holiday when it's set to Special under Holidays from Google.",
+   "file": "scenes/memorial.svg"
+  },
+  "mlk": {
+   "title": "MLK Day",
+   "about": "A mountain at sunrise, from the “I have been to the mountaintop” speech.",
+   "auto": "Comes up by itself on the holiday when it's set to Special under Holidays from Google.",
+   "file": "scenes/mlk.svg"
+  },
+  "mothers": {
+   "title": "Mother's Day",
+   "about": "A pot of pink flowers.",
+   "auto": "Comes up by itself on the holiday when it's set to Special under Holidays from Google.",
+   "file": "scenes/mothers.svg"
+  },
+  "newyear": {
+   "title": "New Year's",
+   "about": "Fireworks over the new year's number.",
+   "auto": "Comes up by itself on the holiday when it's set to Special under Holidays from Google.",
+   "file": "scenes/newyear.svg"
+  },
+  "presidents": {
+   "title": "Presidents' Day",
+   "about": "A columned capitol under a ring of stars.",
+   "auto": "Comes up by itself on the holiday when it's set to Special under Holidays from Google.",
+   "file": "scenes/presidents.svg"
+  },
+  "thanksgiving": {
+   "title": "Thanksgiving",
+   "about": "A wheat sheaf, pumpkins and a pie.",
+   "auto": "Comes up by itself on the holiday when it's set to Special under Holidays from Google.",
+   "file": "scenes/thanksgiving.svg"
+  },
+  "valentine": {
+   "title": "Valentine's Day",
+   "about": "Hearts on deep red.",
+   "auto": "Comes up by itself on the holiday when it's set to Special under Holidays from Google.",
+   "file": "scenes/valentine.svg"
+  },
+  "veterans": {
+   "title": "Veterans Day",
+   "about": "The flag on its pole above five stars.",
+   "auto": "Comes up by itself on the holiday when it's set to Special under Holidays from Google.",
+   "file": "scenes/veterans.svg"
+  }
+ },
+ "rules": [
+  {
+   "holiday": "new year's day",
+   "scene": "newyear",
+   "script": "Happy New Year!",
+   "solemn": false,
+   "mode": "special"
+  },
+  {
+   "holiday": "martin luther king jr. day",
+   "scene": "mlk",
+   "script": "Remember",
+   "solemn": true
+  },
+  {
+   "holiday": "valentine's day",
+   "scene": "valentine",
+   "script": "Be mine",
+   "solemn": false
+  },
+  {
+   "holiday": "presidents' day",
+   "scene": "presidents",
+   "script": "Presidents' Day",
+   "solemn": false
+  },
+  {
+   "holiday": "mother's day",
+   "scene": "mothers",
+   "script": "Happy Mother's Day!",
+   "solemn": false,
+   "mode": "special"
+  },
+  {
+   "holiday": "memorial day",
+   "scene": "memorial",
+   "script": "We remember",
+   "solemn": true,
+   "mode": "special"
+  },
+  {
+   "holiday": "father's day",
+   "scene": "fathers",
+   "script": "Happy Father's Day!",
+   "solemn": false,
+   "mode": "special"
+  },
+  {
+   "holiday": "independence day",
+   "scene": "july4",
+   "script": "Happy 4th!",
+   "solemn": false,
+   "mode": "special"
+  },
+  {
+   "holiday": "labor day",
+   "scene": "labor",
+   "script": "Labor Day",
+   "solemn": false
+  },
+  {
+   "holiday": "veterans day",
+   "scene": "veterans",
+   "script": "Thank you",
+   "solemn": true,
+   "mode": "special"
+  },
+  {
+   "holiday": "thanksgiving day",
+   "scene": "thanksgiving",
+   "script": "Give thanks",
+   "solemn": false,
+   "mode": "special"
+  },
+  {
+   "holiday": "halloween",
+   "mode": "hide"
+  },
+  {
+   "holiday": "black friday",
+   "mode": "hide"
+  },
+  {
+   "holiday": "tax day",
+   "mode": "hide"
+  },
+  {
+   "holiday": "st. patrick's day",
+   "mode": "hide"
+  },
+  {
+   "holiday": "cinco de mayo",
+   "mode": "hide"
+  },
+  {
+   "holiday": "easter monday",
+   "mode": "hide"
+  },
+  {
+   "holiday": "columbus day",
+   "mode": "hide"
+  }
+ ],
+ "slots": []
+}

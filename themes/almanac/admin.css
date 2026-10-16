@@ -1,0 +1,6 @@
+/* Open almanac in Settings: a dark desk band, pages with a soft gutter shade and italic headings. Decoration only. */
+body.admin-look-almanac .aband { border-bottom: 2px solid var(--a-head-rule); }
+body.admin-look-almanac .card { border: 1px solid var(--a-line); background-image: linear-gradient(90deg, rgba(30, 26, 22, 0.05), rgba(30, 26, 22, 0) 5%, rgba(30, 26, 22, 0) 95%, rgba(30, 26, 22, 0.05)); }
+body.admin-look-almanac .card > h2 { font-style: italic; font-weight: 700; }
+body.admin-look-almanac .card > h2::after { content: ""; display: block; height: 0; margin-top: 6px; border-top: 3px double var(--a-line); }
+body.admin-look-almanac .stat b { font-style: italic; }

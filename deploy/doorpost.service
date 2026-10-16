@@ -1,0 +1,15 @@
+[Unit]
+Description=Doorpost (picture frame dashboard server)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=__USER__
+WorkingDirectory=__DIR__
+ExecStart=__DIR__/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8090
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

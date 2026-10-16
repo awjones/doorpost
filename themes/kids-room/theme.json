@@ -1,0 +1,95 @@
+{
+ "id": "kids-room",
+ "name": "Kids room",
+ "blurb": "Sunny sky, big friendly pictures",
+ "order": 35,
+ "kind": "both",
+ "kids": true,
+ "words": {
+  "pin_title": "Grown-ups only",
+  "pin_sub": "Ask Mom or Dad to type the secret code.",
+  "night_title": "Time to sleep",
+  "night_sub": "Good night, everybody.",
+  "kids_grownups": "Grown-ups",
+  "kids_hi": "Chores"
+ },
+ "swatches": [
+  "#FFF6E5",
+  "#2F86DE",
+  "#FFC93C",
+  "#C2410C",
+  "#2E3A8C"
+ ],
+ "fonts": {
+  "serif": "\"Nunito\", \"Libre Franklin\", \"Helvetica Neue\", Arial, sans-serif",
+  "sans": "\"Nunito\", \"Libre Franklin\", \"Helvetica Neue\", Arial, sans-serif",
+  "script": "\"Nunito\", \"Libre Franklin\", \"Helvetica Neue\", Arial, sans-serif"
+ },
+ "new_frame": {
+  "home": "kids",
+  "screens": [
+   "kids",
+   "calendar",
+   "chores",
+   "screen",
+   "lists",
+   "photos"
+  ]
+ },
+ "art": {
+  "palette": {
+   "night": "#2E3A8C",
+   "navy": "#1F6FC9",
+   "deep": "#1B2560",
+   "gold": "#FFC93C",
+   "paper": "#FFF6E5",
+   "red": "#E5484D",
+   "warm": "#FF8A3D",
+   "brown": "#A0522D",
+   "green": "#2FA45A",
+   "sky": "#3B9BE6",
+   "pink": "#F78FB3"
+  },
+  "filter": "saturate(1.1)",
+  "frame": {
+   "border": "4px solid #FFC93C",
+   "border-radius": "26px",
+   "box-shadow": "0 6px 0 #EADFC8"
+  }
+ },
+ "admin": {
+  "tokens": {
+   "paper": "var(--paper)",
+   "card": "var(--card)",
+   "ink": "var(--ink)",
+   "soft": "var(--soft)",
+   "line": "var(--line)",
+   "accent": "var(--kr-blue)",
+   "accent_ink": "#FFFFFF",
+   "danger": "var(--red)",
+   "ok": "var(--green)",
+   "head_bg": "var(--kr-blue)",
+   "head_ink": "#FFFFFF",
+   "head_soft": "#FFFFFF",
+   "head_rule": "var(--gilt)",
+   "font_display": "var(--serif)",
+   "font_body": "\"Libre Franklin\", \"Helvetica Neue\", Arial, sans-serif",
+   "font_script": "var(--serif)",
+   "radius": "22px",
+   "shadow": "0 5px 0 var(--kr-press)",
+   "tile": "var(--tile)",
+   "line_soft": "var(--line-soft)",
+   "muted": "var(--muted)",
+   "label": "var(--gilt-dim)",
+   "note": "var(--gilt-dim)",
+   "rule": "var(--gilt)",
+   "field": "#FFFFFF",
+   "track": "#DCCFB2",
+   "focus": "var(--kr-blue)",
+   "warn": "var(--amber)",
+   "warn_bg": "var(--amber-bg)",
+   "ok_bg": "var(--green-bg)",
+   "danger_bg": "#FDE4E5"
+  }
+ }
+}

@@ -1,0 +1,87 @@
+{
+ "id": "modern",
+ "name": "Modern",
+ "blurb": "White cards, bold type, one bright color",
+ "order": 50,
+ "kind": "both",
+ "monogram": "initial",
+ "swatches": [
+  "#EFEFEF",
+  "#FFFFFF",
+  "#1A1A1A",
+  "#C8102E"
+ ],
+ "fonts": {
+  "serif": "\"Figtree\", \"Helvetica Neue\", Arial, sans-serif",
+  "sans": "\"Figtree\", \"Helvetica Neue\", Arial, sans-serif",
+  "script": "\"Figtree\", \"Helvetica Neue\", Arial, sans-serif"
+ },
+ "new_frame": {
+  "home": "today"
+ },
+ "options": {
+  "accent": {
+   "label": "Accent color",
+   "type": "color",
+   "default": "#C8102E",
+   "swatches": ["#C8102E", "#1A1A1A", "#1565C0", "#2E7D32"],
+   "help": "The one bright color: the family mark, today, what's next and special days."
+  }
+ },
+ "art": {
+  "palette": {
+   "night": "#1E2226",
+   "navy": "#1F4E8C",
+   "deep": "#121417",
+   "gold": "#F2B33D",
+   "paper": "#FFFFFF",
+   "red": "#E0102F",
+   "warm": "#F07B2C",
+   "brown": "#7A5A44",
+   "green": "#00897B",
+   "sky": "#2F80ED",
+   "pink": "#F6A5B7"
+  },
+  "filter": "",
+  "frame": {
+   "border-radius": "16px",
+   "box-shadow": "none"
+  }
+ },
+ "admin": {
+  "tokens": {
+   "paper": "var(--paper)",
+   "card": "var(--card)",
+   "ink": "var(--ink)",
+   "soft": "var(--soft)",
+   "line": "#DADADA",
+   "accent": "readable($accent, #FFFFFF, 4.6)",
+   "accent_ink": "best(@accent, #FFFFFF, #1A1A1A)",
+   "danger": "#B00020",
+   "ok": "var(--green)",
+   "head_bg": "#FFFFFF",
+   "head_ink": "var(--ink)",
+   "head_soft": "var(--soft)",
+   "head_rule": "$accent",
+   "font_display": "var(--sans)",
+   "font_body": "var(--sans)",
+   "font_script": "var(--sans)",
+   "radius": "16px",
+   "shadow": "0 1px 2px rgba(0, 0, 0, 0.06)",
+   "tile": "var(--tile)",
+   "line_soft": "var(--line-soft)",
+   "muted": "var(--muted)",
+   "label": "var(--gilt-dim)",
+   "note": "var(--soft)",
+   "rule": "@accent",
+   "field": "#FFFFFF",
+   "link": "@accent",
+   "track": "var(--mo-ring)",
+   "focus": "@accent",
+   "warn": "var(--amber)",
+   "warn_bg": "var(--amber-bg)",
+   "ok_bg": "var(--green-bg)",
+   "danger_bg": "#FBE3E7"
+  }
+ }
+}

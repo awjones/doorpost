@@ -1,0 +1,4855 @@
+{
+ "about": "Every Bible quote in the Faith pack. 'short': which words of the full verse (split on spaces) each translation's quote keeps. Made by scripts/bible/make-quotes.py.",
+ "quotes": [
+  {
+   "ref": "Psalm 118:24",
+   "text": "This is the day that the Lord has made",
+   "verses": [
+    "Psalm 118:24"
+   ],
+   "short": {
+    "kjv": {
+     "words": 17,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 17,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "2 Timothy 3:16",
+   "text": "All Scripture is breathed out by God",
+   "verses": [
+    "2 Timothy 3:16"
+   ],
+   "short": {
+    "kjv": {
+     "words": 21,
+     "keep": [
+      [
+       0,
+       5
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 18,
+     "keep": [
+      [
+       0,
+       4
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Romans 5:1",
+   "text": "Justified by faith, we have peace with God",
+   "verses": [
+    "Romans 5:1"
+   ],
+   "short": {
+    "kjv": {
+     "words": 15,
+     "keep": [
+      [
+       2,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 18,
+     "keep": [
+      [
+       5,
+       13
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Ephesians 2:8",
+   "text": "By grace you have been saved through faith",
+   "verses": [
+    "Ephesians 2:8"
+   ],
+   "short": {
+    "kjv": {
+     "words": 19,
+     "keep": [
+      [
+       1,
+       8
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 22,
+     "keep": [
+      [
+       3,
+       11
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 Timothy 2:5",
+   "text": "There is one mediator between God and men",
+   "verses": [
+    "1 Timothy 2:5"
+   ],
+   "short": {
+    "kjv": {
+     "words": 16,
+     "keep": [
+      [
+       6,
+       12
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 18,
+     "keep": [
+      [
+       6,
+       14
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Romans 11:36",
+   "text": "To him be glory forever",
+   "verses": [
+    "Romans 11:36"
+   ],
+   "short": {
+    "kjv": {
+     "words": 19,
+     "keep": [
+      [
+       12,
+       18
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 19,
+     "keep": [
+      [
+       12,
+       18
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Colossians 2:12",
+   "text": "Buried with him in baptism",
+   "verses": [
+    "Colossians 2:12"
+   ],
+   "short": {
+    "kjv": {
+     "words": 27,
+     "keep": [
+      [
+       0,
+       5
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 27,
+     "keep": [
+      [
+       3,
+       8
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Luke 22:19",
+   "text": "Do this in remembrance of me",
+   "verses": [
+    "Luke 22:19"
+   ],
+   "short": {
+    "kjv": {
+     "words": 30,
+     "keep": [
+      [
+       24,
+       30
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 29,
+     "keep": [
+      [
+       23,
+       29
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "2 Timothy 4:2",
+   "text": "Preach the word; be ready in season and out",
+   "verses": [
+    "2 Timothy 4:2"
+   ],
+   "short": {
+    "kjv": {
+     "words": 18,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 21,
+     "keep": [
+      [
+       0,
+       11
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Psalm 119:105",
+   "text": "Your word is a lamp to my feet",
+   "verses": [
+    "Psalm 119:105"
+   ],
+   "short": {
+    "kjv": {
+     "words": 15,
+     "keep": [
+      [
+       1,
+       9
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 14,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Psalm 46:1",
+   "text": "God is our refuge and strength",
+   "verses": [
+    "Psalm 46:1"
+   ],
+   "short": {
+    "kjv": {
+     "words": 25,
+     "keep": [
+      [
+       13,
+       19
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 26,
+     "keep": [
+      [
+       13,
+       19
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Psalm 23:1",
+   "text": "The Lord is my shepherd; I shall not want",
+   "verses": [
+    "Psalm 23:1"
+   ],
+   "short": {
+    "kjv": {
+     "words": 13,
+     "keep": [
+      [
+       4,
+       13
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 13,
+     "keep": [
+      [
+       4,
+       13
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Hebrews 6:19",
+   "text": "We have this as a sure and steadfast anchor of the soul",
+   "verses": [
+    "Hebrews 6:19"
+   ],
+   "short": {
+    "kjv": {
+     "words": 22,
+     "keep": [
+      [
+       2,
+       14
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 21,
+     "keep": [
+      [
+       0,
+       13
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "John 15:5",
+   "text": "I am the vine; you are the branches",
+   "verses": [
+    "John 15:5"
+   ],
+   "short": {
+    "kjv": {
+     "words": 30,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 31,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 5:14",
+   "text": "A city set on a hill cannot be hidden",
+   "verses": [
+    "Matthew 5:14"
+   ],
+   "short": {
+    "kjv": {
+     "words": 18,
+     "keep": [
+      [
+       7,
+       18
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 15,
+     "keep": [
+      [
+       7,
+       15
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Psalm 18:2",
+   "text": "The Lord is my rock and my fortress",
+   "verses": [
+    "Psalm 18:2"
+   ],
+   "short": {
+    "kjv": {
+     "words": 32,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 30,
+     "keep": [
+      [
+       0,
+       7
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "John 4:14",
+   "text": "The water that I will give him will become a spring",
+   "verses": [
+    "John 4:14"
+   ],
+   "short": {
+    "kjv": {
+     "words": 35,
+     "keep": [
+      [
+       15,
+       30
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 30,
+     "keep": [
+      [
+       12,
+       25
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "John 6:35",
+   "text": "I am the bread of life",
+   "verses": [
+    "John 6:35"
+   ],
+   "short": {
+    "kjv": {
+     "words": 28,
+     "keep": [
+      [
+       5,
+       11
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 23,
+     "keep": [
+      [
+       2,
+       8
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 Peter 3:20",
+   "text": "Eight persons, were brought safely through water",
+   "verses": [
+    "1 Peter 3:20"
+   ],
+   "short": {
+    "kjv": {
+     "words": 32,
+     "keep": [
+      [
+       26,
+       32
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 32,
+     "keep": [
+      [
+       26,
+       32
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "John 10:9",
+   "text": "I am the door. If anyone enters by me, he will be saved",
+   "verses": [
+    "John 10:9"
+   ],
+   "short": {
+    "kjv": {
+     "words": 24,
+     "keep": [
+      [
+       0,
+       15
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 23,
+     "keep": [
+      [
+       0,
+       13
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Ephesians 6:11",
+   "text": "Put on the whole armor of God",
+   "verses": [
+    "Ephesians 6:11"
+   ],
+   "short": {
+    "kjv": {
+     "words": 20,
+     "keep": [
+      [
+       0,
+       7
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 18,
+     "keep": [
+      [
+       0,
+       7
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Ephesians 6:17",
+   "text": "The sword of the Spirit, which is the word of God",
+   "verses": [
+    "Ephesians 6:17"
+   ],
+   "short": {
+    "kjv": {
+     "words": 18,
+     "keep": [
+      [
+       7,
+       18
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 18,
+     "keep": [
+      [
+       7,
+       18
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Genesis 9:13",
+   "text": "I have set my bow in the cloud",
+   "verses": [
+    "Genesis 9:13"
+   ],
+   "short": {
+    "kjv": {
+     "words": 23,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 22,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Jeremiah 31:33",
+   "text": "I will be their God, and they shall be my people",
+   "verses": [
+    "Jeremiah 31:33"
+   ],
+   "short": {
+    "kjv": {
+     "words": 47,
+     "keep": [
+      [
+       37,
+       47
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 45,
+     "keep": [
+      [
+       34,
+       45
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Psalm 19:1",
+   "text": "The heavens declare the glory of God",
+   "verses": [
+    "Psalm 19:1"
+   ],
+   "short": {
+    "kjv": {
+     "words": 21,
+     "keep": [
+      [
+       8,
+       15
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 22,
+     "keep": [
+      [
+       7,
+       14
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 10:29",
+   "text": "Not one of them will fall to the ground apart from your Father",
+   "verses": [
+    "Matthew 10:29"
+   ],
+   "short": {
+    "kjv": {
+     "words": 21,
+     "keep": [
+      [
+       9,
+       21
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 25,
+     "keep": [
+      [
+       9,
+       25
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 9:37",
+   "text": "The harvest is plentiful, but the laborers are few",
+   "verses": [
+    "Matthew 9:37"
+   ],
+   "short": {
+    "kjv": {
+     "words": 16,
+     "keep": [
+      [
+       6,
+       16
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 15,
+     "keep": [
+      [
+       6,
+       15
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 28:19",
+   "text": "Go therefore and make disciples of all nations",
+   "verses": [
+    "Matthew 28:19"
+   ],
+   "short": {
+    "kjv": {
+     "words": 24,
+     "keep": [
+      [
+       0,
+       7
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 25,
+     "keep": [
+      [
+       1,
+       8
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 13:31",
+   "text": "The kingdom of heaven is like a grain of mustard seed",
+   "verses": [
+    "Matthew 13:31"
+   ],
+   "short": {
+    "kjv": {
+     "words": 29,
+     "keep": [
+      [
+       8,
+       20
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 24,
+     "keep": [
+      [
+       6,
+       15
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 13:46",
+   "text": "On finding one pearl of great value, he sold all",
+   "verses": [
+    "Matthew 13:46"
+   ],
+   "short": {
+    "kjv": {
+     "words": 20,
+     "keep": [
+      [
+       1,
+       17
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 18,
+     "keep": [
+      [
+       0,
+       15
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 5:13",
+   "text": "You are the salt of the earth",
+   "verses": [
+    "Matthew 5:13"
+   ],
+   "short": {
+    "kjv": {
+     "words": 39,
+     "keep": [
+      [
+       0,
+       7
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 37,
+     "keep": [
+      [
+       0,
+       7
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 7:24",
+   "text": "A wise man who built his house on the rock",
+   "verses": [
+    "Matthew 7:24"
+   ],
+   "short": {
+    "kjv": {
+     "words": 25,
+     "keep": [
+      [
+       15,
+       22
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 24,
+     "keep": [
+      [
+       14,
+       24
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 7:14",
+   "text": "The gate is narrow and the way is hard that leads to life",
+   "verses": [
+    "Matthew 7:14"
+   ],
+   "short": {
+    "kjv": {
+     "words": 21,
+     "keep": [
+      [
+       1,
+       14
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 19,
+     "keep": [
+      [
+       1,
+       13
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Colossians 3:16",
+   "text": "Singing psalms and hymns and spiritual songs",
+   "verses": [
+    "Colossians 3:16"
+   ],
+   "short": {
+    "kjv": {
+     "words": 33,
+     "keep": [
+      [
+       18,
+       24
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 35,
+     "keep": [
+      [
+       22,
+       28
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Psalm 141:2",
+   "text": "Let my prayer be counted as incense before you",
+   "verses": [
+    "Psalm 141:2"
+   ],
+   "short": {
+    "kjv": {
+     "words": 21,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 16,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Hebrews 10:25",
+   "text": "Not neglecting to meet together",
+   "verses": [
+    "Hebrews 10:25"
+   ],
+   "short": {
+    "kjv": {
+     "words": 28,
+     "keep": [
+      [
+       0,
+       7
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 28,
+     "keep": [
+      [
+       0,
+       6
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Philippians 1:1",
+   "text": "With the overseers and deacons",
+   "verses": [
+    "Philippians 1:1"
+   ],
+   "short": {
+    "kjv": {
+     "words": 24,
+     "keep": [
+      [
+       19,
+       24
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 22,
+     "keep": [
+      [
+       17,
+       22
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Ephesians 1:4",
+   "text": "He chose us in him before the foundation of the world",
+   "verses": [
+    "Ephesians 1:4"
+   ],
+   "short": {
+    "kjv": {
+     "words": 26,
+     "keep": [
+      [
+       2,
+       14
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 22,
+     "keep": [
+      [
+       1,
+       12
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Isaiah 61:10",
+   "text": "He has covered me with the robe of righteousness",
+   "verses": [
+    "Isaiah 61:10"
+   ],
+   "short": {
+    "kjv": {
+     "words": 50,
+     "keep": [
+      [
+       25,
+       34
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 46,
+     "keep": [
+      [
+       24,
+       31
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Romans 8:1",
+   "text": "There is therefore now no condemnation",
+   "verses": [
+    "Romans 8:1"
+   ],
+   "short": {
+    "kjv": {
+     "words": 23,
+     "keep": [
+      [
+       0,
+       6
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 13,
+     "keep": [
+      [
+       1,
+       6
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Romans 8:15",
+   "text": "You have received the Spirit of adoption",
+   "verses": [
+    "Romans 8:15"
+   ],
+   "short": {
+    "kjv": {
+     "words": 25,
+     "keep": [
+      [
+       13,
+       20
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 29,
+     "keep": [
+      [
+       15,
+       23
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Malachi 3:3",
+   "text": "He will sit as a refiner and purifier of silver",
+   "verses": [
+    "Malachi 3:3"
+   ],
+   "short": {
+    "kjv": {
+     "words": 37,
+     "keep": [
+      [
+       1,
+       11
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 35,
+     "keep": [
+      [
+       1,
+       11
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Hebrews 12:1",
+   "text": "Let us run with endurance the race that is set before us",
+   "verses": [
+    "Hebrews 12:1"
+   ],
+   "short": {
+    "kjv": {
+     "words": 42,
+     "keep": [
+      [
+       30,
+       42
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 37,
+     "keep": [
+      [
+       26,
+       34
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "James 1:12",
+   "text": "He will receive the crown of life",
+   "verses": [
+    "James 1:12"
+   ],
+   "short": {
+    "kjv": {
+     "words": 29,
+     "keep": [
+      [
+       12,
+       19
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 31,
+     "keep": [
+      [
+       15,
+       22
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 Thessalonians 4:16",
+   "text": "With the sound of the trumpet of God",
+   "verses": [
+    "1 Thessalonians 4:16"
+   ],
+   "short": {
+    "kjv": {
+     "words": 31,
+     "keep": [
+      [
+       18,
+       23
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 35,
+     "keep": [
+      [
+       19,
+       24
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Revelation 22:2",
+   "text": "On either side of the river, the tree of life",
+   "verses": [
+    "Revelation 22:2"
+   ],
+   "short": {
+    "kjv": {
+     "words": 46,
+     "keep": [
+      [
+       9,
+       21
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 47,
+     "keep": [
+      [
+       10,
+       21
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Psalm 19:7",
+   "text": "The law of the Lord is perfect, reviving the soul",
+   "verses": [
+    "Psalm 19:7"
+   ],
+   "short": {
+    "kjv": {
+     "words": 21,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 21,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Hebrews 4:9",
+   "text": "There remains a Sabbath rest for the people of God",
+   "verses": [
+    "Hebrews 4:9"
+   ],
+   "short": {
+    "kjv": {
+     "words": 10,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 11,
+     "keep": [
+      [
+       0,
+       11
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Mark 1:15",
+   "text": "Repent and believe in the gospel",
+   "verses": [
+    "Mark 1:15"
+   ],
+   "short": {
+    "kjv": {
+     "words": 20,
+     "keep": [
+      [
+       14,
+       20
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 19,
+     "keep": [
+      [
+       13,
+       19
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Jude 1:3",
+   "text": "Contend for the faith once for all delivered",
+   "verses": [
+    "Jude 1:3"
+   ],
+   "short": {
+    "kjv": {
+     "words": 41,
+     "keep": [
+      [
+       30,
+       38
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 37,
+     "keep": [
+      [
+       25,
+       34
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 Peter 2:24",
+   "text": "He himself bore our sins in his body on the tree",
+   "verses": [
+    "1 Peter 2:24"
+   ],
+   "short": {
+    "kjv": {
+     "words": 30,
+     "keep": [
+      [
+       0,
+       14
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 28,
+     "keep": [
+      [
+       0,
+       11
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Lamentations 3:22-23",
+   "text": "His mercies never come to an end; they are new every morning",
+   "verses": [
+    "Lamentations 3:22",
+    "Lamentations 3:23"
+   ],
+   "short": {
+    "kjv": {
+     "words": 25,
+     "keep": [
+      [
+       12,
+       21
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 26,
+     "keep": [
+      [
+       13,
+       22
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Exodus 20:3",
+   "text": "You shall have no other gods before me",
+   "verses": [
+    "Exodus 20:3"
+   ],
+   "short": {
+    "kjv": {
+     "words": 8,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 8,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Exodus 20:4",
+   "text": "You shall not make for yourself a carved image",
+   "verses": [
+    "Exodus 20:4"
+   ],
+   "short": {
+    "kjv": {
+     "words": 36,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 26,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Exodus 20:7",
+   "text": "You shall not take the name of the Lord your God in vain",
+   "verses": [
+    "Exodus 20:7"
+   ],
+   "short": {
+    "kjv": {
+     "words": 27,
+     "keep": [
+      [
+       0,
+       13
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 27,
+     "keep": [
+      [
+       0,
+       13
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Exodus 20:8",
+   "text": "Remember the Sabbath day, to keep it holy",
+   "verses": [
+    "Exodus 20:8"
+   ],
+   "short": {
+    "kjv": {
+     "words": 8,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 8,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Exodus 20:12",
+   "text": "Honor your father and your mother",
+   "verses": [
+    "Exodus 20:12"
+   ],
+   "short": {
+    "kjv": {
+     "words": 22,
+     "keep": [
+      [
+       0,
+       6
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 23,
+     "keep": [
+      [
+       0,
+       5
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Exodus 20:13",
+   "text": "You shall not murder",
+   "verses": [
+    "Exodus 20:13"
+   ],
+   "short": {
+    "kjv": {
+     "words": 4,
+     "keep": [
+      [
+       0,
+       4
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 4,
+     "keep": [
+      [
+       0,
+       4
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Exodus 20:14",
+   "text": "You shall not commit adultery",
+   "verses": [
+    "Exodus 20:14"
+   ],
+   "short": {
+    "kjv": {
+     "words": 5,
+     "keep": [
+      [
+       0,
+       5
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 5,
+     "keep": [
+      [
+       0,
+       5
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Exodus 20:15",
+   "text": "You shall not steal",
+   "verses": [
+    "Exodus 20:15"
+   ],
+   "short": {
+    "kjv": {
+     "words": 4,
+     "keep": [
+      [
+       0,
+       4
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 4,
+     "keep": [
+      [
+       0,
+       4
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Exodus 20:16",
+   "text": "You shall not bear false witness against your neighbor",
+   "verses": [
+    "Exodus 20:16"
+   ],
+   "short": {
+    "kjv": {
+     "words": 9,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 9,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Exodus 20:17",
+   "text": "You shall not covet",
+   "verses": [
+    "Exodus 20:17"
+   ],
+   "short": {
+    "kjv": {
+     "words": 33,
+     "keep": [
+      [
+       0,
+       4
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 31,
+     "keep": [
+      [
+       0,
+       4
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Deuteronomy 6:4",
+   "text": "Hear, O Israel: The Lord our God, the Lord is one",
+   "verses": [
+    "Deuteronomy 6:4"
+   ],
+   "short": {
+    "kjv": {
+     "words": 10,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 11,
+     "keep": [
+      [
+       0,
+       11
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 28:19",
+   "text": "In the name of the Father and of the Son and of the Holy Spirit",
+   "verses": [
+    "Matthew 28:19"
+   ],
+   "short": {
+    "kjv": {
+     "words": 24,
+     "keep": [
+      [
+       9,
+       24
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 25,
+     "keep": [
+      [
+       10,
+       25
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "James 1:17",
+   "text": "Every good gift... coming down from the Father of lights",
+   "verses": [
+    "James 1:17"
+   ],
+   "short": {
+    "kjv": {
+     "words": 27,
+     "keep": [
+      [
+       0,
+       3
+      ],
+      [
+       11,
+       18
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 26,
+     "keep": [
+      [
+       0,
+       5
+      ],
+      [
+       8,
+       17
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Revelation 22:13",
+   "text": "I am the Alpha and the Omega, the first and the last",
+   "verses": [
+    "Revelation 22:13"
+   ],
+   "short": {
+    "kjv": {
+     "words": 15,
+     "keep": [
+      [
+       0,
+       15
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 17,
+     "keep": [
+      [
+       0,
+       12
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "John 3:8",
+   "text": "The wind blows where it wishes... So it is with everyone born of the Spirit",
+   "verses": [
+    "John 3:8"
+   ],
+   "short": {
+    "kjv": {
+     "words": 33,
+     "keep": [
+      [
+       0,
+       6
+      ],
+      [
+       23,
+       33
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 33,
+     "keep": [
+      [
+       0,
+       6
+      ],
+      [
+       24,
+       33
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Isaiah 6:3",
+   "text": "Holy, holy, holy is the Lord of hosts",
+   "verses": [
+    "Isaiah 6:3"
+   ],
+   "short": {
+    "kjv": {
+     "words": 23,
+     "keep": [
+      [
+       7,
+       15
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 24,
+     "keep": [
+      [
+       8,
+       16
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "2 Corinthians 13:14",
+   "text": "The grace of the Lord Jesus Christ and the love of God and the fellowship of the Holy Spirit",
+   "verses": [
+    "2 Corinthians 13:14"
+   ],
+   "short": {
+    "kjv": {
+     "words": 24,
+     "keep": [
+      [
+       0,
+       19
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 24,
+     "keep": [
+      [
+       0,
+       19
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Isaiah 40:8",
+   "text": "The word of our God will stand forever",
+   "verses": [
+    "Isaiah 40:8"
+   ],
+   "short": {
+    "kjv": {
+     "words": 16,
+     "keep": [
+      [
+       7,
+       16
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 15,
+     "keep": [
+      [
+       8,
+       15
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Ephesians 1:11",
+   "text": "Who works all things according to the counsel of his will",
+   "verses": [
+    "Ephesians 1:11"
+   ],
+   "short": {
+    "kjv": {
+     "words": 27,
+     "keep": [
+      [
+       16,
+       27
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 28,
+     "keep": [
+      [
+       18,
+       28
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Genesis 1:1",
+   "text": "In the beginning, God created the heavens and the earth",
+   "verses": [
+    "Genesis 1:1"
+   ],
+   "short": {
+    "kjv": {
+     "words": 10,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 10,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Proverbs 16:9",
+   "text": "The heart of man plans his way, but the Lord establishes his steps",
+   "verses": [
+    "Proverbs 16:9"
+   ],
+   "short": {
+    "kjv": {
+     "words": 12,
+     "keep": [
+      [
+       0,
+       12
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 12,
+     "keep": [
+      [
+       0,
+       12
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Romans 5:12",
+   "text": "Sin came into the world through one man",
+   "verses": [
+    "Romans 5:12"
+   ],
+   "short": {
+    "kjv": {
+     "words": 26,
+     "keep": [
+      [
+       2,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 26,
+     "keep": [
+      [
+       3,
+       10
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Genesis 15:5",
+   "text": "Look toward heaven, and number the stars",
+   "verses": [
+    "Genesis 15:5"
+   ],
+   "short": {
+    "kjv": {
+     "words": 33,
+     "keep": [
+      [
+       8,
+       16
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 30,
+     "keep": [
+      [
+       9,
+       17
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "John 6:44",
+   "text": "No one can come to me unless the Father who sent me draws him",
+   "verses": [
+    "John 6:44"
+   ],
+   "short": {
+    "kjv": {
+     "words": 25,
+     "keep": [
+      [
+       0,
+       15
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 24,
+     "keep": [
+      [
+       0,
+       14
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "John 10:3",
+   "text": "He calls his own sheep by name and leads them out",
+   "verses": [
+    "John 10:3"
+   ],
+   "short": {
+    "kjv": {
+     "words": 23,
+     "keep": [
+      [
+       12,
+       23
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 25,
+     "keep": [
+      [
+       14,
+       25
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Romans 3:24",
+   "text": "Justified by his grace as a gift",
+   "verses": [
+    "Romans 3:24"
+   ],
+   "short": {
+    "kjv": {
+     "words": 14,
+     "keep": [
+      [
+       1,
+       6
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 15,
+     "keep": [
+      [
+       2,
+       7
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Galatians 4:7",
+   "text": "No longer a slave, but a son, and if a son, then an heir",
+   "verses": [
+    "Galatians 4:7"
+   ],
+   "short": {
+    "kjv": {
+     "words": 21,
+     "keep": [
+      [
+       3,
+       17
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 23,
+     "keep": [
+      [
+       3,
+       21
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "2 Peter 3:18",
+   "text": "Grow in the grace and knowledge of our Lord",
+   "verses": [
+    "2 Peter 3:18"
+   ],
+   "short": {
+    "kjv": {
+     "words": 25,
+     "keep": [
+      [
+       1,
+       11
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 28,
+     "keep": [
+      [
+       1,
+       10
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Hebrews 11:8",
+   "text": "By faith Abraham obeyed... not knowing where he was going",
+   "verses": [
+    "Hebrews 11:8"
+   ],
+   "short": {
+    "kjv": {
+     "words": 31,
+     "keep": [
+      [
+       0,
+       3
+      ],
+      [
+       21,
+       22
+      ],
+      [
+       26,
+       31
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 26,
+     "keep": [
+      [
+       0,
+       3
+      ],
+      [
+       17,
+       26
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Acts 11:18",
+   "text": "God has granted repentance that leads to life",
+   "verses": [
+    "Acts 11:18"
+   ],
+   "short": {
+    "kjv": {
+     "words": 24,
+     "keep": [
+      [
+       13,
+       24
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 25,
+     "keep": [
+      [
+       16,
+       25
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Ephesians 2:10",
+   "text": "Created in Christ Jesus for good works",
+   "verses": [
+    "Ephesians 2:10"
+   ],
+   "short": {
+    "kjv": {
+     "words": 23,
+     "keep": [
+      [
+       5,
+       12
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 23,
+     "keep": [
+      [
+       5,
+       13
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Philippians 1:6",
+   "text": "He who began a good work in you will bring it to completion",
+   "verses": [
+    "Philippians 1:6"
+   ],
+   "short": {
+    "kjv": {
+     "words": 25,
+     "keep": [
+      [
+       7,
+       19
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 25,
+     "keep": [
+      [
+       5,
+       19
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 John 5:13",
+   "text": "That you may know that you have eternal life",
+   "verses": [
+    "1 John 5:13"
+   ],
+   "short": {
+    "kjv": {
+     "words": 39,
+     "keep": [
+      [
+       17,
+       26
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 27,
+     "keep": [
+      [
+       18,
+       27
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Romans 10:15",
+   "text": "How beautiful are the feet of those who preach the good news",
+   "verses": [
+    "Romans 10:15"
+   ],
+   "short": {
+    "kjv": {
+     "words": 33,
+     "keep": [
+      [
+       13,
+       26
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 24,
+     "keep": [
+      [
+       13,
+       24
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Galatians 5:1",
+   "text": "For freedom Christ has set us free",
+   "verses": [
+    "Galatians 5:1"
+   ],
+   "short": {
+    "kjv": {
+     "words": 22,
+     "keep": [
+      [
+       0,
+       12
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 25,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "John 4:24",
+   "text": "Those who worship him must worship in spirit and truth",
+   "verses": [
+    "John 4:24"
+   ],
+   "short": {
+    "kjv": {
+     "words": 17,
+     "keep": [
+      [
+       5,
+       17
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 14,
+     "keep": [
+      [
+       4,
+       14
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 5:37",
+   "text": "Let what you say be simply 'Yes' or 'No'",
+   "verses": [
+    "Matthew 5:37"
+   ],
+   "short": {
+    "kjv": {
+     "words": 18,
+     "keep": [
+      [
+       1,
+       9
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 17,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Romans 13:1",
+   "text": "Let every person be subject to the governing authorities",
+   "verses": [
+    "Romans 13:1"
+   ],
+   "short": {
+    "kjv": {
+     "words": 25,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 28,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Genesis 2:24",
+   "text": "They shall become one flesh",
+   "verses": [
+    "Genesis 2:24"
+   ],
+   "short": {
+    "kjv": {
+     "words": 22,
+     "keep": [
+      [
+       17,
+       22
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 23,
+     "keep": [
+      [
+       18,
+       23
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 16:18",
+   "text": "I will build my church",
+   "verses": [
+    "Matthew 16:18"
+   ],
+   "short": {
+    "kjv": {
+     "words": 29,
+     "keep": [
+      [
+       14,
+       19
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 27,
+     "keep": [
+      [
+       12,
+       17
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Acts 2:42",
+   "text": "They devoted themselves to... the fellowship, to the breaking of bread",
+   "verses": [
+    "Acts 2:42"
+   ],
+   "short": {
+    "kjv": {
+     "words": 18,
+     "keep": [
+      [
+       0,
+       4
+      ],
+      [
+       9,
+       15
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 19,
+     "keep": [
+      [
+       0,
+       3
+      ],
+      [
+       8,
+       16
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 28:19",
+   "text": "Go therefore and make disciples... baptizing them",
+   "verses": [
+    "Matthew 28:19"
+   ],
+   "short": {
+    "kjv": {
+     "words": 24,
+     "keep": [
+      [
+       0,
+       5
+      ],
+      [
+       7,
+       9
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 25,
+     "keep": [
+      [
+       1,
+       5
+      ],
+      [
+       8,
+       10
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Romans 6:4",
+   "text": "We were buried therefore with him by baptism",
+   "verses": [
+    "Romans 6:4"
+   ],
+   "short": {
+    "kjv": {
+     "words": 36,
+     "keep": [
+      [
+       1,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 35,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 Corinthians 11:26",
+   "text": "You proclaim the Lord's death until he comes",
+   "verses": [
+    "1 Corinthians 11:26"
+   ],
+   "short": {
+    "kjv": {
+     "words": 21,
+     "keep": [
+      [
+       12,
+       21
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 20,
+     "keep": [
+      [
+       12,
+       20
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "John 11:25",
+   "text": "I am the resurrection and the life",
+   "verses": [
+    "John 11:25"
+   ],
+   "short": {
+    "kjv": {
+     "words": 24,
+     "keep": [
+      [
+       4,
+       11
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 21,
+     "keep": [
+      [
+       4,
+       11
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Revelation 20:12",
+   "text": "And books were opened",
+   "verses": [
+    "Revelation 20:12"
+   ],
+   "short": {
+    "kjv": {
+     "words": 46,
+     "keep": [
+      [
+       11,
+       16
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 39,
+     "keep": [
+      [
+       12,
+       16
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Exodus 14:14",
+   "text": "The Lord will fight for you, and you have only to be silent",
+   "verses": [
+    "Exodus 14:14"
+   ],
+   "short": {
+    "kjv": {
+     "words": 12,
+     "keep": [
+      [
+       0,
+       12
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 12,
+     "keep": [
+      [
+       0,
+       12
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Leviticus 11:44",
+   "text": "You shall be holy, for I am holy",
+   "verses": [
+    "Leviticus 11:44"
+   ],
+   "short": {
+    "kjv": {
+     "words": 37,
+     "keep": [
+      [
+       13,
+       21
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 30,
+     "keep": [
+      [
+       11,
+       17
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Numbers 6:24",
+   "text": "The Lord bless you and keep you",
+   "verses": [
+    "Numbers 6:24"
+   ],
+   "short": {
+    "kjv": {
+     "words": 7,
+     "keep": [
+      [
+       0,
+       7
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 8,
+     "keep": [
+      [
+       1,
+       8
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Deuteronomy 6:5",
+   "text": "You shall love the Lord your God with all your heart",
+   "verses": [
+    "Deuteronomy 6:5"
+   ],
+   "short": {
+    "kjv": {
+     "words": 22,
+     "keep": [
+      [
+       1,
+       12
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 22,
+     "keep": [
+      [
+       1,
+       12
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Joshua 24:15",
+   "text": "As for me and my house, we will serve the Lord",
+   "verses": [
+    "Joshua 24:15"
+   ],
+   "short": {
+    "kjv": {
+     "words": 58,
+     "keep": [
+      [
+       47,
+       58
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 54,
+     "keep": [
+      [
+       43,
+       54
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Judges 21:25",
+   "text": "Everyone did what was right in his own eyes",
+   "verses": [
+    "Judges 21:25"
+   ],
+   "short": {
+    "kjv": {
+     "words": 20,
+     "keep": [
+      [
+       9,
+       20
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 18,
+     "keep": [
+      [
+       9,
+       18
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Ruth 1:16",
+   "text": "Your people shall be my people, and your God my God",
+   "verses": [
+    "Ruth 1:16"
+   ],
+   "short": {
+    "kjv": {
+     "words": 41,
+     "keep": [
+      [
+       30,
+       41
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 43,
+     "keep": [
+      [
+       30,
+       43
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 Samuel 16:7",
+   "text": "The Lord looks on the heart",
+   "verses": [
+    "1 Samuel 16:7"
+   ],
+   "short": {
+    "kjv": {
+     "words": 45,
+     "keep": [
+      [
+       39,
+       45
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 38,
+     "keep": [
+      [
+       33,
+       38
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "2 Samuel 7:16",
+   "text": "Your throne shall be established forever",
+   "verses": [
+    "2 Samuel 7:16"
+   ],
+   "short": {
+    "kjv": {
+     "words": 20,
+     "keep": [
+      [
+       13,
+       20
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 16,
+     "keep": [
+      [
+       10,
+       16
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 Kings 18:39",
+   "text": "The Lord, he is God; the Lord, he is God",
+   "verses": [
+    "1 Kings 18:39"
+   ],
+   "short": {
+    "kjv": {
+     "words": 27,
+     "keep": [
+      [
+       15,
+       27
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 21,
+     "keep": [
+      [
+       11,
+       21
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "2 Kings 6:16",
+   "text": "Those who are with us are more than those who are with them",
+   "verses": [
+    "2 Kings 6:16"
+   ],
+   "short": {
+    "kjv": {
+     "words": 19,
+     "keep": [
+      [
+       6,
+       19
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 20,
+     "keep": [
+      [
+       7,
+       20
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 Chronicles 16:34",
+   "text": "Give thanks to the Lord, for he is good",
+   "verses": [
+    "1 Chronicles 16:34"
+   ],
+   "short": {
+    "kjv": {
+     "words": 16,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 14,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "2 Chronicles 7:14",
+   "text": "If my people... humble themselves, and pray",
+   "verses": [
+    "2 Chronicles 7:14"
+   ],
+   "short": {
+    "kjv": {
+     "words": 40,
+     "keep": [
+      [
+       0,
+       3
+      ],
+      [
+       10,
+       14
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 37,
+     "keep": [
+      [
+       1,
+       4
+      ],
+      [
+       10,
+       14
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Ezra 7:10",
+   "text": "Ezra had set his heart to study the Law of the Lord",
+   "verses": [
+    "Ezra 7:10"
+   ],
+   "short": {
+    "kjv": {
+     "words": 25,
+     "keep": [
+      [
+       1,
+       13
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 25,
+     "keep": [
+      [
+       1,
+       13
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Nehemiah 8:10",
+   "text": "The joy of the Lord is your strength",
+   "verses": [
+    "Nehemiah 8:10"
+   ],
+   "short": {
+    "kjv": {
+     "words": 46,
+     "keep": [
+      [
+       38,
+       46
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 43,
+     "keep": [
+      [
+       35,
+       43
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Esther 4:14",
+   "text": "For such a time as this",
+   "verses": [
+    "Esther 4:14"
+   ],
+   "short": {
+    "kjv": {
+     "words": 48,
+     "keep": [
+      [
+       42,
+       48
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 44,
+     "keep": [
+      [
+       38,
+       44
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Job 19:25",
+   "text": "I know that my Redeemer lives",
+   "verses": [
+    "Job 19:25"
+   ],
+   "short": {
+    "kjv": {
+     "words": 19,
+     "keep": [
+      [
+       1,
+       7
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 17,
+     "keep": [
+      [
+       1,
+       7
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Psalm 150:6",
+   "text": "Let everything that has breath praise the Lord",
+   "verses": [
+    "Psalm 150:6"
+   ],
+   "short": {
+    "kjv": {
+     "words": 13,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 9,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Proverbs 1:7",
+   "text": "The fear of the Lord is the beginning of knowledge",
+   "verses": [
+    "Proverbs 1:7"
+   ],
+   "short": {
+    "kjv": {
+     "words": 16,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 16,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Ecclesiastes 3:1",
+   "text": "For everything there is a season",
+   "verses": [
+    "Ecclesiastes 3:1"
+   ],
+   "short": {
+    "kjv": {
+     "words": 16,
+     "keep": [
+      [
+       0,
+       7
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 14,
+     "keep": [
+      [
+       0,
+       6
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Song of Solomon 2:1",
+   "text": "I am a rose of Sharon, a lily of the valleys",
+   "verses": [
+    "Song of Solomon 2:1"
+   ],
+   "short": {
+    "kjv": {
+     "words": 12,
+     "keep": [
+      [
+       0,
+       12
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 11,
+     "keep": [
+      [
+       0,
+       11
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Isaiah 53:5",
+   "text": "He was pierced for our transgressions",
+   "verses": [
+    "Isaiah 53:5"
+   ],
+   "short": {
+    "kjv": {
+     "words": 28,
+     "keep": [
+      [
+       1,
+       7
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 29,
+     "keep": [
+      [
+       1,
+       7
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Jeremiah 18:6",
+   "text": "Like the clay in the potter's hand, so are you in my hand",
+   "verses": [
+    "Jeremiah 18:6"
+   ],
+   "short": {
+    "kjv": {
+     "words": 34,
+     "keep": [
+      [
+       16,
+       30
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 35,
+     "keep": [
+      [
+       19,
+       31
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Lamentations 3:22",
+   "text": "His mercies never come to an end",
+   "verses": [
+    "Lamentations 3:22"
+   ],
+   "short": {
+    "kjv": {
+     "words": 16,
+     "keep": [
+      [
+       12,
+       16
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 17,
+     "keep": [
+      [
+       13,
+       17
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Ezekiel 36:26",
+   "text": "I will give you a new heart",
+   "verses": [
+    "Ezekiel 36:26"
+   ],
+   "short": {
+    "kjv": {
+     "words": 38,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 28,
+     "keep": [
+      [
+       0,
+       7
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Daniel 6:22",
+   "text": "My God sent his angel and shut the lions' mouths",
+   "verses": [
+    "Daniel 6:22"
+   ],
+   "short": {
+    "kjv": {
+     "words": 38,
+     "keep": [
+      [
+       0,
+       12
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 35,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Hosea 14:4",
+   "text": "I will heal their apostasy; I will love them freely",
+   "verses": [
+    "Hosea 14:4"
+   ],
+   "short": {
+    "kjv": {
+     "words": 18,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 18,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Joel 2:13",
+   "text": "Return to the Lord your God, for he is gracious",
+   "verses": [
+    "Joel 2:13"
+   ],
+   "short": {
+    "kjv": {
+     "words": 34,
+     "keep": [
+      [
+       9,
+       19
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 34,
+     "keep": [
+      [
+       9,
+       19
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Amos 5:24",
+   "text": "Let justice roll down like waters",
+   "verses": [
+    "Amos 5:24"
+   ],
+   "short": {
+    "kjv": {
+     "words": 13,
+     "keep": [
+      [
+       1,
+       7
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 14,
+     "keep": [
+      [
+       1,
+       8
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Obadiah 1:21",
+   "text": "The kingdom shall be the Lord's",
+   "verses": [
+    "Obadiah 1:21"
+   ],
+   "short": {
+    "kjv": {
+     "words": 21,
+     "keep": [
+      [
+       15,
+       21
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 21,
+     "keep": [
+      [
+       14,
+       21
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Jonah 2:9",
+   "text": "Salvation belongs to the Lord",
+   "verses": [
+    "Jonah 2:9"
+   ],
+   "short": {
+    "kjv": {
+     "words": 24,
+     "keep": [
+      [
+       19,
+       24
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 23,
+     "keep": [
+      [
+       18,
+       23
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Micah 6:8",
+   "text": "Do justice, love kindness, and walk humbly with your God",
+   "verses": [
+    "Micah 6:8"
+   ],
+   "short": {
+    "kjv": {
+     "words": 32,
+     "keep": [
+      [
+       18,
+       32
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 31,
+     "keep": [
+      [
+       18,
+       31
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Nahum 1:7",
+   "text": "The Lord is good, a stronghold in the day of trouble",
+   "verses": [
+    "Nahum 1:7"
+   ],
+   "short": {
+    "kjv": {
+     "words": 20,
+     "keep": [
+      [
+       0,
+       12
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 19,
+     "keep": [
+      [
+       0,
+       11
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Habakkuk 2:4",
+   "text": "The righteous shall live by his faith",
+   "verses": [
+    "Habakkuk 2:4"
+   ],
+   "short": {
+    "kjv": {
+     "words": 20,
+     "keep": [
+      [
+       13,
+       20
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 16,
+     "keep": [
+      [
+       10,
+       16
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Zephaniah 3:17",
+   "text": "He will rejoice over you with gladness",
+   "verses": [
+    "Zephaniah 3:17"
+   ],
+   "short": {
+    "kjv": {
+     "words": 34,
+     "keep": [
+      [
+       14,
+       21
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 33,
+     "keep": [
+      [
+       12,
+       19
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Haggai 1:5",
+   "text": "Consider your ways",
+   "verses": [
+    "Haggai 1:5"
+   ],
+   "short": {
+    "kjv": {
+     "words": 11,
+     "keep": [
+      [
+       8,
+       11
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 13,
+     "keep": [
+      [
+       9,
+       13
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Zechariah 4:6",
+   "text": "Not by might, nor by power, but by my Spirit",
+   "verses": [
+    "Zechariah 4:6"
+   ],
+   "short": {
+    "kjv": {
+     "words": 33,
+     "keep": [
+      [
+       18,
+       28
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 29,
+     "keep": [
+      [
+       14,
+       24
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Malachi 4:2",
+   "text": "The sun of righteousness shall rise with healing in its wings",
+   "verses": [
+    "Malachi 4:2"
+   ],
+   "short": {
+    "kjv": {
+     "words": 31,
+     "keep": [
+      [
+       8,
+       18
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 30,
+     "keep": [
+      [
+       7,
+       18
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 2:2",
+   "text": "Where is he who has been born king of the Jews?",
+   "verses": [
+    "Matthew 2:2"
+   ],
+   "short": {
+    "kjv": {
+     "words": 26,
+     "keep": [
+      [
+       1,
+       11
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 26,
+     "keep": [
+      [
+       1,
+       13
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Mark 10:45",
+   "text": "The Son of Man came not to be served but to serve",
+   "verses": [
+    "Mark 10:45"
+   ],
+   "short": {
+    "kjv": {
+     "words": 24,
+     "keep": [
+      [
+       2,
+       15
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 25,
+     "keep": [
+      [
+       2,
+       15
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Luke 2:7",
+   "text": "She laid him in a manger",
+   "verses": [
+    "Luke 2:7"
+   ],
+   "short": {
+    "kjv": {
+     "words": 29,
+     "keep": [
+      [
+       14,
+       19
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 31,
+     "keep": [
+      [
+       16,
+       21
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "John 1:1",
+   "text": "In the beginning was the Word",
+   "verses": [
+    "John 1:1"
+   ],
+   "short": {
+    "kjv": {
+     "words": 17,
+     "keep": [
+      [
+       0,
+       6
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 17,
+     "keep": [
+      [
+       0,
+       6
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Acts 1:8",
+   "text": "You will be my witnesses... to the end of the earth",
+   "verses": [
+    "Acts 1:8"
+   ],
+   "short": {
+    "kjv": {
+     "words": 39,
+     "keep": [
+      [
+       15,
+       21
+      ],
+      [
+       32,
+       39
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 33,
+     "keep": [
+      [
+       13,
+       18
+      ],
+      [
+       27,
+       33
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Romans 1:16",
+   "text": "I am not ashamed of the gospel",
+   "verses": [
+    "Romans 1:16"
+   ],
+   "short": {
+    "kjv": {
+     "words": 33,
+     "keep": [
+      [
+       1,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 28,
+     "keep": [
+      [
+       0,
+       7
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 Corinthians 13:13",
+   "text": "So now faith, hope, and love abide",
+   "verses": [
+    "1 Corinthians 13:13"
+   ],
+   "short": {
+    "kjv": {
+     "words": 15,
+     "keep": [
+      [
+       0,
+       6
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 16,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "2 Corinthians 4:7",
+   "text": "We have this treasure in jars of clay",
+   "verses": [
+    "2 Corinthians 4:7"
+   ],
+   "short": {
+    "kjv": {
+     "words": 22,
+     "keep": [
+      [
+       1,
+       8
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 23,
+     "keep": [
+      [
+       1,
+       9
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Ephesians 2:20",
+   "text": "Christ Jesus himself being the cornerstone",
+   "verses": [
+    "Ephesians 2:20"
+   ],
+   "short": {
+    "kjv": {
+     "words": 19,
+     "keep": [
+      [
+       11,
+       19
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 16,
+     "keep": [
+      [
+       10,
+       16
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Philippians 3:14",
+   "text": "I press on toward the goal for the prize",
+   "verses": [
+    "Philippians 3:14"
+   ],
+   "short": {
+    "kjv": {
+     "words": 17,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 17,
+     "keep": [
+      [
+       0,
+       10
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Colossians 1:17",
+   "text": "In him all things hold together",
+   "verses": [
+    "Colossians 1:17"
+   ],
+   "short": {
+    "kjv": {
+     "words": 12,
+     "keep": [
+      [
+       7,
+       12
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 12,
+     "keep": [
+      [
+       6,
+       12
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 Thessalonians 4:17",
+   "text": "So we will always be with the Lord",
+   "verses": [
+    "1 Thessalonians 4:17"
+   ],
+   "short": {
+    "kjv": {
+     "words": 33,
+     "keep": [
+      [
+       25,
+       33
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 34,
+     "keep": [
+      [
+       26,
+       34
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "2 Thessalonians 3:13",
+   "text": "Do not grow weary in doing good",
+   "verses": [
+    "2 Thessalonians 3:13"
+   ],
+   "short": {
+    "kjv": {
+     "words": 9,
+     "keep": [
+      [
+       3,
+       9
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 11,
+     "keep": [
+      [
+       5,
+       11
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 Timothy 3:15",
+   "text": "The church of the living God, a pillar and buttress of the truth",
+   "verses": [
+    "1 Timothy 3:15"
+   ],
+   "short": {
+    "kjv": {
+     "words": 35,
+     "keep": [
+      [
+       22,
+       35
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 34,
+     "keep": [
+      [
+       21,
+       34
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "2 Timothy 4:7",
+   "text": "I have fought the good fight, I have finished the race",
+   "verses": [
+    "2 Timothy 4:7"
+   ],
+   "short": {
+    "kjv": {
+     "words": 16,
+     "keep": [
+      [
+       0,
+       11
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 16,
+     "keep": [
+      [
+       0,
+       11
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Titus 2:11",
+   "text": "The grace of God has appeared, bringing salvation",
+   "verses": [
+    "Titus 2:11"
+   ],
+   "short": {
+    "kjv": {
+     "words": 13,
+     "keep": [
+      [
+       1,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 11,
+     "keep": [
+      [
+       1,
+       11
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Philemon 1:16",
+   "text": "No longer as a bondservant but... as a beloved brother",
+   "verses": [
+    "Philemon 1:16"
+   ],
+   "short": {
+    "kjv": {
+     "words": 29,
+     "keep": [
+      [
+       0,
+       6
+      ],
+      [
+       9,
+       12
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 33,
+     "keep": [
+      [
+       0,
+       6
+      ],
+      [
+       10,
+       14
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Hebrews 10:20",
+   "text": "The new and living way that he opened for us through the curtain",
+   "verses": [
+    "Hebrews 10:20"
+   ],
+   "short": {
+    "kjv": {
+     "words": 21,
+     "keep": [
+      [
+       0,
+       15
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 15,
+     "keep": [
+      [
+       1,
+       12
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "James 1:22",
+   "text": "Be doers of the word, and not hearers only",
+   "verses": [
+    "James 1:22"
+   ],
+   "short": {
+    "kjv": {
+     "words": 15,
+     "keep": [
+      [
+       1,
+       11
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 14,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 Peter 2:5",
+   "text": "You yourselves like living stones are being built up",
+   "verses": [
+    "1 Peter 2:5"
+   ],
+   "short": {
+    "kjv": {
+     "words": 25,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 26,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "2 Peter 1:19",
+   "text": "A lamp shining in a dark place, until the morning star rises",
+   "verses": [
+    "2 Peter 1:19"
+   ],
+   "short": {
+    "kjv": {
+     "words": 39,
+     "keep": [
+      [
+       19,
+       36
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 43,
+     "keep": [
+      [
+       24,
+       40
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 John 4:8",
+   "text": "God is love",
+   "verses": [
+    "1 John 4:8"
+   ],
+   "short": {
+    "kjv": {
+     "words": 11,
+     "keep": [
+      [
+       8,
+       11
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 12,
+     "keep": [
+      [
+       9,
+       12
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "2 John 1:4",
+   "text": "Walking in the truth",
+   "verses": [
+    "2 John 1:4"
+   ],
+   "short": {
+    "kjv": {
+     "words": 21,
+     "keep": [
+      [
+       9,
+       12
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 20,
+     "keep": [
+      [
+       9,
+       13
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "3 John 1:4",
+   "text": "No greater joy than to hear that my children are walking in the truth",
+   "verses": [
+    "3 John 1:4"
+   ],
+   "short": {
+    "kjv": {
+     "words": 14,
+     "keep": [
+      [
+       2,
+       14
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 16,
+     "keep": [
+      [
+       2,
+       16
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Jude 1:24",
+   "text": "To him who is able to keep you from stumbling",
+   "verses": [
+    "Jude 1:24"
+   ],
+   "short": {
+    "kjv": {
+     "words": 25,
+     "keep": [
+      [
+       1,
+       11
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 23,
+     "keep": [
+      [
+       1,
+       11
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Revelation 21:5",
+   "text": "Behold, I am making all things new",
+   "verses": [
+    "Revelation 21:5"
+   ],
+   "short": {
+    "kjv": {
+     "words": 27,
+     "keep": [
+      [
+       8,
+       14
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 27,
+     "keep": [
+      [
+       8,
+       14
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Mark 11:9",
+   "text": "Blessed is he who comes in the name of the Lord!",
+   "verses": [
+    "Mark 11:9"
+   ],
+   "short": {
+    "kjv": {
+     "words": 23,
+     "keep": [
+      [
+       12,
+       23
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 23,
+     "keep": [
+      [
+       12,
+       23
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 28:6",
+   "text": "He is not here, for he has risen.",
+   "verses": [
+    "Matthew 28:6"
+   ],
+   "short": {
+    "kjv": {
+     "words": 19,
+     "keep": [
+      [
+       0,
+       8
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 18,
+     "keep": [
+      [
+       0,
+       7
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Acts 1:9",
+   "text": "He was lifted up, and a cloud took him out of their sight.",
+   "verses": [
+    "Acts 1:9"
+   ],
+   "short": {
+    "kjv": {
+     "words": 23,
+     "keep": [
+      [
+       10,
+       23
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 20,
+     "keep": [
+      [
+       8,
+       20
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Acts 2:4",
+   "text": "And they were all filled with the Holy Spirit.",
+   "verses": [
+    "Acts 2:4"
+   ],
+   "short": {
+    "kjv": {
+     "words": 22,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 21,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Romans 1:17",
+   "text": "The righteous shall live by faith.",
+   "verses": [
+    "Romans 1:17"
+   ],
+   "short": {
+    "kjv": {
+     "words": 22,
+     "keep": [
+      [
+       16,
+       22
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 27,
+     "keep": [
+      [
+       21,
+       27
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "John 1:5",
+   "text": "The light shines in the darkness.",
+   "verses": [
+    "John 1:5"
+   ],
+   "short": {
+    "kjv": {
+     "words": 12,
+     "keep": [
+      [
+       1,
+       6
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 13,
+     "keep": [
+      [
+       0,
+       6
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Isaiah 9:6",
+   "text": "For to us a child is born.",
+   "verses": [
+    "Isaiah 9:6"
+   ],
+   "short": {
+    "kjv": {
+     "words": 39,
+     "keep": [
+      [
+       0,
+       7
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 35,
+     "keep": [
+      [
+       0,
+       7
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Psalm 107:1",
+   "text": "Oh give thanks to the Lord, for he is good.",
+   "verses": [
+    "Psalm 107:1"
+   ],
+   "short": {
+    "kjv": {
+     "words": 16,
+     "keep": [
+      [
+       1,
+       10
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 14,
+     "keep": [
+      [
+       0,
+       9
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Psalm 4:8",
+   "text": "In peace I will both lie down and sleep; for you alone, O Lord, make me dwell in safety.",
+   "verses": [
+    "Psalm 4:8"
+   ],
+   "short": {
+    "kjv": {
+     "words": 19,
+     "keep": [
+      [
+       0,
+       19
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 18,
+     "keep": [
+      [
+       0,
+       18
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Psalm 121:3",
+   "text": "He will not let your foot be moved; he who keeps you will not slumber.",
+   "verses": [
+    "Psalm 121:3"
+   ],
+   "short": {
+    "kjv": {
+     "words": 16,
+     "keep": [
+      [
+       0,
+       16
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 13,
+     "keep": [
+      [
+       0,
+       13
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Lamentations 3:22-23",
+   "text": "The steadfast love of the Lord never ceases; his mercies never come to an end; they are new every morning.",
+   "verses": [
+    "Lamentations 3:22",
+    "Lamentations 3:23"
+   ],
+   "short": {
+    "kjv": {
+     "words": 25,
+     "keep": [
+      [
+       0,
+       21
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 26,
+     "keep": [
+      [
+       0,
+       22
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Matthew 11:28",
+   "text": "Come to me, all who labor and are heavy laden, and I will give you rest.",
+   "verses": [
+    "Matthew 11:28"
+   ],
+   "short": {
+    "kjv": {
+     "words": 17,
+     "keep": [
+      [
+       0,
+       17
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 16,
+     "keep": [
+      [
+       0,
+       16
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Psalm 118:24",
+   "text": "This is the day that the Lord has made; let us rejoice and be glad in it.",
+   "verses": [
+    "Psalm 118:24"
+   ],
+   "short": {
+    "kjv": {
+     "words": 17,
+     "keep": [
+      [
+       0,
+       17
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 17,
+     "keep": [
+      [
+       0,
+       17
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "1 Peter 5:7",
+   "text": "Cast all your anxieties on him, because he cares for you.",
+   "verses": [
+    "1 Peter 5:7"
+   ],
+   "short": {
+    "kjv": {
+     "words": 11,
+     "keep": [
+      [
+       0,
+       11
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 11,
+     "keep": [
+      [
+       0,
+       11
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ref": "Numbers 6:24-25",
+   "text": "The Lord bless you and keep you; the Lord make his face to shine upon you.",
+   "verses": [
+    "Numbers 6:24",
+    "Numbers 6:25"
+   ],
+   "short": {
+    "kjv": {
+     "words": 20,
+     "keep": [
+      [
+       0,
+       15
+      ]
+     ]
+    },
+    "bsb": {
+     "words": 23,
+     "keep": [
+      [
+       1,
+       18
+      ]
+     ]
+    }
+   }
+  }
+ ]
+}

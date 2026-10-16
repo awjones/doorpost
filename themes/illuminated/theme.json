@@ -1,0 +1,90 @@
+{
+ "id": "illuminated",
+ "name": "Illuminated",
+ "blurb": "Parchment, red rubrics, a gilded initial",
+ "order": 60,
+ "kind": "both",
+ "monogram": "initial",
+ "date_style": "long",
+ "words": {
+  "today_title": "The Order of the Day",
+  "tod_morning": "In the morning",
+  "tod_afternoon": "In the afternoon",
+  "tod_evening": "In the evening",
+  "pin_sub": "Enter the parent PIN",
+  "night_sub": "Tap anywhere to wake the frame"
+ },
+ "swatches": [
+  "#F3ECDD",
+  "#221C15",
+  "#A8132A",
+  "#E2C276",
+  "#2E4A7A"
+ ],
+ "fonts": {
+  "serif": "\"EB Garamond\", Garamond, \"Times New Roman\", serif",
+  "sans": "\"EB Garamond\", Garamond, \"Times New Roman\", serif",
+  "script": "\"Pinyon Script\", \"Snell Roundhand\", cursive"
+ },
+ "new_frame": {
+  "home": "today"
+ },
+ "art": {
+  "palette": {
+   "night": "#8E1124",
+   "navy": "#23395F",
+   "deep": "#4E0A14",
+   "gold": "#E2C276",
+   "paper": "#F3ECDD",
+   "red": "#2E4A7A",
+   "warm": "#D08A36",
+   "brown": "#5A4E3F",
+   "green": "#1F6A6B",
+   "sky": "#3E5E94",
+   "pink": "#F6DCC0"
+  },
+  "filter": "",
+  "frame": {
+   "border": "4px double #E2C276",
+   "border-radius": "0",
+   "outline": "1px solid #221C15",
+   "outline-offset": "0"
+  }
+ },
+ "admin": {
+  "tokens": {
+   "paper": "var(--paper)",
+   "card": "var(--card)",
+   "ink": "var(--ink)",
+   "soft": "var(--soft)",
+   "line": "var(--line)",
+   "accent": "var(--red)",
+   "accent_ink": "var(--card)",
+   "danger": "#7E0E20",
+   "ok": "var(--green)",
+   "head_bg": "var(--il-surround)",
+   "head_ink": "var(--red)",
+   "head_soft": "readable(var(--gilt-soft), var(--il-surround), 4.6)",
+   "head_rule": "var(--ink)",
+   "font_display": "var(--serif)",
+   "font_body": "var(--sans)",
+   "font_script": "var(--script)",
+   "radius": "3px",
+   "shadow": "none",
+   "tile": "var(--tile)",
+   "line_soft": "var(--line-soft)",
+   "muted": "var(--muted)",
+   "label": "var(--gilt-dim)",
+   "note": "var(--gilt-dim)",
+   "rule": "var(--gilt)",
+   "field": "#FFFDF8",
+   "link": "var(--red)",
+   "track": "var(--il-rule)",
+   "focus": "var(--red)",
+   "warn": "#6E4A10",
+   "warn_bg": "var(--amber-bg)",
+   "ok_bg": "var(--green-bg)",
+   "danger_bg": "#F3DADB"
+  }
+ }
+}

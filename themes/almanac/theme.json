@@ -1,0 +1,90 @@
+{
+ "id": "almanac",
+ "name": "Open almanac",
+ "blurb": "Two facing pages on a dark desk",
+ "order": 80,
+ "kind": "both",
+ "monogram": "initial",
+ "date_style": "long",
+ "words": {
+  "today_title": "The Order of the Day",
+  "tod_morning": "Morning",
+  "tod_afternoon": "Afternoon",
+  "tod_evening": "Evening"
+ },
+ "picture_fit": {
+  "wide": "meet"
+ },
+ "swatches": [
+  "#F5EEDF",
+  "#1E1A16",
+  "#2A211B",
+  "#C8102E",
+  "#B08A3E"
+ ],
+ "fonts": {
+  "serif": "\"Playfair Display\", Georgia, \"Times New Roman\", serif",
+  "sans": "\"Libre Caslon Text\", Georgia, \"Times New Roman\", serif",
+  "script": "\"Mrs Saint Delafield\", \"Snell Roundhand\", cursive"
+ },
+ "new_frame": {
+  "home": "today"
+ },
+ "art": {
+  "palette": {
+   "night": "#C9D5E0",
+   "navy": "#2E4A7A",
+   "deep": "#1E1A16",
+   "gold": "#D9B86C",
+   "paper": "#F8F2E4",
+   "red": "#A8132A",
+   "warm": "#B8763A",
+   "brown": "#5C5145",
+   "green": "#1F5E57",
+   "sky": "#2E4A7A",
+   "pink": "#E3B9B5"
+  },
+  "filter": "",
+  "frame": {
+   "border": "3px double #1E1A16",
+   "border-radius": "0",
+   "box-shadow": "3px 3px 0 #CDBF9F"
+  }
+ },
+ "admin": {
+  "tokens": {
+   "paper": "var(--al-gut)",
+   "card": "var(--card)",
+   "ink": "var(--ink)",
+   "soft": "var(--soft)",
+   "line": "var(--line)",
+   "accent": "var(--navy)",
+   "accent_ink": "var(--card)",
+   "danger": "#A8132A",
+   "ok": "#3F6B3A",
+   "head_bg": "var(--al-desk)",
+   "head_ink": "var(--card)",
+   "head_soft": "var(--gilt-soft)",
+   "head_rule": "var(--gilt-soft)",
+   "font_display": "var(--serif)",
+   "font_body": "var(--sans)",
+   "font_script": "var(--script)",
+   "radius": "2px",
+   "shadow": "3px 3px 0 #CDBF9F",
+   "tile": "var(--tile)",
+   "line_soft": "#DDD0B4",
+   "muted": "var(--muted)",
+   "label": "var(--gilt-dim)",
+   "note": "var(--gilt-dim)",
+   "rule": "var(--al-lead)",
+   "field": "#FBF7EE",
+   "link": "#A8132A",
+   "track": "var(--al-spine)",
+   "focus": "#A8132A",
+   "warn": "#6E4A10",
+   "warn_bg": "var(--amber-bg)",
+   "ok_bg": "var(--green-bg)",
+   "danger_bg": "#F0D6D4"
+  }
+ }
+}

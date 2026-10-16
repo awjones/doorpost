@@ -1,0 +1,41 @@
+{
+ "packs": [
+  {
+   "id": "faith",
+   "name": "Faith",
+   "description": "The church year (Palm Sunday through Christmas), church life pictures, a verse on Thanksgiving, bedtime verses on the clock, and a picture with a verse every Sunday from five series: the Lord's Day, the Ten Commandments, the Trinity, the 1689 Confession and the books of the Bible.",
+   "version": "1.1.0",
+   "url": "dist/packs/faith-1.1.0.zip",
+   "sha256": "c60cb107d54877db84a2a720f62f3ee8b8ad7efc24d11a9de3406d2140d911eb",
+   "size": 508156,
+   "pictures": 181,
+   "license": "CC BY 4.0",
+   "preview": "previews/faith.svg",
+   "default": true
+  },
+  {
+   "id": "outings",
+   "name": "Outings",
+   "description": "Amusement and water parks, trains, the zoo, the aquarium, fairs, hikes, lake days, pumpkin patches, apple picking and Christmas lights.",
+   "version": "1.0.0",
+   "url": "dist/packs/outings-1.0.0.zip",
+   "sha256": "70827f6b1274369b1350bd4e3a2938d4b504605b88f05c7bd5ace75fbafee145",
+   "size": 77194,
+   "pictures": 13,
+   "license": "CC BY 4.0",
+   "preview": "previews/outings.svg"
+  },
+  {
+   "id": "kids-activities",
+   "name": "Kids' activities",
+   "description": "Game days (baseball, soccer, football), recitals, school plays, movie nights and Scouts.",
+   "version": "1.0.0",
+   "url": "dist/packs/kids-activities-1.0.0.zip",
+   "sha256": "0de37e29fc618158bae511fd2ce4fd80cc5c354b78cead41df1eb7730bb7a5f6",
+   "size": 36729,
+   "pictures": 9,
+   "license": "CC BY 4.0",
+   "preview": "previews/kids-activities.svg"
+  }
+ ]
+}

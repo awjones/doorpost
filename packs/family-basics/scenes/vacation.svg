@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 600" preserveAspectRatio="xMidYMax slice" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><rect width="100%" height="100%" fill="#16324F"></rect><defs><linearGradient id="vt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16324F"></stop><stop offset="1" stop-color="#3E7090"></stop></linearGradient></defs>
+<rect width="300" height="600" fill="url(#vt)"></rect>
+<path d="M150 180 q6 -6 12 0 q6 -6 12 0 M190 150 q5 -5 10 0 q5 -5 10 0" stroke="#F3EBDA" stroke-width="2" fill="none"></path>
+<circle cx="200" cy="300" r="52" fill="#C9A55A"></circle><rect y="300" width="300" height="80" fill="#1F4E6B"></rect>
+<path d="M170 310 h60 M182 324 h36" stroke="#C9A55A" stroke-width="4" opacity="0.7"></path>
+<path d="M40 340 q12 -5 24 0 q12 5 24 0 M200 356 q12 -5 24 0 q12 5 24 0" stroke="#F3EBDA" stroke-width="2" fill="none" opacity="0.5"></path>
+<path d="M0 380 Q150 360 300 380 V600 H0Z" fill="#D9C08A"></path>
+<path d="M100 410 Q86 310 96 210" stroke="#7A5A3A" stroke-width="11" fill="none"></path><path d="M96 210 Q66.0 190.0 36 240" stroke="#3F7A5A" stroke-width="10" fill="none" stroke-linecap="round"></path><path d="M96 210 Q71.0 196.4 46 272" stroke="#3F7A5A" stroke-width="10" fill="none" stroke-linecap="round"></path><path d="M96 210 Q125.0 188.8 154 234" stroke="#3F7A5A" stroke-width="10" fill="none" stroke-linecap="round"></path><path d="M96 210 Q129.0 195.6 162 268" stroke="#3F7A5A" stroke-width="10" fill="none" stroke-linecap="round"></path><path d="M96 210 Q100.0 174.4 104 162" stroke="#3F7A5A" stroke-width="10" fill="none" stroke-linecap="round"></path><path d="M96 210 Q81.0 176.0 66 170" stroke="#3F7A5A" stroke-width="10" fill="none" stroke-linecap="round"></path>
+<path d="M180 372 A44 44 0 0 1 268 372Z" fill="#C8102E"></path><path d="M210 372 A14 44 0 0 1 238 372Z" fill="#F3EBDA"></path><path d="M224 372 V420" stroke="#F3EBDA" stroke-width="3"></path>
+<ellipse cx="160" cy="412" rx="22" ry="5" fill="#C8102E" opacity="0.8"></ellipse></svg>

@@ -1,0 +1,7 @@
+#!/bin/sh
+# Before a push to a public remote: refuse anything under local/ and any word from local/denylist.txt,
+# in the pushed files, the commit messages and every file version in the outgoing commits.
+# Turn it on once per clone:  git config core.hooksPath .githooks
+# Pushes to your private remote are not checked. See docs/private-overlay.md.
+root="$(git rev-parse --show-toplevel)" || exit 2
+exec sh "$root/scripts/check-private.sh" --pre-push "$1" "$2"

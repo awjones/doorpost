@@ -1,0 +1,82 @@
+{
+ "id": "navy",
+ "name": "Navy & gilt",
+ "blurb": "The kitchen look",
+ "order": 10,
+ "default": true,
+ "kind": "both",
+ "swatches": [
+  "#16324F",
+  "#C9A55A",
+  "#F6F1E7",
+  "#FFFDF8",
+  "#C8102E"
+ ],
+ "fonts": {
+  "serif": "\"Playfair Display\", Georgia, \"Times New Roman\", serif",
+  "sans": "\"Libre Franklin\", \"Helvetica Neue\", Arial, sans-serif",
+  "script": "\"Pinyon Script\", \"Snell Roundhand\", cursive"
+ },
+ "new_frame": {
+  "home": "today"
+ },
+ "art": {
+  "palette": {
+   "night": "#16324F",
+   "navy": "#2E4A7A",
+   "deep": "#0E2238",
+   "gold": "#C9A55A",
+   "paper": "#F3EBDA",
+   "red": "#C8102E",
+   "warm": "#C08A3E",
+   "brown": "#6B4E2E",
+   "green": "#2F6B5E",
+   "sky": "#3E6A93",
+   "pink": "#D99AA6"
+  },
+  "filter": "",
+  "frame": {
+   "border": "3px double #C9A55A",
+   "border-radius": "14px"
+  }
+ },
+ "admin": {
+  "tokens": {
+   "paper": "var(--paper)",
+   "card": "var(--card)",
+   "ink": "var(--ink)",
+   "soft": "var(--soft)",
+   "line": "var(--line)",
+   "accent": "var(--navy)",
+   "accent_ink": "var(--gilt)",
+   "danger": "var(--red)",
+   "ok": "var(--green)",
+   "head_bg": "var(--navy)",
+   "head_ink": "var(--gilt)",
+   "font_display": "var(--serif)",
+   "font_body": "var(--sans)",
+   "radius": "14px",
+   "shadow": "none",
+   "tile": "var(--tile)",
+   "line_soft": "var(--line-soft)",
+   "muted": "var(--muted)",
+   "label": "var(--gilt-dim)",
+   "note": "#7A6A2F",
+   "rule": "var(--gilt)",
+   "head_soft": "var(--gilt-soft)",
+   "head_rule": "var(--gilt)",
+   "field": "#FFFFFF",
+   "field_ink": "var(--ink)",
+   "link": "var(--navy)",
+   "track": "#CFC6B4",
+   "warn": "var(--amber)",
+   "warn_bg": "var(--amber-bg)",
+   "ok_bg": "var(--green-bg)",
+   "danger_bg": "#F8DDDD",
+   "danger_ink": "#FFFFFF",
+   "focus": "var(--navy)",
+   "font_script": "var(--script)",
+   "pill": "999px"
+  }
+ }
+}

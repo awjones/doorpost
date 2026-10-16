@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1150" width="1200" height="1150" role="img" aria-labelledby="title desc">
+<title id="title">Screen sizes and which way up</title>
+<desc id="desc">How Doorpost picks a wide or tall layout, then four screen sizes drawn to scale: 7 inch, 10.1 inch (the tested size), 13 to 15.6 inch and 21.5 inch and up, each with resolution, viewing distance, the layout it gets and a caution.</desc>
+<style>
+svg { --bg:#faf6ee; --card:#ffffff; --soft:#f3ecdc; --ink:#1d2a44; --muted:#5a6273; --line:#d8ccb2;
+  --navy:#1d2a44; --onnavy:#faf6ee; --gilt:#b8913a; --icon:#1d2a44; --off:#c9c2b2; --knob:#ffffff; }
+@media (prefers-color-scheme: dark) {
+  svg { --bg:#12161f; --card:#1a2030; --soft:#202839; --ink:#e8dcc0; --muted:#a8a08d; --line:#3a4358;
+    --navy:#27365a; --onnavy:#e8dcc0; --gilt:#b8913a; --icon:#e8dcc0; --off:#4a5268; --knob:#e8dcc0; }
+}
+text { font-family: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: var(--ink); }
+.bg { fill: var(--bg); }
+.card { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.soft { fill: var(--soft); stroke: var(--line); stroke-width: 1.5; }
+.zone { fill: var(--soft); stroke: var(--line); stroke-width: 2; stroke-dasharray: 8 6; }
+.zoneg { fill: none; stroke: var(--gilt); stroke-width: 2.5; stroke-dasharray: 8 6; }
+.gcard { fill: var(--card); stroke: var(--gilt); stroke-width: 2.5; }
+.dcard { fill: var(--card); stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 6 5; }
+.navy { fill: var(--navy); }
+.giltf { fill: var(--gilt); }
+.offf { fill: var(--off); }
+.knob { fill: var(--knob); }
+.onnavy { fill: var(--onnavy); }
+.muted { fill: var(--muted); }
+.gilt { fill: var(--gilt); }
+.title { font-size: 30px; font-weight: 700; }
+.sub { font-size: 17px; fill: var(--muted); }
+.h { font-size: 18px; font-weight: 700; }
+.b { font-size: 15px; }
+.s { font-size: 14px; fill: var(--muted); }
+.lbl { font-size: 14px; font-weight: 600; fill: var(--gilt); }
+.cap { font-size: 13.5px; font-weight: 700; letter-spacing: 1.2px; fill: var(--gilt); }
+.ln { stroke: var(--muted); stroke-width: 2; fill: none; }
+.lng { stroke: var(--gilt); stroke-width: 2.5; fill: none; }
+.lnd { stroke: var(--muted); stroke-width: 2; fill: none; stroke-dasharray: 6 5; }
+.ic { fill: none; stroke: var(--icon); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.icg { fill: none; stroke: var(--gilt); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.icf { fill: var(--gilt); }
+.icn { fill: var(--icon); }
+.ah { fill: var(--muted); }
+.ahg { fill: var(--gilt); }
+</style>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker>
+<marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahg" d="M0 0L10 5L0 10z"/></marker>
+<symbol id="i-cal" viewBox="0 0 48 48"><rect class="ic" x="6" y="10" width="36" height="32" rx="4"/><path class="ic" d="M6 19h36M16 6v8M32 6v8"/><rect class="icf" x="13" y="25" width="6" height="5" rx="1"/><rect class="icf" x="21" y="25" width="6" height="5" rx="1"/><rect class="icf" x="29" y="25" width="6" height="5" rx="1"/><rect class="icf" x="13" y="33" width="6" height="5" rx="1"/><rect class="icf" x="21" y="33" width="6" height="5" rx="1"/></symbol>
+<symbol id="i-weather" viewBox="0 0 48 48"><circle class="icg" cx="18" cy="17" r="7"/><path class="icg" d="M18 4v3M6 17H3M9 8l2 2M27 8l-2 2"/><path class="ic" d="M15 40h22a7 7 0 0 0 0-14 10 10 0 0 0-19 3 6 6 0 0 0-3 11z"/></symbol>
+<symbol id="i-photo" viewBox="0 0 48 48"><rect class="ic" x="5" y="9" width="38" height="30" rx="3"/><path class="ic" d="M5 34l11-11 9 9 6-6 12 12"/><circle class="icf" cx="33" cy="18" r="4"/></symbol>
+<symbol id="i-house" viewBox="0 0 48 48"><path class="ic" d="M6 22L24 7l18 15M10 19v22h28V19"/><rect class="icg" x="17" y="27" width="14" height="14"/><path class="icg" d="M17 32h14M17 36.5h14"/></symbol>
+<symbol id="i-mac" viewBox="0 0 48 48"><rect class="ic" x="4" y="7" width="40" height="27" rx="3"/><path class="ic" d="M19 34l-2 7h14l-2-7M14 41h20"/><path class="icg" d="M12 15h12M12 21h20M12 27h8"/></symbol>
+<symbol id="i-pi" viewBox="0 0 48 48"><rect class="ic" x="4" y="10" width="40" height="28" rx="3"/><rect class="icf" x="17" y="18" width="13" height="13" rx="1.5"/><path class="ic" d="M9 14.5h2M14 14.5h2M19 14.5h2M24 14.5h2M29 14.5h2M34 14.5h2M39 14.5h1"/><path class="ic" d="M37 22h7M37 29h7M8 34h5"/></symbol>
+<symbol id="i-frame" viewBox="0 0 48 48"><rect class="ic" x="3" y="6" width="42" height="30" rx="3"/><rect class="icg" x="8" y="11" width="32" height="20" rx="1"/><path class="icg" d="M8 27l8-7 7 6 5-4 12 9"/><path class="ic" d="M20 36l-4 7M28 36l4 7"/></symbol>
+<symbol id="i-phone" viewBox="0 0 48 48"><rect class="ic" x="13" y="3" width="22" height="42" rx="4"/><path class="ic" d="M21 39h6"/><path class="icg" d="M18 12h12M18 18h12M18 24h8"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 48 48"><path class="ic" d="M7 13h34M7 24h34M7 35h34"/><circle class="icf" cx="16" cy="13" r="4.5"/><circle class="icf" cx="31" cy="24" r="4.5"/><circle class="icf" cx="21" cy="35" r="4.5"/></symbol>
+<symbol id="i-cloud" viewBox="0 0 48 48"><path class="ic" d="M13 38h24a9 9 0 0 0 1-18A13 13 0 0 0 13 21a8.5 8.5 0 0 0 0 17z"/></symbol>
+<symbol id="i-router" viewBox="0 0 48 48"><rect class="ic" x="5" y="25" width="38" height="14" rx="3"/><path class="ic" d="M14 25l-4-14M34 25l4-14"/><circle class="icf" cx="13" cy="32" r="2"/><circle class="icf" cx="20" cy="32" r="2"/><circle class="icf" cx="27" cy="32" r="2"/></symbol>
+<symbol id="i-laptop" viewBox="0 0 48 48"><rect class="ic" x="9" y="10" width="30" height="21" rx="2"/><path class="ic" d="M4 37h40l-3-6H7z"/></symbol>
+<symbol id="i-check" viewBox="0 0 48 48"><rect class="ic" x="7" y="7" width="34" height="34" rx="6"/><path class="icg" d="M15 24l7 7 12-14"/></symbol>
+<symbol id="i-hourglass" viewBox="0 0 48 48"><path class="ic" d="M12 5h24M12 43h24M15 5c0 10 9 13 9 19s-9 9-9 19M33 5c0 10-9 13-9 19s9 9 9 19"/><path class="icf" d="M18 39c2-6 6-8 6-11 0 3 4 5 6 11z"/></symbol>
+<symbol id="i-list" viewBox="0 0 48 48"><path class="icg" d="M7 12l3 3 5-6M7 24l3 3 5-6"/><path class="ic" d="M20 12h21M20 24h21M20 36h21"/><rect class="ic" x="7" y="32" width="8" height="8" rx="1.5"/></symbol>
+<symbol id="i-star" viewBox="0 0 48 48"><path class="icg" d="M24 5l5.6 12 13 1.4-9.8 8.7 2.8 12.8L24 33.3 12.4 39.9l2.8-12.8-9.8-8.7 13-1.4z"/></symbol>
+<symbol id="i-clock" viewBox="0 0 48 48"><circle class="ic" cx="24" cy="24" r="18"/><path class="icg" d="M24 13v11l8 5"/></symbol>
+<symbol id="i-lock" viewBox="0 0 48 48"><rect class="ic" x="9" y="21" width="30" height="22" rx="3"/><path class="ic" d="M15 21v-6a9 9 0 0 1 18 0v6"/><circle class="icf" cx="24" cy="32" r="3"/></symbol>
+<symbol id="i-download" viewBox="0 0 48 48"><path class="ic" d="M24 6v24M14 21l10 10 10-10M8 41h32"/></symbol>
+<symbol id="i-pin" viewBox="0 0 48 48"><rect class="ic" x="6" y="6" width="36" height="36" rx="5"/><circle class="icf" cx="16" cy="16" r="2.6"/><circle class="icf" cx="24" cy="16" r="2.6"/><circle class="icf" cx="32" cy="16" r="2.6"/><circle class="icf" cx="16" cy="24" r="2.6"/><circle class="icf" cx="24" cy="24" r="2.6"/><circle class="icf" cx="32" cy="24" r="2.6"/><circle class="icf" cx="16" cy="32" r="2.6"/><circle class="icf" cx="24" cy="32" r="2.6"/><circle class="icf" cx="32" cy="32" r="2.6"/></symbol>
+</defs>
+<defs>
+<symbol id="i-warn" viewBox="0 0 48 48"><path class="icg" d="M24 6L44 41H4z"/><path class="ic" d="M24 19v10"/><circle class="icn" cx="24" cy="34.5" r="2.2"/></symbol>
+<symbol id="i-chat" viewBox="0 0 48 48"><path class="ic" d="M9 8h30a5 5 0 0 1 5 5v15a5 5 0 0 1-5 5H23l-10 8v-8H9a5 5 0 0 1-5-5V13a5 5 0 0 1 5-5z"/><circle class="icf" cx="16" cy="20.5" r="2.6"/><circle class="icf" cx="24" cy="20.5" r="2.6"/><circle class="icf" cx="32" cy="20.5" r="2.6"/></symbol>
+<symbol id="i-chip" viewBox="0 0 48 48"><rect class="ic" x="11" y="11" width="26" height="26" rx="3"/><rect class="icf" x="18" y="18" width="12" height="12" rx="1.5"/><path class="ic" d="M17 4v7M24 4v7M31 4v7M17 37v7M24 37v7M31 37v7M4 17h7M4 24h7M4 31h7M37 17h7M37 24h7M37 31h7"/></symbol>
+<symbol id="i-code" viewBox="0 0 48 48"><path class="ic" d="M16 13L5 24l11 11M32 13l11 11-11 11"/><path class="icg" d="M28 8l-8 32"/></symbol>
+<symbol id="i-cable" viewBox="0 0 48 48"><path class="ic" d="M18 4v8M30 4v8M12 12h24v8a12 12 0 0 1-24 0z"/><path class="icg" d="M24 32v4a6 6 0 0 0 6 6h12"/></symbol>
+<symbol id="i-shield" viewBox="0 0 48 48"><path class="ic" d="M24 4l17 6v12c0 10-7 18-17 22C14 40 7 32 7 22V10z"/><path class="icg" d="M16 24l6 6 10-12"/></symbol>
+<symbol id="i-target" viewBox="0 0 48 48"><circle class="ic" cx="24" cy="24" r="15"/><path class="ic" d="M24 3v10M24 35v10M3 24h10M35 24h10"/><circle class="icf" cx="24" cy="24" r="4"/></symbol>
+<symbol id="i-monitor" viewBox="0 0 48 48"><rect class="ic" x="3" y="6" width="42" height="28" rx="3"/><path class="ic" d="M24 34v7M15 42h18"/><rect class="icg" x="9" y="12" width="30" height="16" rx="1"/></symbol>
+<symbol id="i-sd" viewBox="0 0 48 48"><path class="ic" d="M14 4h20l6 6v32a2 2 0 0 1-2 2H14a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path class="icg" d="M19 10v7M24 10v7M29 10v7"/></symbol>
+<symbol id="i-moon" viewBox="0 0 48 48"><path class="icg" d="M34 30A15 15 0 0 1 19 9a15 15 0 1 0 15 21z"/></symbol>
+</defs>
+<rect class="bg" x="0" y="0" width="1200" height="1150"/>
+<text x="40" y="56" class="title">Screen sizes and which way up</text>
+<text x="40" y="88" class="sub">Doorpost lays out at 800 px on the short side, then scales to fit. Size decides how far away you can read it.</text>
+<rect class="giltf" x="40" y="104" width="64" height="3" rx="1.5"/>
+<text x="40" y="152" class="cap">WIDE OR TALL: HOW IT CHOOSES</text>
+<rect class="card" x="40" y="168" width="540" height="226" rx="12"/>
+<rect x="64" y="200" width="200" height="125" rx="8" style="fill:var(--icon)"/>
+<rect class="card" x="72" y="208" width="184" height="109" rx="2" style="stroke-width:1"/>
+<rect class="giltf" x="80" y="216" width="60" height="10" rx="2"/>
+<rect class="offf" x="80" y="234" width="168" height="54" rx="3"/>
+<text x="290" y="216" class="h">Wide</text>
+<text x="290" y="242" class="s">The screen is wider than tall.</text>
+<text x="290" y="262" class="s">Lays out 1200 to 1440 x 800,</text>
+<text x="290" y="282" class="s">then scales to fill it.</text>
+<text x="290" y="318" class="s">16:10 screen: 1280 x 800</text>
+<text x="290" y="338" class="s">16:9 screen: 1422 x 800</text>
+<text x="290" y="358" class="s">4:3 screen: 1200 x 800, with bands</text>
+<text x="64" y="360" class="s">Most frames, hung landscape</text>
+<rect class="card" x="620" y="168" width="540" height="226" rx="12"/>
+<rect x="650" y="190" width="96" height="154" rx="6" style="fill:var(--icon)"/>
+<rect class="card" x="656" y="196" width="84" height="142" rx="2" style="stroke-width:1"/>
+<rect class="giltf" x="662" y="204" width="40" height="10" rx="2"/>
+<rect class="offf" x="662" y="222" width="72" height="90" rx="3"/>
+<text x="780" y="216" class="h">Tall</text>
+<text x="780" y="242" class="s">Taller than wide by 5% or more.</text>
+<text x="780" y="262" class="s">Lays out 800 x 1200 to 1440 and</text>
+<text x="780" y="282" class="s">adds the body class vert.</text>
+<text x="780" y="302" class="s">Force one with ?layout=tall</text>
+<text x="780" y="322" class="s">or ?layout=wide in the address.</text>
+<text x="650" y="370" class="s">On its side, or a portrait panel</text>
+<text x="1136" y="370" class="s" text-anchor="end">720 x 1280 screen: 800 x 1422</text>
+<rect class="soft" x="40" y="410" width="1120" height="50" rx="10"/>
+<use href="#i-frame" x="54" y="416" width="38" height="38"/>
+<text x="104" y="441" class="b">Turn it on its side and every screen lays itself out again. Screens 1700 px or more across get HD photos.</text>
+<text x="40" y="504" class="cap">FOUR SIZES, DRAWN TO SCALE</text>
+<text x="40" y="526" class="s">Distances are rough guides for reading the calendar, not rules.</text>
+<rect class="card" x="40" y="542" width="1120" height="120" rx="12"/>
+<rect x="119" y="582" width="54" height="32" rx="3" style="fill:var(--icon)"/>
+<rect class="card" x="122" y="585" width="48" height="26" rx="2" style="stroke-width:1"/>
+<text x="260" y="582" class="h">7 inch</text>
+<text x="260" y="604" class="s">small frames, Pi Touch Display 2</text>
+<text x="520" y="572" class="cap">RESOLUTION</text>
+<text x="520" y="596" class="b">1024 x 600</text>
+<text x="520" y="616" class="s">or 720 x 1280 (tall)</text>
+<text x="720" y="572" class="cap">READ FROM</text>
+<text x="720" y="596" class="b">1 to 3 ft</text>
+<text x="880" y="572" class="cap">LAYOUT</text>
+<text x="880" y="596" class="b">Wide, scaled down</text>
+<text x="880" y="616" class="s">tall if hung upright</text>
+<use href="#i-warn" x="258" y="629" width="22" height="22"/>
+<text x="286" y="645" class="s">Untested. Text gets small: fine on a desk or nightstand, hard to read across a kitchen.</text>
+<rect class="gcard" x="40" y="674" width="1120" height="120" rx="12"/>
+<rect x="108" y="706" width="77" height="48" rx="3" style="fill:var(--icon)"/>
+<rect class="card" x="111" y="709" width="71" height="42" rx="2" style="stroke-width:1"/>
+<text x="260" y="714" class="h">10.1 inch</text>
+<rect class="giltf" x="360" y="697" width="80" height="24" rx="12"/>
+<text x="400.0" y="714" class="cap" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">TESTED</text>
+<text x="260" y="736" class="s">the tested frame</text>
+<text x="520" y="704" class="cap">RESOLUTION</text>
+<text x="520" y="728" class="b">1280 x 800</text>
+<text x="520" y="748" class="s">16:10, 1 GB RAM</text>
+<text x="720" y="704" class="cap">READ FROM</text>
+<text x="720" y="728" class="b">2 to 6 ft</text>
+<text x="880" y="704" class="cap">LAYOUT</text>
+<text x="880" y="728" class="b">Wide, exactly 1 to 1</text>
+<text x="880" y="748" class="s">or tall on its side</text>
+<use href="#i-check" x="258" y="761" width="22" height="22"/>
+<text x="286" y="777" class="s">Runs every day. Still check the board and Android version before you buy (see Hardware).</text>
+<rect class="card" x="40" y="806" width="1120" height="120" rx="12"/>
+<rect x="85" y="828" width="122" height="69" rx="4" style="fill:var(--icon)"/>
+<rect class="card" x="89" y="832" width="114" height="61" rx="2" style="stroke-width:1"/>
+<text x="260" y="846" class="h">13 to 15.6 inch</text>
+<text x="260" y="868" class="s">larger frames</text>
+<text x="520" y="836" class="cap">RESOLUTION</text>
+<text x="520" y="860" class="b">1920 x 1080</text>
+<text x="520" y="880" class="s">16:9, gets HD photos</text>
+<text x="720" y="836" class="cap">READ FROM</text>
+<text x="720" y="860" class="b">4 to 10 ft</text>
+<text x="880" y="836" class="cap">LAYOUT</text>
+<text x="880" y="860" class="b">Wide, scaled up</text>
+<text x="880" y="880" class="s">1422 x 800 layout</text>
+<use href="#i-warn" x="258" y="893" width="22" height="22"/>
+<text x="286" y="909" class="s">Untested. Boards and Android versions vary more. Make sure the web engine can be updated.</text>
+<rect class="card" x="40" y="938" width="1120" height="120" rx="12"/>
+<rect x="62" y="947" width="168" height="94" rx="6" style="fill:var(--icon)"/>
+<rect class="card" x="68" y="953" width="156" height="82" rx="2" style="stroke-width:1"/>
+<text x="260" y="978" class="h">21.5 inch and up</text>
+<text x="260" y="1000" class="s">big frames, monitors, TVs</text>
+<text x="520" y="968" class="cap">RESOLUTION</text>
+<text x="520" y="992" class="b">1920 x 1080+</text>
+<text x="520" y="1012" class="s">4K scales fine</text>
+<text x="720" y="968" class="cap">READ FROM</text>
+<text x="720" y="992" class="b">6 to 15 ft</text>
+<text x="880" y="968" class="cap">LAYOUT</text>
+<text x="880" y="992" class="b">Wide, scaled up</text>
+<text x="880" y="1012" class="s">a mini PC is simpler</text>
+<use href="#i-warn" x="258" y="1025" width="22" height="22"/>
+<text x="286" y="1041" class="s">Untested. Draws more power and shows burn-in sooner. Use night mode or a timer.</text>
+<rect class="soft" x="40" y="1078" width="1120" height="50" rx="10"/>
+<use href="#i-warn" x="54" y="1085" width="34" height="34"/>
+<text x="100" y="1108" class="b">A caution mark means untested. Read docs/screens.md before you buy a screen.</text>
+</svg>

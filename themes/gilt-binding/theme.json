@@ -1,0 +1,80 @@
+{
+ "id": "gilt-binding",
+ "name": "Gilt binding",
+ "blurb": "Navy leather and gold tooling",
+ "order": 70,
+ "kind": "both",
+ "swatches": [
+  "#14283F",
+  "#C9A55A",
+  "#E3CB8F",
+  "#EFE6D2",
+  "#C8102E"
+ ],
+ "fonts": {
+  "serif": "\"Cormorant Garamond\", \"EB Garamond\", Garamond, Georgia, serif",
+  "sans": "\"EB Garamond\", Garamond, Georgia, serif",
+  "script": "\"Great Vibes\", \"Snell Roundhand\", cursive"
+ },
+ "new_frame": {
+  "home": "today"
+ },
+ "art": {
+  "palette": {
+   "night": "#14283F",
+   "navy": "#2E4A6B",
+   "deep": "#0B1828",
+   "gold": "#E3CB8F",
+   "paper": "#EFE6D2",
+   "red": "#E58A97",
+   "warm": "#D9B48A",
+   "brown": "#A88A4A",
+   "green": "#7FC7B8",
+   "sky": "#4F7194",
+   "pink": "#B7A6E0"
+  },
+  "filter": "",
+  "frame": {
+   "border": "4px double #C9A55A",
+   "border-radius": "0px"
+  }
+ },
+ "admin": {
+  "tokens": {
+   "paper": "var(--paper)",
+   "card": "var(--tile)",
+   "ink": "var(--ink)",
+   "soft": "var(--soft)",
+   "line": "var(--line)",
+   "accent": "var(--gb-sel)",
+   "accent_ink": "var(--gb-on-sel)",
+   "danger": "#F2A0A8",
+   "ok": "var(--green)",
+   "head_bg": "var(--gb-rail)",
+   "head_ink": "var(--gb-hi)",
+   "head_soft": "var(--gilt)",
+   "head_rule": "var(--gilt)",
+   "font_display": "var(--serif)",
+   "font_body": "var(--sans)",
+   "font_script": "var(--script)",
+   "radius": "0px",
+   "shadow": "none",
+   "tile": "#22406A",
+   "line_soft": "var(--line-soft)",
+   "muted": "@soft",
+   "label": "var(--gilt-dim)",
+   "note": "var(--gb-hi)",
+   "rule": "var(--gilt)",
+   "field": "var(--paper)",
+   "link": "var(--gb-hi)",
+   "track": "#3B5577",
+   "focus": "var(--gb-hi)",
+   "warn": "var(--amber)",
+   "warn_bg": "#2C3A44",
+   "ok_bg": "#25402F",
+   "danger_bg": "#40273A",
+   "danger_ink": "var(--paper)",
+   "pill": "0px"
+  }
+ }
+}

@@ -1,0 +1,31 @@
+# Home Assistant add-on definition for Doorpost.
+# The version is filled in by scripts/build-addon.sh (1.1.<commit count>), so every
+# build shows up in Home Assistant as an update.
+name: Doorpost
+version: "__VERSION__"
+slug: family_frame
+description: The kitchen picture frame's dashboard. Today, family calendar, chores tied to screen time, and photos.
+arch:
+  - aarch64
+  - amd64
+startup: application
+boot: auto
+# The frame (kiosk browser on the home network) connects straight to this port.
+ports:
+  8090/tcp: 8090
+ports_description:
+  8090/tcp: Frame and parent phone page (home network)
+# The Home Assistant sidebar opens the settings panel through Ingress on the same port.
+ingress: true
+ingress_port: 8090
+panel_icon: mdi:image-frame
+panel_title: Doorpost
+panel_admin: true
+# Read garage/door/lock states for the Today screen, with the add-on's own token.
+homeassistant_api: true
+# Slideshow photos live in Home Assistant's media folder: /media/family_frame
+map:
+  - media:rw
+watchdog: http://[HOST]:[PORT:8090]/healthz
+options: {}
+schema: {}

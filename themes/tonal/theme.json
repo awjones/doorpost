@@ -1,0 +1,88 @@
+{
+ "id": "tonal",
+ "name": "Tonal View",
+ "blurb": "One color, soft shapes",
+ "order": 110,
+ "kind": "both",
+ "monogram": "initial",
+ "swatches": [
+  "#2F7A68",
+  "#C3EBDE",
+  "#F5FBF8",
+  "#4A63B8"
+ ],
+ "fonts": {
+  "serif": "\"Nunito Tonal\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+  "sans": "Roboto, \"Helvetica Neue\", Arial, sans-serif",
+  "script": "\"Nunito Tonal\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+ },
+ "options": {
+  "seed": {
+   "label": "Color",
+   "type": "color",
+   "default": "#2F7A68",
+   "swatches": [
+    "#2F7A68",
+    "#4A63B8",
+    "#B0533A",
+    "#8A4FA8"
+   ],
+   "help": "Every color on the frame is made from this one."
+  }
+ },
+ "art": {
+  "palette": {
+   "night": "#283230",
+   "navy": "#344641",
+   "deep": "#151D1B",
+   "gold": "#F2C14E",
+   "paper": "#EEF5F3",
+   "red": "#C2452D",
+   "warm": "#E0873A",
+   "brown": "#7A5534",
+   "green": "#286859",
+   "sky": "#B9C8EE",
+   "pink": "#E4A3BE"
+  },
+  "filter": "",
+  "frame": {
+   "border-radius": "28px"
+  }
+ },
+ "admin": {
+  "tokens": {
+   "paper": "lstar($seed, 0.3, 98)",
+   "card": "lstar($seed, 0.28, 95)",
+   "ink": "lstar($seed, 0.15, 10)",
+   "soft": "lstar($seed, 0.14, 30)",
+   "line": "lstar($seed, 0.16, 80)",
+   "accent": "lstar($seed, auto, 40)",
+   "accent_ink": "#FFFFFF",
+   "danger": "#B5271D",
+   "ok": "#225A37",
+   "head_bg": "lstar($seed, auto, 90)",
+   "head_ink": "lstar($seed, auto, 10)",
+   "head_soft": "lstar($seed, 0.14, 30)",
+   "head_rule": "lstar($seed, auto, 80)",
+   "font_display": "var(--serif)",
+   "font_body": "var(--sans)",
+   "font_script": "var(--serif)",
+   "radius": "24px",
+   "shadow": "none",
+   "tile": "lstar($seed, 0.26, 92)",
+   "line_soft": "lstar($seed, 0.24, 90)",
+   "muted": "lstar($seed, 0.12, 38)",
+   "label": "lstar($seed, auto, 40)",
+   "note": "lstar($seed, 0.14, 30)",
+   "rule": "lstar($seed, auto, 40)",
+   "field": "lstar($seed, 0.3, 99)",
+   "link": "lstar($seed, auto, 35)",
+   "track": "lstar($seed, 0.16, 75)",
+   "focus": "lstar($seed, auto, 40)",
+   "warn": "#4D2D09",
+   "warn_bg": "#F9D58E",
+   "ok_bg": "#C5ECD3",
+   "danger_bg": "#FADCD9"
+  }
+ }
+}

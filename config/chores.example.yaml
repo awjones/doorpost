@@ -1,0 +1,20 @@
+# Repeating chores. Copy to config/chores.yaml and edit.
+#   kid:     an id from frame.yaml (child1, child2, child3)
+#   minutes: 5, 10, 15 or 20
+#   days:    weekdays, weekend, daily, or a list like [mon, wed, fri]
+#   id:      optional; set one if you want to rename a chore later without
+#            losing today's progress on it
+chores:
+  - {kid: child1, title: Make your bed,         minutes: 5,  days: weekdays}
+  - {kid: child1, title: Unload the dishwasher, minutes: 10, days: weekdays}
+  - {kid: child1, title: Practice piano,        minutes: 15, days: [mon, tue, wed, thu]}
+  - {kid: child1, title: Tidy your room,        minutes: 10, days: daily}
+
+  - {kid: child2, title: Make your bed,           minutes: 5,  days: weekdays}
+  - {kid: child2, title: Sweep the kitchen,       minutes: 10, days: weekdays}
+  - {kid: child2, title: Set the table,           minutes: 5,  days: daily}
+  - {kid: child2, title: Read for 20 minutes,     minutes: 15, days: weekdays}
+
+  - {kid: child3, title: Make your bed,         minutes: 5,  days: weekdays}
+  - {kid: child3, title: Put your shoes away,   minutes: 5,  days: daily}
+  - {kid: child3, title: Pick up the toys,      minutes: 10, days: daily}

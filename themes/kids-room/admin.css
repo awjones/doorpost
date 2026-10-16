@@ -1,0 +1,8 @@
+/* Kids room in Settings: the sky-blue band and friendly rounded type. Decoration only; form text keeps its normal size. */
+body.admin-look-kids-room .aband { background-image: linear-gradient(120deg, #1F6FC9, #1A5CA8); border-bottom: 5px solid var(--a-head-rule); }
+body.admin-look-kids-room .aband .script { font-weight: 900; font-size: 30px; }
+body.admin-look-kids-room .card { border: 2px solid var(--a-line); }
+body.admin-look-kids-room .card > h2 { font-weight: 900; }
+body.admin-look-kids-room .stat b { font-weight: 900; }
+body.admin-look-kids-room .btn.primary { box-shadow: 0 3px 0 #1B2560; }
+@media (max-width: 760px) { body.admin-look-kids-room .aband .script { font-size: 24px; } }

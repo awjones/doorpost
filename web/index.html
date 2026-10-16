@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Our Family</title>
+<link rel="stylesheet" href="static/css/frame.css">
+<link rel="stylesheet" href="static/css/kids.css">
+<link rel="stylesheet" href="themes.css">
+</head>
+<body>
+<div id="stage">
+  <section class="screen" id="screen-today" aria-label="Today"></section>
+  <section class="screen" id="screen-kids" aria-label="Kids"></section>
+  <section class="screen" id="screen-clock" aria-label="Clock and today"></section>
+  <section class="screen" id="screen-chores" aria-label="Chores"></section>
+  <section class="screen" id="screen-calendar" aria-label="Calendar"></section>
+  <section class="screen" id="screen-screen" aria-label="Screen Time"></section>
+  <section class="screen" id="screen-lists" aria-label="Lists"></section>
+  <section class="screen" id="screen-photos" aria-label="Photos">
+    <img class="ph" id="ph-a" alt="">
+    <img class="ph" id="ph-b" alt="">
+    <div id="ph-over"></div>
+  </section>
+  <section class="screen" id="screen-night" aria-label="Night clock"></section>
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Parent approval"></div>
+  <span class="offline" id="offline" title="Can't reach the server"></span>
+  <button class="gear" id="gear" data-act="gear" aria-label="This frame (parent PIN)"></button>
+  <button class="hotcorner" id="hotcorner" data-act="refresh-now" aria-label="Check the calendars now"></button>
+  <div class="ftoast" id="ftoast" role="status"></div>
+  <div class="frame-name" id="frame-name" aria-live="polite"></div>
+</div>
+<script src="static/js/icons.js"></script>
+<script src="art.js"></script>
+<script src="static/js/kids.js"></script>
+<script src="static/js/looks.js"></script>
+<script src="themes.js"></script>
+<script src="static/js/app.js"></script>
+</body>
+</html>

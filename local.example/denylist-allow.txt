@@ -1,0 +1,3 @@
+# Hits that are on purpose: "path: text" means that one file may contain that text.
+# Example: your name in the license file.
+# LICENSE: Example-Surname

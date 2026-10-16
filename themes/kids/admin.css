@@ -1,0 +1,5 @@
+/* Bright & playful in Settings: decoration only (docs/themes.md "Settings look"). Form text keeps its normal size. */
+body.admin-look-kids .aband { border-bottom: 5px solid var(--a-head-rule); }
+body.admin-look-kids .card { border: 2px solid var(--a-line); }
+body.admin-look-kids .card > h2 { font-weight: 800; letter-spacing: -0.01em; }
+body.admin-look-kids .btn.primary { box-shadow: 0 3px 0 #123A6B; }

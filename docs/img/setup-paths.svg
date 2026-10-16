@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-labelledby="title desc">
+<title id="title">Three ways to run it</title>
+<desc id="desc">Step one: run the server as a Home Assistant add-on on a Raspberry Pi, on any always-on computer with Python, or in demo mode on a laptop. Step two: take over the frame, install the kiosk app, and point it at the server.</desc>
+<style>
+svg { --bg:#faf6ee; --card:#ffffff; --soft:#f3ecdc; --ink:#1d2a44; --muted:#5a6273; --line:#d8ccb2;
+  --navy:#1d2a44; --onnavy:#faf6ee; --gilt:#b8913a; --icon:#1d2a44; --off:#c9c2b2; --knob:#ffffff; }
+@media (prefers-color-scheme: dark) {
+  svg { --bg:#12161f; --card:#1a2030; --soft:#202839; --ink:#e8dcc0; --muted:#a8a08d; --line:#3a4358;
+    --navy:#27365a; --onnavy:#e8dcc0; --gilt:#b8913a; --icon:#e8dcc0; --off:#4a5268; --knob:#e8dcc0; }
+}
+text { font-family: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: var(--ink); }
+.bg { fill: var(--bg); }
+.card { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.soft { fill: var(--soft); stroke: var(--line); stroke-width: 1.5; }
+.zone { fill: var(--soft); stroke: var(--line); stroke-width: 2; stroke-dasharray: 8 6; }
+.zoneg { fill: none; stroke: var(--gilt); stroke-width: 2.5; stroke-dasharray: 8 6; }
+.gcard { fill: var(--card); stroke: var(--gilt); stroke-width: 2.5; }
+.dcard { fill: var(--card); stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 6 5; }
+.navy { fill: var(--navy); }
+.giltf { fill: var(--gilt); }
+.offf { fill: var(--off); }
+.knob { fill: var(--knob); }
+.onnavy { fill: var(--onnavy); }
+.muted { fill: var(--muted); }
+.gilt { fill: var(--gilt); }
+.title { font-size: 30px; font-weight: 700; }
+.sub { font-size: 17px; fill: var(--muted); }
+.h { font-size: 18px; font-weight: 700; }
+.b { font-size: 15px; }
+.s { font-size: 14px; fill: var(--muted); }
+.lbl { font-size: 14px; font-weight: 600; fill: var(--gilt); }
+.cap { font-size: 13.5px; font-weight: 700; letter-spacing: 1.2px; fill: var(--gilt); }
+.ln { stroke: var(--muted); stroke-width: 2; fill: none; }
+.lng { stroke: var(--gilt); stroke-width: 2.5; fill: none; }
+.lnd { stroke: var(--muted); stroke-width: 2; fill: none; stroke-dasharray: 6 5; }
+.ic { fill: none; stroke: var(--icon); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.icg { fill: none; stroke: var(--gilt); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.icf { fill: var(--gilt); }
+.icn { fill: var(--icon); }
+.ah { fill: var(--muted); }
+.ahg { fill: var(--gilt); }
+</style>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker>
+<marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahg" d="M0 0L10 5L0 10z"/></marker>
+<symbol id="i-cal" viewBox="0 0 48 48"><rect class="ic" x="6" y="10" width="36" height="32" rx="4"/><path class="ic" d="M6 19h36M16 6v8M32 6v8"/><rect class="icf" x="13" y="25" width="6" height="5" rx="1"/><rect class="icf" x="21" y="25" width="6" height="5" rx="1"/><rect class="icf" x="29" y="25" width="6" height="5" rx="1"/><rect class="icf" x="13" y="33" width="6" height="5" rx="1"/><rect class="icf" x="21" y="33" width="6" height="5" rx="1"/></symbol>
+<symbol id="i-weather" viewBox="0 0 48 48"><circle class="icg" cx="18" cy="17" r="7"/><path class="icg" d="M18 4v3M6 17H3M9 8l2 2M27 8l-2 2"/><path class="ic" d="M15 40h22a7 7 0 0 0 0-14 10 10 0 0 0-19 3 6 6 0 0 0-3 11z"/></symbol>
+<symbol id="i-photo" viewBox="0 0 48 48"><rect class="ic" x="5" y="9" width="38" height="30" rx="3"/><path class="ic" d="M5 34l11-11 9 9 6-6 12 12"/><circle class="icf" cx="33" cy="18" r="4"/></symbol>
+<symbol id="i-house" viewBox="0 0 48 48"><path class="ic" d="M6 22L24 7l18 15M10 19v22h28V19"/><rect class="icg" x="17" y="27" width="14" height="14"/><path class="icg" d="M17 32h14M17 36.5h14"/></symbol>
+<symbol id="i-mac" viewBox="0 0 48 48"><rect class="ic" x="4" y="7" width="40" height="27" rx="3"/><path class="ic" d="M19 34l-2 7h14l-2-7M14 41h20"/><path class="icg" d="M12 15h12M12 21h20M12 27h8"/></symbol>
+<symbol id="i-pi" viewBox="0 0 48 48"><rect class="ic" x="4" y="10" width="40" height="28" rx="3"/><rect class="icf" x="17" y="18" width="13" height="13" rx="1.5"/><path class="ic" d="M9 14.5h2M14 14.5h2M19 14.5h2M24 14.5h2M29 14.5h2M34 14.5h2M39 14.5h1"/><path class="ic" d="M37 22h7M37 29h7M8 34h5"/></symbol>
+<symbol id="i-frame" viewBox="0 0 48 48"><rect class="ic" x="3" y="6" width="42" height="30" rx="3"/><rect class="icg" x="8" y="11" width="32" height="20" rx="1"/><path class="icg" d="M8 27l8-7 7 6 5-4 12 9"/><path class="ic" d="M20 36l-4 7M28 36l4 7"/></symbol>
+<symbol id="i-phone" viewBox="0 0 48 48"><rect class="ic" x="13" y="3" width="22" height="42" rx="4"/><path class="ic" d="M21 39h6"/><path class="icg" d="M18 12h12M18 18h12M18 24h8"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 48 48"><path class="ic" d="M7 13h34M7 24h34M7 35h34"/><circle class="icf" cx="16" cy="13" r="4.5"/><circle class="icf" cx="31" cy="24" r="4.5"/><circle class="icf" cx="21" cy="35" r="4.5"/></symbol>
+<symbol id="i-cloud" viewBox="0 0 48 48"><path class="ic" d="M13 38h24a9 9 0 0 0 1-18A13 13 0 0 0 13 21a8.5 8.5 0 0 0 0 17z"/></symbol>
+<symbol id="i-router" viewBox="0 0 48 48"><rect class="ic" x="5" y="25" width="38" height="14" rx="3"/><path class="ic" d="M14 25l-4-14M34 25l4-14"/><circle class="icf" cx="13" cy="32" r="2"/><circle class="icf" cx="20" cy="32" r="2"/><circle class="icf" cx="27" cy="32" r="2"/></symbol>
+<symbol id="i-laptop" viewBox="0 0 48 48"><rect class="ic" x="9" y="10" width="30" height="21" rx="2"/><path class="ic" d="M4 37h40l-3-6H7z"/></symbol>
+<symbol id="i-check" viewBox="0 0 48 48"><rect class="ic" x="7" y="7" width="34" height="34" rx="6"/><path class="icg" d="M15 24l7 7 12-14"/></symbol>
+<symbol id="i-hourglass" viewBox="0 0 48 48"><path class="ic" d="M12 5h24M12 43h24M15 5c0 10 9 13 9 19s-9 9-9 19M33 5c0 10-9 13-9 19s9 9 9 19"/><path class="icf" d="M18 39c2-6 6-8 6-11 0 3 4 5 6 11z"/></symbol>
+<symbol id="i-list" viewBox="0 0 48 48"><path class="icg" d="M7 12l3 3 5-6M7 24l3 3 5-6"/><path class="ic" d="M20 12h21M20 24h21M20 36h21"/><rect class="ic" x="7" y="32" width="8" height="8" rx="1.5"/></symbol>
+<symbol id="i-star" viewBox="0 0 48 48"><path class="icg" d="M24 5l5.6 12 13 1.4-9.8 8.7 2.8 12.8L24 33.3 12.4 39.9l2.8-12.8-9.8-8.7 13-1.4z"/></symbol>
+<symbol id="i-clock" viewBox="0 0 48 48"><circle class="ic" cx="24" cy="24" r="18"/><path class="icg" d="M24 13v11l8 5"/></symbol>
+<symbol id="i-lock" viewBox="0 0 48 48"><rect class="ic" x="9" y="21" width="30" height="22" rx="3"/><path class="ic" d="M15 21v-6a9 9 0 0 1 18 0v6"/><circle class="icf" cx="24" cy="32" r="3"/></symbol>
+<symbol id="i-download" viewBox="0 0 48 48"><path class="ic" d="M24 6v24M14 21l10 10 10-10M8 41h32"/></symbol>
+<symbol id="i-pin" viewBox="0 0 48 48"><rect class="ic" x="6" y="6" width="36" height="36" rx="5"/><circle class="icf" cx="16" cy="16" r="2.6"/><circle class="icf" cx="24" cy="16" r="2.6"/><circle class="icf" cx="32" cy="16" r="2.6"/><circle class="icf" cx="16" cy="24" r="2.6"/><circle class="icf" cx="24" cy="24" r="2.6"/><circle class="icf" cx="32" cy="24" r="2.6"/><circle class="icf" cx="16" cy="32" r="2.6"/><circle class="icf" cx="24" cy="32" r="2.6"/><circle class="icf" cx="32" cy="32" r="2.6"/></symbol>
+</defs>
+<rect class="bg" x="0" y="0" width="1200" height="900"/>
+<text x="40" y="56" class="title">Three ways to run it</text>
+<text x="40" y="88" class="sub">Pick where the brain runs. Then turn a cheap picture frame into its screen.</text>
+<rect class="giltf" x="40" y="104" width="64" height="3" rx="1.5"/>
+<text x="40" y="158" class="cap">1   RUN THE BRAIN (PICK ONE)</text>
+<rect class="gcard" x="40" y="176" width="360" height="380" rx="14"/>
+<use href="#i-pi" x="62" y="198" width="52" height="52"/>
+<text x="128" y="220" class="h">Home Assistant add-on</text>
+<text x="128" y="243" class="s">on a Raspberry Pi</text>
+<rect class="giltf" x="62" y="268" width="128" height="26" rx="13"/>
+<text x="126" y="286" class="cap" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">RECOMMENDED</text>
+<path class="ln" d="M62 312H378" style="stroke:var(--line)"/>
+<text x="62" y="346" class="b">Copy it in as a local add-on,</text>
+<text x="62" y="372" class="b">then Install and Start.</text>
+<text x="62" y="424" class="b">Settings open from the HA</text>
+<text x="62" y="450" class="b">sidebar, and HA backups</text>
+<text x="62" y="476" class="b">include them. Uses about</text>
+<text x="62" y="502" class="b">60 to 90 MB of memory.</text>
+<rect class="card" x="420" y="176" width="360" height="380" rx="14"/>
+<use href="#i-laptop" x="442" y="198" width="52" height="52"/>
+<text x="508" y="220" class="h">Any always-on computer</text>
+<text x="508" y="243" class="s">Linux box, old laptop, Mac mini</text>
+<path class="ln" d="M442 312H758" style="stroke:var(--line)"/>
+<text x="442" y="346" class="b">Install the Python packages</text>
+<text x="442" y="372" class="b">and run the FastAPI server</text>
+<text x="442" y="398" class="b">on port 8090.</text>
+<text x="442" y="450" class="b">A systemd service file is</text>
+<text x="442" y="476" class="b">included for Linux. Settings</text>
+<text x="442" y="502" class="b">open at /admin with a PIN.</text>
+<rect class="card" x="800" y="176" width="360" height="380" rx="14"/>
+<use href="#i-laptop" x="822" y="198" width="52" height="52"/>
+<text x="888" y="220" class="h">Try it on a laptop</text>
+<text x="888" y="243" class="s">demo mode, nothing to set up</text>
+<path class="ln" d="M822 312H1138" style="stroke:var(--line)"/>
+<text x="822" y="346" class="b">Start it with FRAME_DEMO=1.</text>
+<text x="822" y="372" class="b">Sample calendars, weather,</text>
+<text x="822" y="398" class="b">house status and chores.</text>
+<text x="822" y="450" class="b">Open localhost:8090 for the</text>
+<text x="822" y="476" class="b">frame and /parent for the</text>
+<text x="822" y="502" class="b">phone page.</text>
+<path class="ln" d="M220 562V590H980V562"/>
+<path class="ln" d="M600 562V590"/>
+<path class="ln" d="M600 590V614" marker-end="url(#ah)"/>
+<rect class="soft" x="420" y="620" width="360" height="46" rx="23"/>
+<text x="600" y="649" class="b" text-anchor="middle">The brain at http://&lt;server&gt;:8090</text>
+<text x="40" y="714" class="cap">2   SET UP THE FRAME</text>
+<rect class="card" x="40" y="732" width="340" height="140" rx="14"/>
+<circle class="navy" cx="74" cy="768" r="18"/>
+<text x="74" y="774" class="h" text-anchor="middle" style="fill:#faf6ee">1</text>
+<use href="#i-lock" x="316" y="748" width="44" height="44"/>
+<text x="104" y="774" class="h">Take over the frame</text>
+<text x="64" y="812" class="s">Follow Wes Bos&#x27;s guide:</text>
+<text x="64" y="832" class="s">github.com/wesbos/</text>
+<text x="64" y="852" class="s">photo-frame-dashboard</text>
+<path class="ln" d="M386 802L434 802" marker-end="url(#ah)"/>
+<rect class="card" x="440" y="732" width="340" height="140" rx="14"/>
+<circle class="navy" cx="474" cy="768" r="18"/>
+<text x="474" y="774" class="h" text-anchor="middle" style="fill:#faf6ee">2</text>
+<use href="#i-frame" x="716" y="748" width="44" height="44"/>
+<text x="504" y="774" class="h">Install the kiosk</text>
+<text x="464" y="812" class="s">One full-screen browser that</text>
+<text x="464" y="832" class="s">opens by itself on power-up</text>
+<path class="ln" d="M786 802L834 802" marker-end="url(#ah)"/>
+<rect class="card" x="840" y="732" width="340" height="140" rx="14"/>
+<circle class="navy" cx="874" cy="768" r="18"/>
+<text x="874" y="774" class="h" text-anchor="middle" style="fill:#faf6ee">3</text>
+<use href="#i-sliders" x="1116" y="748" width="44" height="44"/>
+<text x="904" y="774" class="h">Point it at the brain</text>
+<text x="864" y="812" class="s">Set the kiosk address and put</text>
+<text x="864" y="832" class="s">the frame on its own network</text>
+</svg>

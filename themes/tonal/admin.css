@@ -1,0 +1,7 @@
+/* Tonal View in Settings: one color, soft round shapes, no rules. Decoration only. */
+body.admin-look-tonal .aband { border-bottom: 1px solid var(--a-head-rule); }
+body.admin-look-tonal .aband .script { font-weight: 900; font-size: 30px; }
+body.admin-look-tonal .card { border-color: transparent; }
+body.admin-look-tonal .card > h2 { font-weight: 800; }
+body.admin-look-tonal .stat b { font-weight: 800; }
+@media (max-width: 760px) { body.admin-look-tonal .aband .script { font-size: 24px; } }

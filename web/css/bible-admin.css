@@ -1,0 +1,28 @@
+/* Settings > Special days > Bible translation (web/js/bible-admin.js). */
+#bible .bt-list { display: flex; flex-direction: column; gap: 10px; }
+#bible .bt-tr { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; background: var(--card); display: flex; flex-direction: column; gap: 6px; }
+#bible .bt-tr.on { border-color: var(--navy); box-shadow: inset 0 0 0 1px var(--navy); }
+#bible .bt-pick { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 16px; }
+#bible .bt-pick > span:nth-of-type(1) { flex: 1 1 0; min-width: 0; }
+#bible .bt-pick input { width: 20px; height: 20px; accent-color: var(--a-accent, #16324F); margin: 0; }
+#bible .bt-abbr { color: var(--soft); font-weight: 600; font-size: 14px; }
+#bible .bt-pill { flex: none; margin-left: auto; font-size: 12px; font-weight: 700; border-radius: 999px; padding: 3px 10px; background: var(--tile); color: var(--soft); border: 1px solid var(--line); }
+#bible .bt-pill.bt-built-in, #bible .bt-pill.bt-downloaded, #bible .bt-pill.bt-yours { background: var(--green-bg); color: var(--green); border-color: transparent; }
+#bible .bt-pill.bt-download, #bible .bt-pill.bt-key, #bible .bt-pill.bt-needs-text { background: var(--amber-bg); color: var(--amber); border-color: transparent; }
+#bible .bt-state { font-size: 14px; font-weight: 600; color: var(--ink); margin: 0; }
+#bible .bt-notice { font-size: 13px; line-height: 1.45; color: var(--ink); margin: 0; padding: 8px 10px; background: var(--tile); border-left: 3px solid var(--a-rule, var(--gilt)); border-radius: 0 8px 8px 0; }
+#bible .bt-note, #bible .bt-small { font-size: 13px; line-height: 1.45; color: var(--soft); margin: 0; }
+#bible .bt-links { font-size: 13px; margin: 0; }
+#bible .bt-links a { color: var(--navy); font-weight: 700; }
+#bible .bt-acts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 4px; }
+#bible .bt-acts .btn { height: 38px; font-size: 14px; }
+#bible .bt-file { cursor: pointer; }
+#bible .bt-key summary { cursor: pointer; font-size: 14px; font-weight: 700; color: var(--navy); margin-top: 4px; }
+#bible .bt-key { display: flex; flex-direction: column; gap: 8px; }
+#bible .bt-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 6px 0; }
+#bible .bt-prev { border-top: 1px solid var(--line); padding-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+#bible .bt-prev h3 { font-family: var(--serif); font-size: 18px; margin: 0; }
+#bible .bt-pv { display: flex; gap: 10px; font-size: 14px; line-height: 1.45; }
+#bible .bt-pv b { flex: 0 0 46px; color: var(--soft); font-size: 12px; letter-spacing: 0.08em; padding-top: 2px; }
+#bible .bt-pv i { color: var(--soft); font-style: normal; font-weight: 600; white-space: nowrap; }
+#bible .bt-pv small { color: var(--amber); }

@@ -1,0 +1,87 @@
+{
+ "id": "mica",
+ "name": "Mica View",
+ "blurb": "Soft tinted layers, a dock at the bottom",
+ "order": 100,
+ "kind": "both",
+ "swatches": [
+  "#E6ECF4",
+  "#FFFFFF",
+  "#1F6FC5",
+  "#1B1B1B"
+ ],
+ "fonts": {
+  "serif": "system-ui, -apple-system, \"Segoe UI Variable\", \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+  "sans": "system-ui, -apple-system, \"Segoe UI Variable\", \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+  "script": "system-ui, -apple-system, \"Segoe UI Variable\", \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+ },
+ "new_frame": {
+  "home": "today"
+ },
+ "options": {
+  "accent": {
+   "label": "Accent color",
+   "type": "color",
+   "default": "#1F6FC5",
+   "swatches": ["#1F6FC5", "#00707A", "#7A4FC0", "#B34A1A"],
+   "help": "Tints the selected tab, buttons, today's date and the next event."
+  }
+ },
+ "art": {
+  "palette": {
+   "night": "#2E4A6E",
+   "navy": "#1F6FC5",
+   "deep": "#1C2A3D",
+   "gold": "#E8A317",
+   "paper": "#F3F5F8",
+   "red": "#C42B1C",
+   "warm": "#E8743B",
+   "brown": "#8A5A3C",
+   "green": "#2E8B57",
+   "sky": "#7FB2E5",
+   "pink": "#E38FB0"
+  },
+  "filter": "saturate(0.95)",
+  "frame": {
+   "border": "1px solid rgba(0, 0, 0, 0.08)",
+   "border-radius": "8px",
+   "box-shadow": "0 2px 8px rgba(0, 0, 0, 0.08)"
+  }
+ },
+ "admin": {
+  "tokens": {
+   "paper": "var(--paper)",
+   "card": "var(--card)",
+   "ink": "var(--ink)",
+   "soft": "var(--soft)",
+   "line": "var(--line)",
+   "accent": "readable($accent, #FFFFFF, 4.6)",
+   "accent_ink": "#FFFFFF",
+   "danger": "var(--red)",
+   "ok": "var(--green)",
+   "head_bg": "mix($accent, #FFFFFF, 0.88)",
+   "head_ink": "var(--ink)",
+   "head_soft": "readable($accent, @head_bg)",
+   "head_rule": "mix($accent, #FFFFFF, 0.6)",
+   "font_display": "var(--sans)",
+   "font_body": "var(--sans)",
+   "font_script": "var(--sans)",
+   "radius": "8px",
+   "shadow": "var(--mica-shadow)",
+   "tile": "#F7F8FA",
+   "line_soft": "var(--line-soft)",
+   "muted": "var(--muted)",
+   "label": "var(--gilt-dim)",
+   "note": "var(--soft)",
+   "rule": "@accent",
+   "field": "#FFFFFF",
+   "link": "readable($accent, #FFFFFF)",
+   "track": "#C5CAD1",
+   "focus": "@accent",
+   "warn": "var(--amber)",
+   "warn_bg": "var(--amber-bg)",
+   "ok_bg": "var(--green-bg)",
+   "danger_bg": "#FDE7E9"
+  }
+ }
+}

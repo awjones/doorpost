@@ -1,0 +1,280 @@
+{
+ "id": "family-basics",
+ "name": "Family basics",
+ "version": "1.0.0",
+ "priority": 10,
+ "description": "Birthdays, anniversaries, school days, graduation, trips and vacations, visitors and date night, plus the gold pattern used when a day has no picture.",
+ "license": "CC BY 4.0",
+ "preview": "scenes/birthday.svg",
+ "groups": [
+  {
+   "name": "Family days",
+   "order": 2,
+   "scenes": [
+    "school",
+    "camping",
+    "pattern"
+   ]
+  },
+  {
+   "name": "Trips and vacations",
+   "order": 3,
+   "scenes": [
+    "beach",
+    "roadtrip",
+    "flight",
+    "trip",
+    "cruise"
+   ]
+  },
+  {
+   "name": "Family milestones",
+   "order": 6,
+   "scenes": [
+    "birthday",
+    "anniversary",
+    "firstday",
+    "graduation"
+   ]
+  },
+  {
+   "name": "Visitors and evenings",
+   "order": 12,
+   "scenes": [
+    "grandparents",
+    "reunion",
+    "datenight"
+   ]
+  }
+ ],
+ "scenes": {
+  "anniversary": {
+   "title": "Anniversary",
+   "script": "Happy anniversary!",
+   "about": "Two gold rings with roses and hearts.",
+   "file": "scenes/anniversary.svg"
+  },
+  "beach": {
+   "title": "Beach",
+   "script": "Vacation!",
+   "about": "A palm tree, umbrella and the sun setting over the water.",
+   "file": "scenes/beach.svg"
+  },
+  "birthday": {
+   "title": "Birthday (their photo)",
+   "script": "Happy birthday!",
+   "about": "Their photo (Settings › Family) in a round gold frame, their name on the banner, a cake and balloons. A present waits in the frame for anyone without a photo.",
+   "auto": "Comes up by itself on birthdays set on the Family page, and for calendar events like “Child 1's birthday”.",
+   "file": "scenes/birthday.svg"
+  },
+  "camping": {
+   "title": "Camping",
+   "script": "Camp out!",
+   "about": "A tent and campfire among pines under the moon.",
+   "file": "scenes/camping.svg"
+  },
+  "cruise": {
+   "title": "Cruise",
+   "script": "Bon voyage!",
+   "about": "A big modern cruise ship from the side, heading right, with foam at the bow and stern.",
+   "file": "scenes/cruise.svg"
+  },
+  "datenight": {
+   "title": "Date night",
+   "script": "Date night",
+   "about": "A candlelit table for two with a rose, the city at night behind.",
+   "file": "scenes/datenight.svg"
+  },
+  "firstday": {
+   "title": "First day of school",
+   "script": "First day!",
+   "about": "An apple on a stack of books in front of a chalkboard.",
+   "file": "scenes/firstday.svg"
+  },
+  "flight": {
+   "title": "Air travel",
+   "script": "Up, up and away!",
+   "about": "A plane climbing through the clouds.",
+   "file": "scenes/flight.svg"
+  },
+  "graduation": {
+   "title": "Graduation",
+   "script": "Congratulations!",
+   "about": "A cap with its tassel and a diploma.",
+   "file": "scenes/graduation.svg"
+  },
+  "grandparents": {
+   "title": "Grandparents visiting",
+   "script": "Grandparents are here!",
+   "about": "A house with rocking chairs on the porch and a heart in the window.",
+   "file": "scenes/grandparents.svg"
+  },
+  "pattern": {
+   "title": "Gold pattern (no picture)",
+   "about": "The gold lattice with the family monogram. Use it for a special day that needs no picture.",
+   "file": "scenes/pattern.svg"
+  },
+  "reunion": {
+   "title": "Family reunion",
+   "script": "Family reunion!",
+   "about": "A big tree full of hearts over a long picnic table.",
+   "file": "scenes/reunion.svg"
+  },
+  "roadtrip": {
+   "title": "Road trip",
+   "script": "Road trip!",
+   "about": "A red car with luggage on top driving toward the mountains.",
+   "file": "scenes/roadtrip.svg"
+  },
+  "school": {
+   "title": "School's out",
+   "script": "School's out!",
+   "about": "A yellow school bus heading off under the sun.",
+   "file": "scenes/school.svg"
+  },
+  "trip": {
+   "title": "Any trip",
+   "script": "Vacation!",
+   "about": "A map with a dotted route, a pin and a suitcase.",
+   "file": "scenes/trip.svg"
+  },
+  "vacation": {
+   "title": "Vacation",
+   "script": "Vacation!",
+   "file": "scenes/vacation.svg"
+  },
+  "vacation-wide": {
+   "title": "Vacation (wide)",
+   "hidden": true,
+   "file": "scenes/vacation-wide.svg"
+  }
+ },
+ "rules": [
+  {
+   "keyword": "Last day of school",
+   "scene": "school",
+   "order": 2
+  },
+  {
+   "keyword": "Camping",
+   "scene": "camping",
+   "order": 5
+  },
+  {
+   "keyword": "Campout",
+   "scene": "camping",
+   "order": 6
+  },
+  {
+   "keyword": "Camporee",
+   "scene": "camping",
+   "order": 7
+  },
+  {
+   "keyword": "Road trip",
+   "scene": "roadtrip",
+   "order": 8
+  },
+  {
+   "keyword": "Flight",
+   "scene": "flight",
+   "order": 9
+  },
+  {
+   "keyword": "Fly to",
+   "scene": "flight",
+   "order": 10
+  },
+  {
+   "keyword": "Cruise",
+   "scene": "cruise",
+   "order": 19
+  },
+  {
+   "keyword": "Birthday",
+   "scene": "birthday",
+   "order": 20
+  },
+  {
+   "keyword": "Bday",
+   "scene": "birthday",
+   "order": 21
+  },
+  {
+   "keyword": "Anniversary",
+   "scene": "anniversary",
+   "order": 22
+  },
+  {
+   "keyword": "First day of school",
+   "scene": "firstday",
+   "order": 23
+  },
+  {
+   "keyword": "Back to school",
+   "scene": "firstday",
+   "order": 24
+  },
+  {
+   "keyword": "Graduation",
+   "scene": "graduation",
+   "order": 25
+  },
+  {
+   "keyword": "Commencement",
+   "scene": "graduation",
+   "order": 26
+  },
+  {
+   "keyword": "Grandparents",
+   "scene": "grandparents",
+   "order": 73,
+   "picture_only": true
+  },
+  {
+   "keyword": "Grandma",
+   "scene": "grandparents",
+   "order": 74,
+   "picture_only": true
+  },
+  {
+   "keyword": "Grandpa",
+   "scene": "grandparents",
+   "order": 75,
+   "picture_only": true
+  },
+  {
+   "keyword": "Family reunion",
+   "scene": "reunion",
+   "order": 76
+  },
+  {
+   "keyword": "Reunion",
+   "scene": "reunion",
+   "order": 77
+  },
+  {
+   "keyword": "Date night",
+   "scene": "datenight",
+   "order": 78,
+   "picture_only": true
+  },
+  {
+   "keyword": "Beach",
+   "scene": "beach",
+   "order": 979
+  },
+  {
+   "keyword": "Vacation",
+   "scene": "trip",
+   "order": 980
+  }
+ ],
+ "slots": [
+  "NAME",
+  "NAME_SIZE",
+  "PORTRAIT",
+  "PLACE",
+  "PLACE_SIZE"
+ ]
+}

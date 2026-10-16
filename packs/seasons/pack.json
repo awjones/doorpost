@@ -1,0 +1,86 @@
+{
+ "id": "seasons",
+ "name": "Seasons",
+ "version": "1.0.0",
+ "priority": 10,
+ "description": "The first day of spring, summer, fall and winter, and a snow day.",
+ "license": "CC BY 4.0",
+ "preview": "scenes/fall.svg",
+ "groups": [
+  {
+   "name": "Seasons",
+   "order": 10,
+   "scenes": [
+    "spring",
+    "summer",
+    "fall",
+    "winter",
+    "snowday"
+   ]
+  }
+ ],
+ "scenes": {
+  "fall": {
+   "title": "First day of fall",
+   "script": "Hello, fall!",
+   "about": "An orange maple with leaves falling.",
+   "auto": "Comes up by itself on the first day of the season, on quiet days (not Sundays).",
+   "file": "scenes/fall.svg"
+  },
+  "snowday": {
+   "title": "Snow day",
+   "script": "Snow day!",
+   "about": "A snowman and sled by a house with smoke from the chimney.",
+   "file": "scenes/snowday.svg"
+  },
+  "spring": {
+   "title": "First day of spring",
+   "script": "Spring is here!",
+   "about": "A blossoming tree and tulips.",
+   "auto": "Comes up by itself on the first day of the season, on quiet days (not Sundays).",
+   "file": "scenes/spring.svg"
+  },
+  "summer": {
+   "title": "First day of summer",
+   "script": "Summer!",
+   "about": "Sunflowers under a big sun.",
+   "auto": "Comes up by itself on the first day of the season, on quiet days (not Sundays).",
+   "file": "scenes/summer.svg"
+  },
+  "winter": {
+   "title": "First day of winter",
+   "script": "Winter is here",
+   "about": "Snowy pines under the moon.",
+   "auto": "Comes up by itself on the first day of the season, on quiet days (not Sundays).",
+   "file": "scenes/winter.svg"
+  }
+ },
+ "rules": [
+  {
+   "season": "spring",
+   "scene": "spring",
+   "name": "First day of spring"
+  },
+  {
+   "season": "summer",
+   "scene": "summer",
+   "name": "First day of summer"
+  },
+  {
+   "season": "fall",
+   "scene": "fall",
+   "name": "First day of fall"
+  },
+  {
+   "season": "winter",
+   "scene": "winter",
+   "name": "First day of winter"
+  },
+  {
+   "keyword": "Snow day",
+   "scene": "snowday",
+   "order": 58
+  }
+ ],
+ "slots": []
+}

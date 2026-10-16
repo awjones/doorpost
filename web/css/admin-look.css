@@ -1,0 +1,57 @@
+/* Settings look (app/admin_looks.py, docs/themes.md "Settings look"): Settings and the phone page are drawn from
+   a small set of admin tokens (--a-*). The server puts the chosen look's tokens in <style id="admin-look">; the
+   values here are Navy & gilt, the plain style, so the pages look right even without them. */
+:root {
+  --a-paper: #F6F1E7; --a-card: #FFFDF8; --a-ink: #1F1B16; --a-soft: #5E5547; --a-line: #E2D8C3;
+  --a-accent: #16324F; --a-accent-ink: #C9A55A; --a-danger: #C8102E; --a-ok: #2F5E36;
+  --a-head-bg: #16324F; --a-head-ink: #C9A55A;
+  --a-font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --a-font-body: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+  --a-radius: 14px; --a-shadow: none;
+  --a-tile: #FAF5EA; --a-line-soft: #EEE6D6; --a-muted: #6E6556; --a-label: #8C7A4E; --a-note: #7A6A2F;
+  --a-rule: #C9A55A; --a-head-soft: #B9A06E; --a-head-rule: #C9A55A; --a-field: #FFFFFF; --a-field-ink: #1F1B16;
+  --a-link: #16324F; --a-track: #CFC6B4; --a-warn: #7D5210; --a-warn-bg: #F6E7C8; --a-ok-bg: #E2EEDD;
+  --a-danger-bg: #F8DDDD; --a-danger-ink: #FFFFFF; --a-focus: #16324F;
+  --a-font-script: "Pinyon Script", "Snell Roundhand", cursive; --a-pill: 999px;
+}
+
+/* The frame's own color names (web/css/frame.css), so the shared pieces (cards, chips, avatars, buttons) follow. */
+body.admin-look {
+  --paper: var(--a-paper); --card: var(--a-card); --tile: var(--a-tile); --line: var(--a-line); --line-soft: var(--a-line-soft);
+  --ink: var(--a-ink); --soft: var(--a-soft); --muted: var(--a-muted);
+  --navy: var(--a-accent); --gilt: var(--a-accent-ink); --gilt-soft: var(--a-head-soft); --gilt-dim: var(--a-label);
+  --red: var(--a-danger); --next-bg: var(--a-danger-bg);
+  --amber: var(--a-warn); --amber-bg: var(--a-warn-bg); --green: var(--a-ok); --green-bg: var(--a-ok-bg);
+  --serif: var(--a-font-display); --sans: var(--a-font-body); --script: var(--a-font-script);
+  color: var(--a-ink); font-family: var(--a-font-body);
+}
+html { background: var(--a-paper); }
+body.admin-look .card { border-radius: var(--a-radius); box-shadow: var(--a-shadow); }
+body.admin-look .av.s, body.admin-look .av.m, body.admin-look .av.k { box-shadow: 0 0 0 2px var(--a-card), 0 0 0 3px var(--a-rule); }
+body.admin-look .av.m, body.admin-look .av.k { box-shadow: 0 0 0 2px var(--a-tile), 0 0 0 3px var(--a-rule); }
+body.admin-look .av.all { background: var(--a-accent); color: var(--a-accent-ink); }
+body.admin-look :focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+
+/* The photo behind the page, for a look with "photo": true in its admin block (Glass View). The server adds the
+   picture itself (background-image) in the page. */
+body.admin-look-photo { background: transparent; }
+body.admin-look-photo::before { content: ""; position: fixed; top: -30px; left: -30px; right: -30px; bottom: -30px; z-index: -1;
+  background: center / cover no-repeat; filter: blur(10px) saturate(1.1); }
+body.admin-look-photo::after { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; background: var(--a-photo-wash); }
+
+/* "Settings look: X. Use plain" at the bottom of the page. */
+.alook-foot { max-width: 1120px; margin: 0 auto; padding: 0 16px 28px; font-size: 13px; color: var(--a-soft); }
+.alook-foot a { color: var(--a-link); font-weight: 700; }
+body.admin-look-photo .alook-foot { color: var(--a-ink); }
+
+/* Settings > Overview > Settings look (web/js/admin-look.js) */
+.al-looks { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+.al-look { display: flex; flex-direction: column; gap: 4px; border: 1.5px solid var(--a-line); border-radius: calc(var(--a-radius) - 2px); padding: 10px 12px; background: var(--a-card); cursor: pointer; }
+.al-look input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.al-look b { font-size: 15px; }
+.al-look small { font-size: 12px; color: var(--a-soft); }
+.al-look.on { border-color: var(--a-accent); box-shadow: inset 0 0 0 1.5px var(--a-accent); }
+.al-look:focus-within { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.al-look .swatches { display: flex; gap: 4px; }
+.al-look .swatches i { width: 18px; height: 18px; border-radius: 9px; border: 1px solid rgba(0, 0, 0, 0.15); }
+.al-look.off { opacity: 0.6; }

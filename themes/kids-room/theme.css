@@ -1,0 +1,648 @@
+/* Kids room: a sunny playroom look for every screen. Cream paper, a sky-blue header with a smiling sun,
+   chunky rounded cards that press down, pictures first, big heavy friendly type (Nunito, OFL, in fonts/).
+   Works on a Kids-home frame and on a Today-home frame. Chrome 106 safe: no nesting, no :has(), rgba only. */
+
+@font-face { font-family: "Nunito"; font-weight: 700; src: url(fonts/nunito-latin-700-normal.woff2) format("woff2"); font-display: swap; }
+@font-face { font-family: "Nunito"; font-weight: 800; src: url(fonts/nunito-latin-800-normal.woff2) format("woff2"); font-display: swap; }
+@font-face { font-family: "Nunito"; font-weight: 900; src: url(fonts/nunito-latin-900-normal.woff2) format("woff2"); font-display: swap; }
+
+body.look-kids-room {
+  --paper: #FFF6E5; --card: #FFFFFF; --tile: #FFFBF2; --line: #EADFC8; --line-soft: #F3EAD7;
+  --ink: #2B2A3A; --soft: #5E5B70; --muted: #6B6880;
+  --navy: #1D4E89; --gilt: #FFC93C; --gilt-soft: #FFE08A; --gilt-dim: #8A5A00;
+  --red: #C62F37; --next-bg: #FFF0E3;
+  --amber: #8A5A00; --amber-bg: #FFF0C2; --green: #1E7A3F; --green-bg: #DDF5E4;
+  --kr-sky: linear-gradient(120deg, #3B9BE6, #1F6FC9); --kr-blue: #1F6FC9; --kr-orange: #FF8A3D; --kr-orange-t: #C2410C;
+  --kr-press: #EADFC8; --kr-dusk: linear-gradient(135deg, #2E3A8C, #5B3E9A); --kr-moon: #F3E6A8;
+  font-weight: 700;
+}
+body.look-kids-room #stage { background: var(--paper); }
+body.look-kids-room .screen { background: var(--paper); }
+
+/* ---------------- header: a sky-blue band with a smiling sun ---------------- */
+body.look-kids-room .band { margin: 14px 20px 0; height: 100px; border: none; border-radius: 32px; padding: 8px 26px 8px 12px;
+  background: var(--kr-sky); color: #FFFFFF; box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.1); }
+body.look-kids-room .band.tall { height: 112px; padding-top: 8px; padding-bottom: 8px; }
+body.look-kids-room .band-left { gap: 16px; }
+body.look-kids-room .band .mono { --mono-w: 88px; border-radius: 50%; position: relative;
+  -webkit-mask-image: none; mask-image: none; background: rgba(255, 255, 255, 0.22) url(img/sun.svg) center / 82px no-repeat; }
+body.look-kids-room .band .script { font-family: var(--sans); font-size: 44px; font-weight: 900; line-height: 1.1; color: #FFFFFF; }
+body.look-kids-room .band .kicker { font-size: 20px; font-weight: 800; letter-spacing: 0; text-transform: none; color: #FFFFFF; }
+body.look-kids-room .clock { gap: 6px; }
+body.look-kids-room .band .clock .t { font-family: var(--sans); font-size: 84px; font-weight: 900; letter-spacing: -0.02em; line-height: 0.95; color: #FFFFFF; }
+body.look-kids-room .band .clock .ap { font-size: 28px; font-weight: 900; color: #FFFFFF; }
+body.look-kids-room .vrule { display: none; }
+body.look-kids-room .band .wx { order: -1; gap: 8px; background: rgba(255, 255, 255, 0.22); border-radius: 999px; padding: 4px 20px 4px 10px; color: #FFFFFF; }
+body.look-kids-room .band .wx .temp { font-family: var(--sans); font-size: 34px; font-weight: 900; }
+body.look-kids-room .band .wx .txt { font-family: var(--sans); font-style: normal; font-size: 19px; font-weight: 800; }
+body.look-kids-room .band .wx .sub { display: none; }
+body.look-kids-room .band .wx svg { width: 40px; height: 40px; }
+
+/* each screen's own picture in the header circle (the Today screen keeps the sun) */
+body.look-kids-room #screen-chores .band .mono, body.look-kids-room #screen-calendar .band .mono, body.look-kids-room #screen-screen .band .mono,
+body.look-kids-room #screen-lists .band .mono { --mono-w: 76px; background: #1E9A50; box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.28); }
+body.look-kids-room #screen-calendar .band .mono { background: #E8641B; }
+body.look-kids-room #screen-screen .band .mono { background: #7B5CD6; }
+body.look-kids-room #screen-lists .band .mono { background: #D9363E; }
+body.look-kids-room #screen-chores .band .mono::before, body.look-kids-room #screen-calendar .band .mono::before,
+body.look-kids-room #screen-screen .band .mono::before, body.look-kids-room #screen-lists .band .mono::before {
+  content: ""; position: absolute; left: 17px; top: 17px; width: 42px; height: 42px; background: #FFFFFF;
+  -webkit-mask: url(img/i-chores.svg) center / contain no-repeat; mask: url(img/i-chores.svg) center / contain no-repeat; }
+body.look-kids-room #screen-calendar .band .mono::before { -webkit-mask-image: url(img/i-calendar.svg); mask-image: url(img/i-calendar.svg); }
+body.look-kids-room #screen-screen .band .mono::before { -webkit-mask-image: url(img/i-hourglass.svg); mask-image: url(img/i-hourglass.svg); }
+body.look-kids-room #screen-lists .band .mono::before { -webkit-mask-image: url(img/i-cart.svg); mask-image: url(img/i-cart.svg); }
+body.look-kids-room #screen-chores .band .script, body.look-kids-room #screen-calendar .band .script,
+body.look-kids-room #screen-screen .band .script, body.look-kids-room #screen-lists .band .script { font-size: 40px; }
+
+/* sleeps, counted in moons (theme.js adds the empty .kr-moons and a kr-n<number> class) */
+body.look-kids-room .kr-moons { display: block; flex-shrink: 0; height: 30px; width: 30px; background: url(img/moon-mini.svg) left center / 30px 30px repeat-x; }
+body.look-kids-room .kr-moons.kr-n2 { width: 64px; }
+body.look-kids-room .kr-moons.kr-n3, body.look-kids-room .kr-moons.kr-many { width: 98px; }
+body.look-kids-room .kr-moons.kr-n0 { display: none; }
+
+/* ---------------- body, cards ---------------- */
+body.look-kids-room .body { padding: 14px 20px 14px; gap: 14px; }
+body.look-kids-room .main { gap: 16px; }
+body.look-kids-room .card { background: var(--card); border: 3px solid var(--line); border-radius: 28px; padding: 14px 20px; box-shadow: 0 6px 0 var(--kr-press); }
+body.look-kids-room .card-head h2 { font-family: var(--sans); font-size: 24px; font-weight: 900; }
+body.look-kids-room .aside { font-family: var(--sans); font-style: normal; font-size: 16px; font-weight: 800; color: var(--soft); }
+body.look-kids-room .empty, body.look-kids-room .nothing { font-family: var(--sans); font-style: normal; font-weight: 800; color: var(--soft); }
+body.look-kids-room .intro { font-family: var(--sans); font-style: normal; font-size: 18px; font-weight: 800; color: var(--soft); }
+
+/* faces: initials in heavy round type, a white ring */
+body.look-kids-room .av { font-family: var(--sans); font-style: normal; font-weight: 900; color: #FFFFFF; }
+body.look-kids-room .av.s { width: 38px; height: 38px; font-size: 19px; box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px rgba(43, 42, 58, 0.14); }
+body.look-kids-room .av.m { width: 46px; height: 46px; font-size: 23px; box-shadow: 0 0 0 3px #FFFFFF, 0 0 0 5px rgba(43, 42, 58, 0.14); }
+body.look-kids-room .av.all { background: var(--navy); color: #FFFFFF; font-size: 14px; letter-spacing: 0.02em; }
+body.look-kids-room .av.s.all { font-size: 12px; }
+
+/* ---------------- buttons: chunky, they press down ---------------- */
+body.look-kids-room .btn-primary { height: 64px; padding: 0 28px; border-radius: 22px; background: var(--green); color: #FFFFFF; box-shadow: 0 6px 0 #135229;
+  font-size: 22px; font-weight: 900; }
+body.look-kids-room .btn-primary:active { transform: translateY(4px); box-shadow: 0 2px 0 #135229; }
+body.look-kids-room .btn-outline { height: 68px; border-radius: 999px; border: 3px solid var(--line); background: #FFFFFF; color: var(--soft); font-size: 20px; font-weight: 900; box-shadow: 0 5px 0 var(--kr-press); }
+body.look-kids-room .btn-outline .count { background: var(--kr-orange-t); color: #FFFFFF; font-size: 16px; padding: 2px 10px; }
+body.look-kids-room .btn-ghost { height: 64px; padding: 0 26px; border-radius: 999px; border: 3px solid var(--line); background: #FFFFFF; font-size: 19px; font-weight: 900; box-shadow: 0 5px 0 var(--kr-press); }
+body.look-kids-room .btn-chip { height: 64px; padding: 0 24px 0 18px; border-radius: 999px; border: 3px solid var(--line); background: #FFFFFF; color: var(--soft); font-size: 20px; font-weight: 900; gap: 10px; }
+body.look-kids-room .btn-chip svg, body.look-kids-room .btn-outline svg { width: 28px; height: 28px; }
+body.look-kids-room .btn-small { height: 52px; padding: 0 20px; font-size: 17px; font-weight: 900; }
+body.look-kids-room .btn-small.ok { background: var(--green); color: #FFFFFF; box-shadow: 0 4px 0 #135229; }
+body.look-kids-room .btn-small.no { border: 3px solid var(--line); background: #FFFFFF; color: var(--soft); }
+
+/* ---------------- nav: big picture tabs ---------------- */
+body.look-kids-room .nav { height: 80px; }
+body.look-kids-room .tabs { gap: 2px; background: #FFFFFF; border: 3px solid #F1D9A8; border-radius: 999px; padding: 5px; }
+body.look-kids-room .tab { height: 64px; padding: 0 18px 0 12px; gap: 8px; border-radius: 999px; font-size: 20px; font-weight: 900; color: var(--ink); }
+body.look-kids-room .tab svg { width: 32px; height: 32px; stroke-width: 2.4; }
+body.look-kids-room .tab[data-to="today"] svg, body.look-kids-room .tab[data-to="kids"] svg { color: #1F6FC9; }
+body.look-kids-room .tab[data-to="clock"] svg { color: #5B3E9A; }
+body.look-kids-room .tab[data-to="calendar"] svg { color: #E8641B; }
+body.look-kids-room .tab[data-to="chores"] svg { color: #1E9A50; }
+body.look-kids-room .tab[data-to="screen"] svg { color: #7B5CD6; }
+body.look-kids-room .tab[data-to="lists"] svg { color: #D9363E; }
+body.look-kids-room .tab[data-to="photos"] svg { color: #0F8A94; }
+body.look-kids-room .tab.on { background: var(--navy); color: #FFFFFF; box-shadow: none; }
+body.look-kids-room .tab.on svg { color: #FFFFFF; }
+body.look-kids-room .tab .badge { background: var(--kr-orange-t); font-size: 14px; font-weight: 900; padding: 2px 8px; }
+body.look-kids-room .homebar { font-family: var(--sans); font-style: normal; font-size: 17px; font-weight: 800; color: var(--soft); gap: 10px; }
+body.look-kids-room .homebar span { background: #FFFFFF; border: 3px solid var(--line); border-radius: 999px; padding: 8px 14px; }
+body.look-kids-room .homebar .alert { color: var(--red); border-color: #F3B4B4; }
+body.look-kids-room .navr .homebar { gap: 6px; }
+body.look-kids-room .navr .homebar span { font-size: 0; gap: 0; padding: 10px; }
+body.look-kids-room .navr .homebar svg { width: 22px; height: 22px; }
+
+/* ---------------- Today: the countdown ribbon ---------------- */
+body.look-kids-room .ribbon { height: 66px; margin: 14px 20px 0; padding: 0 16px 0 0; gap: 14px; border-radius: 26px; background: #FFFFFF; border: 3px solid var(--gilt);
+  color: var(--ink); box-shadow: 0 6px 0 rgba(233, 168, 0, 0.25); }
+body.look-kids-room .ribbon.solemn { border-color: var(--line); box-shadow: 0 6px 0 var(--kr-press); }
+body.look-kids-room .rb-art { width: 150px; border-right: none; }
+body.look-kids-room .rb-script { font-family: var(--sans); font-size: 21px; font-weight: 800; color: var(--soft); }
+body.look-kids-room .rb-ti { font-family: var(--sans); font-size: 30px; font-weight: 900; color: var(--ink); }
+body.look-kids-room .rb-sub { display: none; }
+body.look-kids-room .rb-stars { gap: 4px; }
+body.look-kids-room .ribbon .kr-moons { margin-left: auto; }
+body.look-kids-room .ribbon .kr-moons + .rb-stars, body.look-kids-room .rb-stars + .kr-moons { margin-left: 8px; }
+body.look-kids-room .rb-stars .star, body.look-kids-room .sp-ti .star, body.look-kids-room .sp-bti .star, body.look-kids-room .hol .star,
+body.look-kids-room .wsp .star { fill: #FFC93C; stroke: #E09A00; stroke-width: 1.4; }
+body.look-kids-room .rb-stars .star { width: 26px; height: 26px; }
+
+/* ---------------- Today: events ---------------- */
+body.look-kids-room .home-main { grid-template-columns: minmax(0, 520px) minmax(0, 1fr); }
+body.look-kids-room .today-card { padding: 12px 14px 12px; }
+body.look-kids-room .today-card .card-head { padding: 0 6px; }
+body.look-kids-room .ev { grid-template-columns: 88px 16px minmax(0, 1fr); column-gap: 10px; padding: 4px 10px; margin-top: 5px; border: 2px solid var(--line-soft);
+  border-radius: 16px; background: var(--tile); flex-shrink: 0; }
+body.look-kids-room .ev:last-of-type { border-bottom: 2px solid var(--line-soft); }
+body.look-kids-room .ev .tm { font-size: 16px; font-weight: 900; }
+body.look-kids-room .ev .dot { width: 16px; height: 16px; border-radius: 50%; box-shadow: 0 0 0 3px #FFFFFF; }
+body.look-kids-room .ev .ti { font-size: 18px; font-weight: 900; line-height: 1.2; }
+body.look-kids-room .ev .who, body.look-kids-room .dp-row .who, body.look-kids-room .ck-ev .who { margin-top: 0; display: block; }
+body.look-kids-room .ev .who { font-family: var(--sans); font-style: normal; font-size: 13px; font-weight: 800; line-height: 1.2; color: var(--soft); }
+body.look-kids-room .ev.past { color: var(--muted); background: transparent; border-style: dashed; }
+body.look-kids-room .ev.next { margin: 7px 0 2px; padding: 5px 10px; background: var(--next-bg); border: 3px solid var(--kr-orange); box-shadow: 0 5px 0 rgba(255, 138, 61, 0.25); }
+body.look-kids-room .ev.next .ti { font-size: 20px; }
+body.look-kids-room .pill-next { background: var(--kr-orange-t); font-size: 14px; font-weight: 900; letter-spacing: 0.03em; padding: 5px 12px; transform: rotate(-3deg);
+  box-shadow: 0 0 0 3px #FFFFFF, 0 3px 0 3px rgba(0, 0, 0, 0.08); }
+body.look-kids-room .foot { border-top: none; margin-top: auto; padding: 8px 14px; border-radius: 999px; background: #F1E8D4; font-size: 16px; font-weight: 800; color: var(--soft); }
+body.look-kids-room .foot b { font-size: 15px; font-weight: 900; letter-spacing: 0.04em; color: var(--ink); }
+body.look-kids-room .foot i { font-family: var(--sans); font-style: normal; font-size: 16px; font-weight: 900; color: var(--ink); }
+
+/* ---------------- Today: the flip panel ---------------- */
+body.look-kids-room .home-side { gap: 16px; }
+body.look-kids-room .hpanel { padding: 12px 16px 14px; gap: 8px; }
+body.look-kids-room .htabs { gap: 8px; background: transparent; border-radius: 0; padding: 0; }
+body.look-kids-room .htabs button { height: 52px; border-radius: 20px; border: 3px solid var(--line); background: #FFFFFF; color: var(--ink); font-size: 17px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 0 var(--kr-press); }
+body.look-kids-room .htabs button::before { content: ""; width: 28px; height: 28px; flex-shrink: 0; background: #1E9A50;
+  -webkit-mask: url(img/i-chores.svg) center / contain no-repeat; mask: url(img/i-chores.svg) center / contain no-repeat; }
+body.look-kids-room .htabs button[data-tab="groceries"]::before { background: #D9363E; -webkit-mask-image: url(img/i-cart.svg); mask-image: url(img/i-cart.svg); }
+body.look-kids-room .htabs button[data-tab="weather"]::before { background: #1F6FC9; -webkit-mask-image: url(img/i-cloudsun.svg); mask-image: url(img/i-cloudsun.svg); }
+body.look-kids-room .htabs button[data-tab="screen"]::before { background: #7B5CD6; -webkit-mask-image: url(img/i-hourglass.svg); mask-image: url(img/i-hourglass.svg); }
+body.look-kids-room .htabs button.on { box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15); color: #FFFFFF; background: #1E7A3F; border-color: #1E7A3F; }
+body.look-kids-room .htabs button[data-tab="groceries"].on { background: #C62F37; border-color: #C62F37; }
+body.look-kids-room .htabs button[data-tab="weather"].on { background: #1F6FC9; border-color: #1F6FC9; }
+body.look-kids-room .htabs button[data-tab="screen"].on { background: #6D4FC9; border-color: #6D4FC9; }
+body.look-kids-room .htabs button.on::before { background: #FFFFFF; }
+body.look-kids-room .hp-head h3 { font-family: var(--sans); font-size: 22px; font-weight: 900; }
+body.look-kids-room .seg2 { background: #F1E8D4; border-radius: 999px; padding: 3px; }
+body.look-kids-room .seg2 button { height: 42px; padding: 0 16px; font-size: 15px; font-weight: 900; color: var(--soft); }
+body.look-kids-room .seg2 button.on { background: var(--navy); color: #FFFFFF; }
+body.look-kids-room .hp-kid { gap: 10px; padding: 4px 2px; border-bottom: 2px dashed var(--line-soft); min-height: 46px; }
+body.look-kids-room .hp-kid .av.s { width: 36px; height: 36px; font-size: 18px; }
+body.look-kids-room .hp-kid > b { width: 76px; font-size: 18px; font-weight: 900; }
+body.look-kids-room .hchip { font-size: 15px; font-weight: 800; background: #FFFFFF; border: 2px solid var(--line); padding: 5px 11px; }
+body.look-kids-room .hchip b { color: var(--kr-orange-t); }
+body.look-kids-room .hchip.done { background: var(--green-bg); border-color: #8ED081; }
+body.look-kids-room .hchip.done b { color: var(--green); }
+body.look-kids-room .hchip.wait { background: var(--amber-bg); border-color: var(--gilt); }
+body.look-kids-room .hp-none { font-family: var(--sans); font-style: normal; font-weight: 800; color: var(--soft); }
+body.look-kids-room .chip { font-size: 14px; font-weight: 900; padding: 4px 12px; }
+body.look-kids-room .hp-sync, body.look-kids-room .hp-more { font-weight: 800; }
+body.look-kids-room .hp-total { font-family: var(--sans); font-size: 26px; font-weight: 900; color: #6D4FC9; }
+body.look-kids-room .hp-btns > button { height: 60px; font-size: 18px; }
+body.look-kids-room .hp-btns .btn-outline { height: 60px; box-shadow: 0 4px 0 var(--kr-press); }
+body.look-kids-room .st-row { grid-template-columns: 44px 84px minmax(0, 1fr) 96px; }
+body.look-kids-room .st-row .nm { font-size: 18px; font-weight: 900; }
+body.look-kids-room .bar { height: 14px; border-radius: 7px; background: #F1E8D4; }
+body.look-kids-room .bar > span { height: 14px; border-radius: 7px; }
+body.look-kids-room .st-row .amt { font-family: var(--sans); font-size: 19px; font-weight: 900; color: var(--green); }
+body.look-kids-room .st-row .amt.none { font-size: 14px; font-weight: 800; color: var(--soft); }
+/* lists */
+body.look-kids-room .li { gap: 12px; padding: 7px 0; border-bottom: 2px dashed var(--line-soft); }
+body.look-kids-room .ring { width: 38px; height: 38px; border-radius: 50%; border: 4px solid #D9CBB0; background: #FFFFFF; }
+body.look-kids-room .ring:active { background: var(--green-bg); }
+body.look-kids-room .ring.on { background: #2FA45A; border-color: #2FA45A; }
+body.look-kids-room .li-t b { font-size: 19px; font-weight: 900; }
+body.look-kids-room .li-t small { font-size: 14px; font-weight: 800; color: var(--soft); }
+body.look-kids-room .li-t small.ff { font-family: var(--sans); font-style: normal; }
+body.look-kids-room .li.done .li-t b { color: var(--green); }
+/* weather */
+body.look-kids-room .wnow { color: #E9A800; border-bottom: 2px dashed var(--line-soft); }
+body.look-kids-room .wtemp { font-family: var(--sans); font-size: 56px; font-weight: 900; }
+body.look-kids-room .wtxt { font-family: var(--sans); font-style: normal; font-size: 21px; font-weight: 900; color: var(--ink); }
+body.look-kids-room .wsub { font-weight: 800; }
+body.look-kids-room .wh { color: #E9A800; }
+body.look-kids-room .wh span { font-weight: 900; }
+body.look-kids-room .wh b { font-family: var(--sans); font-weight: 900; font-size: 20px; }
+body.look-kids-room .wnote { background: var(--amber-bg); border-radius: 16px; font-weight: 800; }
+body.look-kids-room .wday { background: #FFFFFF; border: 3px solid var(--line); border-radius: 22px; color: #E9A800; box-shadow: 0 4px 0 var(--kr-press); }
+body.look-kids-room .wday.sp { border-color: var(--gilt); background: #FFFBEB; }
+body.look-kids-room .wday > b { font-size: 18px; font-weight: 900; }
+body.look-kids-room .wday .hi { font-family: var(--sans); font-size: 26px; font-weight: 900; }
+body.look-kids-room .wday .lo { font-weight: 800; }
+body.look-kids-room .wday .wt { font-weight: 800; }
+body.look-kids-room .wday .wr { font-weight: 900; color: #1A6FA0; }
+body.look-kids-room .wsp { color: var(--kr-orange-t); font-weight: 900; }
+/* the kids' row */
+body.look-kids-room .krow { padding: 8px 14px 12px; gap: 6px; }
+body.look-kids-room .krow .card-head h2 { font-size: 19px; }
+body.look-kids-room .krow .aside { font-size: 14px; }
+body.look-kids-room .ktiles { gap: 10px; }
+body.look-kids-room .ktile { background: #FFFFFF; border: 3px solid var(--line); border-radius: 22px; padding: 8px 4px 6px; gap: 3px; box-shadow: 0 5px 0 var(--kr-press); }
+body.look-kids-room .ktile:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--kr-press); background: #FFFFFF; }
+body.look-kids-room .av.k { width: 52px; height: 52px; font-size: 26px; box-shadow: 0 0 0 3px #FFFFFF, 0 0 0 6px rgba(43, 42, 58, 0.14); }
+body.look-kids-room .kwait { background: var(--gilt); color: var(--ink); font-size: 13px; font-weight: 900; padding: 1px 7px; }
+body.look-kids-room .ktile b { font-size: 17px; font-weight: 900; }
+body.look-kids-room .ktile .kct { font-size: 14px; font-weight: 800; color: var(--soft); }
+body.look-kids-room .ktile .kct.good { color: var(--green); }
+
+/* ---------------- Chores ---------------- */
+body.look-kids-room .picker { gap: 4px; background: rgba(255, 255, 255, 0.22); padding: 5px; }
+body.look-kids-room .band .pick { height: 64px; padding: 0 18px 0 8px; color: #FFFFFF; font-size: 20px; font-weight: 900; }
+body.look-kids-room .pick .av { width: 48px; height: 48px; font-size: 24px; box-shadow: 0 0 0 3px #FFFFFF; }
+body.look-kids-room .band .pick.on { background: #FFFFFF; color: var(--ink); box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15); }
+body.look-kids-room .pick.on .av { box-shadow: 0 0 0 3px #FFFFFF, 0 0 0 6px rgba(43, 42, 58, 0.18); }
+body.look-kids-room .chores-main { grid-template-columns: minmax(0, 1fr) 380px; }
+body.look-kids-room .chore { background: #FFFFFF; border: 3px solid var(--line); border-radius: 24px; padding: 10px 14px 10px 10px; gap: 16px; min-height: 96px; box-shadow: 0 5px 0 var(--kr-press); }
+body.look-kids-room .chore + .chore { margin-top: 14px; }
+body.look-kids-room .medal { width: 74px; height: 74px; border-radius: 22px; box-shadow: none; }
+body.look-kids-room .medal b { font-family: var(--sans); font-size: 28px; font-weight: 900; }
+body.look-kids-room .medal small { font-size: 13px; font-weight: 900; letter-spacing: 0.04em; color: var(--ink); }
+body.look-kids-room .chore .ti { font-size: 26px; font-weight: 900; }
+body.look-kids-room .chore .btn-primary { min-width: 180px; background: var(--kr-orange-t); box-shadow: 0 6px 0 #8E2F08; }
+body.look-kids-room .chore .btn-primary:active { box-shadow: 0 2px 0 #8E2F08; }
+body.look-kids-room .state { height: 64px; padding: 0 20px; border-radius: 20px; font-size: 18px; font-weight: 900; }
+body.look-kids-room .state svg { width: 26px; height: 26px; }
+body.look-kids-room .state.wait { background: var(--amber-bg); color: var(--amber); border: 3px dashed #E9A800; }
+body.look-kids-room .state.done { background: var(--green); color: #FFFFFF; }
+body.look-kids-room .chores-side { gap: 16px; }
+body.look-kids-room .chores-side > .card { background: #16324F; border-color: #16324F; color: #FFFFFF; box-shadow: 0 6px 0 #C9D3E0; }
+body.look-kids-room .chores-side > .card h2 { font-family: var(--sans) !important; font-weight: 900 !important; color: #FFFFFF; }
+body.look-kids-room .big-total { font-family: var(--sans); font-size: 54px; font-weight: 900; color: var(--gilt); }
+body.look-kids-room .chores-side .aside { color: #D5DEEA; }
+body.look-kids-room .chores-side .card > div[style] { border-top-color: rgba(255, 255, 255, 0.2) !important; }
+body.look-kids-room .leader { font-size: 18px; font-weight: 800; }
+body.look-kids-room .chores-side .leader .l { color: #D5DEEA; }
+body.look-kids-room .chores-side .leader .dots { border-bottom-color: rgba(255, 255, 255, 0.3); }
+body.look-kids-room .leader .v { font-weight: 900; color: var(--gilt); }
+body.look-kids-room .waitline { border-radius: 14px; padding: 8px 12px; font-weight: 900; }
+body.look-kids-room .chores-side .waitline { background: rgba(255, 255, 255, 0.12); color: var(--gilt-soft); }
+body.look-kids-room .minibars span.b { width: 26px; border-radius: 13px; }
+body.look-kids-room .chores-side .minibars span.l { color: #D5DEEA; font-weight: 900; }
+
+/* ---------------- Screen Time ---------------- */
+body.look-kids-room .count { display: flex; flex-direction: column; }
+body.look-kids-room .count .big { font-family: var(--sans); font-size: 36px; font-weight: 900; color: #FFFFFF; }
+body.look-kids-room .count .sm { font-size: 18px; font-weight: 800; color: #FFFFFF; }
+body.look-kids-room .band-right .kr-moons { order: 0; }
+body.look-kids-room .band-right .count { order: 1; }
+body.look-kids-room .band-right .clock { order: 2; }
+body.look-kids-room .pv { border-radius: 28px; border: 3px solid var(--line); }
+body.look-kids-room .pv.dark { background: #16324F; border-color: #16324F; }
+body.look-kids-room .pv.dark .pv-top h2 { color: #FFFFFF; }
+body.look-kids-room .pv.dark .aside { color: #D5DEEA; }
+body.look-kids-room .vpick { gap: 8px; }
+body.look-kids-room .vp { height: 42px; font-size: 16px; font-weight: 900; background: #FFFFFF; border: 3px solid var(--line); color: var(--ink); }
+body.look-kids-room .vp.on { background: #6D4FC9; border-color: #6D4FC9; color: #FFFFFF; box-shadow: 0 4px 0 #4B3496; }
+body.look-kids-room .pv.dark .vp { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.25); color: #FFFFFF; }
+body.look-kids-room .pv.dark .vp.on { background: #FFFFFF; color: #3D2A8A; border-color: #FFFFFF; box-shadow: none; }
+body.look-kids-room .pv-top { padding: 12px 20px 0; }
+body.look-kids-room .pv-top .card-head { display: none; }
+body.look-kids-room .pv-top .vpick { margin-top: 0; }
+body.look-kids-room.vert .pv-top .card-head { display: flex; }
+body.look-kids-room.vert .pv-top .vpick { margin-top: 10px; }
+body.look-kids-room .pv-share { background: var(--gilt); color: var(--ink); border-radius: 18px; font-weight: 900; font-size: 18px; padding: 12px 16px; }
+body.look-kids-room .pv.light .pv-share { background: var(--navy); color: #FFFFFF; }
+body.look-kids-room .pv-wait { border-radius: 18px; border: 3px solid var(--gilt); }
+body.look-kids-room .wrow { grid-template-columns: 46px 110px minmax(0, 1fr) 100px; padding: 6px 10px; border: 3px solid var(--line); border-radius: 22px; }
+body.look-kids-room .wrow .av.m { width: 44px; height: 44px; font-size: 22px; }
+body.look-kids-room .wrow .nm { font-size: 20px; font-weight: 900; }
+body.look-kids-room .wrow .bar, body.look-kids-room .wrow .bar > span { height: 18px; border-radius: 9px; }
+body.look-kids-room .wrow .mn { font-size: 20px; font-weight: 900; color: var(--green); }
+body.look-kids-room .wrow .mn.none { font-family: var(--sans); font-style: normal; font-size: 15px; font-weight: 800; color: var(--soft); }
+body.look-kids-room .fe { grid-template-columns: 50px 40px minmax(0, 1fr) 56px; padding: 6px 0; border-bottom: 2px dashed var(--line-soft); font-size: 17px; font-weight: 800; }
+body.look-kids-room .fe .d { font-size: 14px; font-weight: 900; letter-spacing: 0.04em; color: var(--soft); }
+body.look-kids-room .fe .w em { font-family: var(--sans); font-style: normal; color: var(--soft); }
+body.look-kids-room .fe .m { font-weight: 900; color: var(--green); }
+
+/* ---------------- Calendar ---------------- */
+body.look-kids-room .legend { gap: 3px 14px; font-size: 15px; font-weight: 800; color: #FFFFFF; }
+body.look-kids-room .legend i { width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 0 2px #FFFFFF; }
+body.look-kids-room .band .toggle { background: rgba(255, 255, 255, 0.22); padding: 5px; gap: 2px; }
+body.look-kids-room .band .toggle button { height: 58px; padding: 0 18px; font-size: 18px; font-weight: 900; color: #FFFFFF; }
+body.look-kids-room .band .toggle button.on { background: #FFFFFF; color: var(--navy); box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12); }
+body.look-kids-room .days { gap: 12px; }
+body.look-kids-room .day { background: #FFFFFF; border: 3px solid var(--line); border-radius: 24px; padding: 10px 8px; gap: 8px; }
+body.look-kids-room .day.today { border-color: var(--kr-blue); background: #EAF3FD; box-shadow: 0 6px 0 rgba(31, 111, 201, 0.25); position: relative; }
+body.look-kids-room .day .dh { border-bottom: none; padding: 2px 0 2px; }
+body.look-kids-room .day .dw { font-size: 16px; font-weight: 900; letter-spacing: 0.02em; text-transform: none; color: var(--soft); }
+body.look-kids-room .day .dn { font-family: var(--sans); font-size: 34px; font-weight: 900; }
+body.look-kids-room .day.today .dw, body.look-kids-room .day.today .dn { color: #1A5FB0; }
+body.look-kids-room .day.today::after { content: ""; position: absolute; right: 6px; top: 6px; width: 32px; height: 32px; background: url(img/star.svg) center / contain no-repeat; transform: rotate(12deg); }
+body.look-kids-room .ce { border-radius: 16px; padding: 7px 9px; border: 2px solid rgba(43, 42, 58, 0.06); }
+body.look-kids-room .ce.past { opacity: 0.6; }
+body.look-kids-room .ce .ct { font-size: 14px; font-weight: 900; color: #3D3A4E; }
+body.look-kids-room .ce .ct i { width: 10px; height: 10px; border-radius: 50%; }
+body.look-kids-room .ce .t { font-size: 16px; font-weight: 900; line-height: 1.15; }
+body.look-kids-room .ce .w { font-family: var(--sans); font-style: normal; font-size: 13px; font-weight: 800; color: var(--soft); }
+body.look-kids-room .rolling .day.today .ce .t { font-size: 18px; }
+body.look-kids-room .more, body.look-kids-room .more-link { color: var(--navy); font-weight: 900; }
+body.look-kids-room button.more { min-height: 44px; font-size: 15px; border-radius: 14px; background: #F1E8D4; }
+body.look-kids-room .hol { border: 3px solid var(--gilt); background: #FFF8DB; border-radius: 14px; font-size: 14px; font-weight: 900; }
+body.look-kids-room .me.hol { color: #8A5A00; }
+body.look-kids-room .month { gap: 8px; }
+body.look-kids-room .mhead { font-size: 16px; font-weight: 900; letter-spacing: 0.02em; text-transform: none; color: var(--soft); }
+body.look-kids-room .mcell { background: #FFFFFF; border: 3px solid var(--line); border-radius: 18px; padding: 2px 7px; }
+body.look-kids-room .mcell.out { background: transparent; border-color: var(--line-soft); }
+body.look-kids-room .mcell.today { border-color: var(--kr-blue); background: #EAF3FD; box-shadow: none; position: relative; }
+body.look-kids-room .mcell.today:not(.sp)::after { content: ""; position: absolute; right: 6px; top: 4px; width: 28px; height: 28px; background: url(img/star.svg) center / contain no-repeat; }
+body.look-kids-room .mn { font-family: var(--sans); font-size: 20px; font-weight: 900; line-height: 1.1; }
+body.look-kids-room .mcell.today .mn { color: #1A5FB0; }
+body.look-kids-room .me { font-size: 12.5px; font-weight: 800; line-height: 1.25; }
+body.look-kids-room .me i { width: 8px; height: 8px; }
+body.look-kids-room .pager { background: #FFFFFF; border: 3px solid var(--line); padding: 5px; }
+body.look-kids-room .pager button { height: 58px; min-width: 58px; color: var(--ink); }
+body.look-kids-room .pager .step { font-size: 18px; font-weight: 900; }
+body.look-kids-room .pager .mid { font-size: 18px; font-weight: 900; color: var(--soft); }
+body.look-kids-room .pager .mid.back { background: var(--navy); color: #FFFFFF; box-shadow: none; }
+
+/* ---------------- special days ---------------- */
+body.look-kids-room .day.sp { border: 4px solid var(--gilt); border-radius: 24px; background: #16324F; color: #FFFFFF; box-shadow: 0 6px 0 rgba(233, 168, 0, 0.3); }
+body.look-kids-room .day.sp.solemn { border-color: #C9BFA6; box-shadow: 0 6px 0 var(--kr-press); }
+body.look-kids-room .day.sp .dw { color: #FFFFFF; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5); }
+body.look-kids-room .day.sp .dn { color: #FFFFFF; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5); }
+body.look-kids-room .sp-script { font-family: var(--sans); font-size: 24px; font-weight: 900; color: #FFFFFF; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55); }
+body.look-kids-room .solemn .sp-script { color: #FFFFFF; }
+body.look-kids-room .sp-card { background: #FFFFFF; border: none; border-radius: 18px; color: var(--ink); box-shadow: 0 4px 0 rgba(0, 0, 0, 0.18); }
+body.look-kids-room .sp-ti { font-family: var(--sans); font-size: 20px; font-weight: 900; }
+body.look-kids-room .sp-l { color: var(--soft); font-weight: 800; }
+body.look-kids-room .sp-pill { background: var(--kr-orange-t); font-weight: 900; transform: rotate(-3deg); box-shadow: 0 0 0 3px #FFFFFF; }
+body.look-kids-room .sp-verse { font-family: var(--sans); font-style: normal; font-weight: 800; color: var(--soft); }
+body.look-kids-room .sp-also { border-top: 2px dashed var(--line); color: var(--soft); font-weight: 800; }
+body.look-kids-room .sp-k { color: #FFFFFF; font-weight: 900; letter-spacing: 0.06em; }
+body.look-kids-room .sp-head .sp-k, body.look-kids-room .sp-head .sp-script, body.look-kids-room .sp-head .sp-ti, body.look-kids-room .sp-head .sp-l { text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6); }
+body.look-kids-room .sp-head .sp-ti, body.look-kids-room .sp-head .sp-l { color: #FFFFFF; }
+body.look-kids-room .sp-mini { background: #FFFFFF; border: none; border-radius: 16px; color: var(--ink); box-shadow: 0 4px 0 rgba(0, 0, 0, 0.18); }
+body.look-kids-room .sp-mini.today { box-shadow: 0 0 0 3px var(--kr-blue), 0 4px 0 rgba(0, 0, 0, 0.18); }
+body.look-kids-room .sp-mh b { color: var(--kr-orange-t); font-weight: 900; letter-spacing: 0.04em; }
+body.look-kids-room .sp-mh .n { font-family: var(--sans); font-weight: 900; }
+body.look-kids-room .sp-mh .of { color: var(--soft); font-weight: 900; }
+body.look-kids-room .sp-mt { font-weight: 900; }
+body.look-kids-room .sp-ms { color: var(--soft); font-weight: 800; }
+body.look-kids-room button.mcell.sp { border: 3px solid var(--gilt); border-radius: 18px; background: #16324F; }
+body.look-kids-room .mcell.sp .mn { color: #FFFFFF; text-shadow: 0 1px 5px rgba(0, 0, 0, 0.6); }
+body.look-kids-room .sp-mscript { font-family: var(--sans); font-size: 15px; font-weight: 900; color: #FFFFFF; text-shadow: 0 1px 5px rgba(0, 0, 0, 0.6); top: 4px; }
+body.look-kids-room .sp-mlabel { background: #FFFFFF; border: none; border-radius: 12px; font-family: var(--sans); font-size: 14px; font-weight: 900; color: var(--ink); }
+
+/* ---------------- pop-ups ---------------- */
+body.look-kids-room .overlay { background: rgba(43, 42, 58, 0.55); }
+body.look-kids-room .sheet { background: #FFFDF8; border: 4px solid var(--gilt); border-radius: 36px; box-shadow: 0 10px 0 rgba(0, 0, 0, 0.12); }
+body.look-kids-room .sheet h1 { font-family: var(--sans); font-size: 32px; font-weight: 900; }
+body.look-kids-room .sheet h1 .mono { width: 56px; height: 56px; border-radius: 50%; -webkit-mask-image: none; mask-image: none; background: var(--gilt) url(img/sun.svg) center / 54px no-repeat; }
+body.look-kids-room .sheet .sub { font-family: var(--sans); font-style: normal; font-size: 18px; font-weight: 800; color: var(--soft); }
+body.look-kids-room .dp-head { border-bottom: 3px dashed var(--line); }
+body.look-kids-room .dp-head .kick { display: inline-block; font-size: 15px; font-weight: 900; letter-spacing: 0.06em; color: #FFFFFF; background: var(--kr-orange-t); border-radius: 999px; padding: 3px 12px; transform: rotate(-3deg); }
+body.look-kids-room .dp-head h1 { font-family: var(--sans); font-size: 36px; font-weight: 900; margin-top: 4px; }
+body.look-kids-room .dp-row { grid-template-columns: 100px 16px minmax(0, 1fr); border-bottom: 2px dashed var(--line-soft); }
+body.look-kids-room .dp-row .tm { font-size: 17px; font-weight: 900; }
+body.look-kids-room .dp-row .dot { width: 14px; height: 14px; border-radius: 50%; }
+body.look-kids-room .dp-row .ti { font-size: 21px; font-weight: 900; }
+body.look-kids-room .dp-row .who { font-family: var(--sans); font-style: normal; font-weight: 800; color: var(--soft); }
+body.look-kids-room button.dp-row.tap { grid-template-columns: 100px 16px minmax(0, 1fr) auto 22px; min-height: 64px; border-radius: 16px; padding: 8px 8px; }
+body.look-kids-room .dp-tag { background: var(--amber-bg); color: var(--amber); font-weight: 900; }
+body.look-kids-room .dp-sub { font-size: 15px; font-weight: 900; letter-spacing: 0.08em; color: var(--soft); }
+body.look-kids-room .dp-facts b { font-weight: 900; }
+body.look-kids-room .dp-facts span { font-weight: 800; }
+body.look-kids-room .dp-verse, body.look-kids-room .dp-about p { font-family: var(--sans); font-style: normal; font-weight: 800; }
+body.look-kids-room .dp-day { font-weight: 900; color: var(--soft); border-bottom: 2px dashed var(--line); }
+body.look-kids-room .sp-warn { border-radius: 16px; font-weight: 800; }
+body.look-kids-room .btn-back { height: 56px; border: 3px solid var(--line); font-weight: 900; font-size: 17px; }
+body.look-kids-room .sheet.daypop.spop { border-width: 4px; }
+body.look-kids-room .sp-side { background: #BFE6FB; border-right: 4px solid var(--gilt); }
+body.look-kids-room .solemn .sp-side { border-right-color: #C9BFA6; }
+body.look-kids-room .sp-sshade { height: 150px; }
+body.look-kids-room .sp-sscript { font-family: var(--sans); font-size: 36px; font-weight: 900; color: #FFFFFF; }
+body.look-kids-room .solemn .sp-sscript { color: #FFFFFF; }
+body.look-kids-room .sp-head2 { border-bottom: 3px dashed var(--line); }
+body.look-kids-room .sp-head2 .sp-k { display: inline-block; color: #FFFFFF; background: var(--kr-orange-t); border-radius: 999px; padding: 4px 14px; font-size: 14px; letter-spacing: 0.04em;
+  transform: rotate(-2deg); box-shadow: 0 0 0 3px #FFFFFF, 0 3px 0 3px rgba(0, 0, 0, 0.08); }
+body.look-kids-room .sp-bti { font-family: var(--sans); font-weight: 900; }
+body.look-kids-room .sp-head2 .sp-bti { font-size: 38px; margin-top: 8px; }
+body.look-kids-room .sp-x { width: 64px; height: 64px; border-radius: 50%; border: 3px solid var(--line); font-size: 34px; font-weight: 900; }
+body.look-kids-room .sp-main .sp-x { background: #FFFFFF; color: var(--ink); box-shadow: 0 4px 0 var(--kr-press); }
+
+/* the PIN pad: Grown-ups only, one friendly column */
+body.look-kids-room .sheet.pinpad { width: 500px; display: flex; flex-direction: column; align-items: center; gap: 12px;
+  padding: 26px 34px 24px; border-color: #2E3A8C; background: #FFF6E5; }
+body.look-kids-room .sheet.pinpad > div:first-child { display: contents !important; }
+body.look-kids-room .sheet.pinpad h1 { order: 1; flex-direction: column; gap: 10px; font-size: 36px; font-weight: 900; line-height: 1.1; }
+body.look-kids-room .sheet.pinpad h1 .mono { width: 84px; height: 84px; background: var(--kr-dusk); position: relative; }
+body.look-kids-room .sheet.pinpad h1 .mono::before { content: ""; position: absolute; left: 21px; top: 20px; width: 42px; height: 42px;
+  background: var(--kr-moon); -webkit-mask: url(img/i-lock.svg) center / contain no-repeat; mask: url(img/i-lock.svg) center / contain no-repeat; }
+body.look-kids-room .sheet.pinpad .sub { order: 2; text-align: center; margin-top: 0; }
+body.look-kids-room .sheet.pinpad .pindots { order: 3; margin-top: 2px; }
+body.look-kids-room .sheet.pinpad .msg { order: 4; margin-top: 0; min-height: 22px; }
+body.look-kids-room .sheet.pinpad .keys { order: 5; width: 100%; }
+body.look-kids-room .sheet.pinpad .sheet-actions { order: 6; margin-top: 6px !important; }
+body.look-kids-room .pindots { gap: 16px; }
+body.look-kids-room .pindots i { width: 28px; height: 28px; border-radius: 50%; border: 4px solid #C9C3EC; }
+body.look-kids-room .pindots i.f { background: #2E3A8C; border-color: #2E3A8C; }
+body.look-kids-room .keys { gap: 12px; }
+body.look-kids-room .keys button { height: 76px; border-radius: 22px; background: #FFFFFF; border: 3px solid var(--line); box-shadow: 0 5px 0 var(--kr-press); font-size: 34px; font-weight: 900; color: var(--ink); }
+body.look-kids-room .keys button:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--kr-press); }
+body.look-kids-room .keys button.fn { background: #FFFFFF; font-size: 19px; border: 3px solid var(--line); }
+body.look-kids-room .keys button.ok { background: var(--green); color: #FFFFFF; border-color: var(--green); box-shadow: 0 5px 0 #135229; font-size: 26px; }
+body.look-kids-room .msg { font-weight: 900; color: var(--red); }
+body.look-kids-room .msg.good { color: var(--green); }
+
+/* parent tools, behind the PIN: the same chunky parts, for the grown-ups */
+body.look-kids-room .sheet.ptools { border-color: #2E3A8C; }
+body.look-kids-room .ptools h1 .mono { background: var(--kr-dusk); position: relative; }
+body.look-kids-room .ptools h1 .mono::before { content: ""; position: absolute; left: 14px; top: 13px; width: 28px; height: 28px; background: var(--kr-moon);
+  -webkit-mask: url(img/i-lock.svg) center / contain no-repeat; mask: url(img/i-lock.svg) center / contain no-repeat; }
+body.look-kids-room .ptools h2 { font-family: var(--sans); font-weight: 900; }
+body.look-kids-room .ptools .lbl { font-size: 14px; font-weight: 900; letter-spacing: 0.06em; color: var(--soft); }
+body.look-kids-room .witem { background: #FFFFFF; border: 3px solid var(--line); border-radius: 20px; }
+body.look-kids-room .witem .ti { font-weight: 900; }
+body.look-kids-room .witem .ti small { font-weight: 800; }
+body.look-kids-room .witem .mins { font-family: var(--sans); font-weight: 900; }
+body.look-kids-room .gday { background: #16324F; color: #FFFFFF; border-radius: 20px; box-shadow: 0 5px 0 #C9D3E0; }
+body.look-kids-room .gday b { font-family: var(--sans); font-weight: 900; color: var(--gilt); }
+body.look-kids-room .gday small { color: #D5DEEA; font-weight: 800; }
+body.look-kids-room .gday .plus { font-family: var(--sans); font-weight: 900; color: var(--gilt); }
+body.look-kids-room .gday.done { background: var(--green-bg); box-shadow: none; }
+body.look-kids-room .nwk { border-radius: 18px; }
+body.look-kids-room .chip2 { height: 52px; border-radius: 16px; border: 3px solid var(--line); background: #FFFFFF; font-weight: 900; }
+body.look-kids-room .chip2.r { height: 46px; font-weight: 800; }
+body.look-kids-room .chip2.sel { background: var(--navy); color: #FFFFFF; border-color: var(--navy); }
+body.look-kids-room .pick2 > button.sel { box-shadow: 0 0 0 3px #FFFFFF, 0 0 0 6px var(--navy); }
+body.look-kids-room .confirm { border-top: 2px dashed var(--line); font-weight: 800; }
+
+/* ---------------- Lists ---------------- */
+body.look-kids-room .band .pick.lpick { padding: 0 20px; }
+body.look-kids-room .lcount { background: var(--kr-orange-t); font-size: 14px; font-weight: 900; padding: 2px 9px; }
+body.look-kids-room .pick.on .lcount { background: #D9363E; color: #FFFFFF; }
+body.look-kids-room .litems { padding: 16px 22px; }
+body.look-kids-room .lcols { column-gap: 30px; }
+body.look-kids-room .lcols .li { padding: 9px 0; }
+body.look-kids-room .lsec { display: inline-block; font-size: 14px; font-weight: 900; letter-spacing: 0.04em; text-transform: none; color: #1A5FB0; background: #E3F0FC; border-radius: 999px; padding: 2px 12px; margin: 12px 0 4px; }
+body.look-kids-room .ladd-btn { height: 76px; font-size: 22px; border-radius: 24px; }
+body.look-kids-room .lnote { font-weight: 800; }
+body.look-kids-room .lnote.stale { border-radius: 16px; }
+body.look-kids-room .sheet.ladd { border-color: var(--gilt); }
+body.look-kids-room .la-input { height: 68px; border: 3px solid var(--kr-blue); border-radius: 22px; font-size: 28px; font-weight: 900; }
+body.look-kids-room .la-input.empty { font-weight: 800; }
+body.look-kids-room .caret { background: var(--kr-blue); width: 3px; }
+body.look-kids-room .la-to, body.look-kids-room .la-sugg { font-size: 16px; font-weight: 800; }
+body.look-kids-room .kb { gap: 10px; }
+body.look-kids-room .kb-row button { height: 64px; border-radius: 16px; background: #FFFFFF; border: 3px solid var(--line); box-shadow: 0 4px 0 var(--kr-press); font-size: 25px; font-weight: 900; color: var(--ink); }
+body.look-kids-room .kb-row button:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--kr-press); background: #FFFFFF; }
+body.look-kids-room .kb-row button.space { font-size: 17px; color: var(--soft); }
+body.look-kids-room .kb-row button.ok { background: var(--green); border-color: var(--green); color: #FFFFFF; box-shadow: 0 4px 0 #135229; }
+
+/* ---------------- Photos: a sunny card in the corner ---------------- */
+body.look-kids-room .ph-panel { left: 24px; bottom: 24px; background: rgba(255, 255, 255, 0.94); border: none; border-radius: 30px; padding: 16px 22px; color: var(--ink);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.12); min-width: 340px; }
+body.look-kids-room .ph-panel .mono { --mono-w: 72px; -webkit-mask-image: none; mask-image: none; background: url(img/sun.svg) center / contain no-repeat; }
+body.look-kids-room .ph-panel .clock .t { font-family: var(--sans); font-size: 66px; font-weight: 900; color: var(--ink); letter-spacing: -0.02em; }
+body.look-kids-room .ph-panel .clock .ap { font-size: 24px; font-weight: 900; color: var(--ink); }
+body.look-kids-room .ph-panel .d { font-size: 19px; font-weight: 800; color: var(--soft); }
+body.look-kids-room .ph-panel .n { margin-top: 10px; padding: 8px 14px; border: 3px solid var(--kr-orange); border-radius: 18px; background: var(--next-bg); font-size: 18px; font-weight: 900; }
+body.look-kids-room .ph-panel .n b { color: var(--kr-orange-t); text-transform: uppercase; letter-spacing: 0.04em; font-size: 15px; }
+body.look-kids-room .ph-cap { right: 24px; bottom: 24px; background: rgba(22, 50, 79, 0.82); border-radius: 999px; padding: 12px 22px; font-family: var(--sans); font-style: normal; font-size: 18px; font-weight: 800; color: #FFFFFF; }
+body.look-kids-room .ph-empty { background: var(--kr-sky); }
+body.look-kids-room .ph-empty .mono { -webkit-mask-image: none; mask-image: none; background: url(img/sun.svg) center / contain no-repeat; }
+body.look-kids-room .ph-empty p { font-family: var(--sans); font-style: normal; font-weight: 900; color: #FFFFFF; }
+
+/* ---------------- Night: a sleeping moon, Time to sleep ---------------- */
+body.look-kids-room #screen-night { background: radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.5) 0 1.5px, rgba(255, 255, 255, 0) 2.5px),
+  radial-gradient(circle at 78% 9%, rgba(255, 255, 255, 0.45) 0 1.5px, rgba(255, 255, 255, 0) 2.5px),
+  radial-gradient(circle at 90% 31%, rgba(255, 255, 255, 0.4) 0 1.5px, rgba(255, 255, 255, 0) 2.5px),
+  radial-gradient(circle at 33% 7%, rgba(255, 255, 255, 0.35) 0 1px, rgba(255, 255, 255, 0) 2px),
+  radial-gradient(circle at 56% 14%, rgba(255, 255, 255, 0.35) 0 1px, rgba(255, 255, 255, 0) 2px),
+  radial-gradient(circle at 6% 52%, rgba(255, 255, 255, 0.3) 0 1px, rgba(255, 255, 255, 0) 2px),
+  radial-gradient(circle at 96% 58%, rgba(255, 255, 255, 0.3) 0 1px, rgba(255, 255, 255, 0) 2px),
+  linear-gradient(180deg, #121636 0%, #1B2150 75%);
+  color: #9C97C8; align-items: flex-start; justify-content: center; padding-left: 560px; gap: 6px; }
+body.look-kids-room #screen-night::after { content: ""; position: absolute; left: -10%; right: -10%; bottom: -60px; height: 190px; border-radius: 50% 50% 0 0; background: #0D1230; }
+body.look-kids-room #screen-night .mono { position: absolute; left: 180px; top: 50%; width: 300px; height: 300px; margin: -170px 0 0; border-radius: 50%;
+  -webkit-mask-image: none; mask-image: none; background: rgba(255, 255, 255, 0.07) url(img/moon-dim.svg) center / 250px no-repeat; }
+/* "Time to sleep" and "Good night, everybody." are the look's words (night_title, night_sub), above the clock */
+body.look-kids-room #screen-night .nt { order: -2; font-size: 72px; font-weight: 900; line-height: 1.05; color: #BDB6EA; }
+body.look-kids-room #screen-night .ns { order: -1; margin-top: 6px; font-size: 28px; font-weight: 800; color: #8F89BF; }
+body.look-kids-room #screen-night .t { font-family: var(--sans); font-size: 150px; font-weight: 900; letter-spacing: -0.02em; line-height: 1; color: #8D88BC; margin-top: 8px; }
+body.look-kids-room #screen-night .d { font-size: 24px; font-weight: 800; color: #8F89BF; }
+body.look-kids-room #screen-night .n { position: relative; bottom: auto; z-index: 1; margin-top: 18px; padding: 12px 24px; border: 2px solid rgba(189, 182, 234, 0.35); border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06); font-size: 22px; font-weight: 900; color: #A9A3D6; }
+
+/* ---------------- the Kids home screen (web/js/kids.js) ---------------- */
+body.look-kids-room #screen-kids { background: var(--paper); }
+body.look-kids-room .khead { border-radius: 32px; background: var(--kr-sky); box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.1); }
+body.look-kids-room .khead.eve { background: var(--kr-dusk); }
+body.look-kids-room .kpart { width: 92px; height: 92px; padding: 0; background: rgba(255, 255, 255, 0.22) url(img/sun.svg) center / 86px no-repeat; box-shadow: none; }
+body.look-kids-room .kpart svg { visibility: hidden; }
+body.look-kids-room .khead.eve .kpart { background: rgba(255, 255, 255, 0.16) url(img/moon.svg) center / 74px no-repeat; }
+body.look-kids-room .khi, body.look-kids-room .kdate { font-weight: 800; opacity: 1; }
+body.look-kids-room .kdow { font-weight: 900; }
+body.look-kids-room .kt { font-weight: 900; }
+body.look-kids-room .kt span { font-weight: 900; }
+body.look-kids-room .kwx b { font-weight: 900; font-size: 32px; }
+body.look-kids-room .kwx span { font-weight: 800; }
+body.look-kids-room .knext h2 { font-weight: 900; }
+body.look-kids-room .knc { border-radius: 26px; box-shadow: 0 5px 0 var(--kr-press); }
+body.look-kids-room .knc.next { box-shadow: 0 6px 0 rgba(255, 138, 61, 0.3); }
+body.look-kids-room .ktag { background: var(--kr-orange-t); font-weight: 900; box-shadow: 0 0 0 3px #FFFFFF; transform: translateX(-50%) rotate(-3deg); }
+body.look-kids-room .knext.compact .ktag { transform: rotate(-3deg); }
+body.look-kids-room .ktag.now { background: var(--green); }
+body.look-kids-room .knt, body.look-kids-room .knti { font-weight: 900; }
+body.look-kids-room .knt span { font-weight: 900; }
+body.look-kids-room .kdots i { font-weight: 900; }
+body.look-kids-room .kdots i.all { font-weight: 800; }
+body.look-kids-room .knone { font-weight: 800; }
+body.look-kids-room .kkid { box-shadow: 0 6px 0 var(--kr-press); }
+body.look-kids-room .av.kx { font-weight: 900; }
+body.look-kids-room .kkn b { font-weight: 900; }
+body.look-kids-room .kkn span { font-weight: 800; color: var(--soft); }
+body.look-kids-room .kprog { align-items: center; }
+body.look-kids-room .kprog i { width: 18px; height: 18px; }
+body.look-kids-room .kprog i.done { width: 22px; height: 22px; border: none; background: url(img/star.svg) center / contain no-repeat; }
+body.look-kids-room .kprog i.waiting { border-color: #E9A800; }
+body.look-kids-room .kmore { font-weight: 900; }
+body.look-kids-room .kch .kct { font-weight: 900; }
+body.look-kids-room .kcb b { font-weight: 900; color: #B4501A; }
+body.look-kids-room .kch.done .kcb { background: #1E7A3F; border-color: #1E7A3F; }
+body.look-kids-room .kface { box-shadow: 0 5px 0 var(--kr-press); }
+body.look-kids-room .kface b { font-weight: 900; }
+body.look-kids-room .kscreen { box-shadow: 0 6px 0 var(--kr-press); }
+body.look-kids-room .ks-info small { font-weight: 900; opacity: 1; }
+body.look-kids-room .ks-total { font-weight: 900; }
+body.look-kids-room .ks-when { font-weight: 900; }
+body.look-kids-room .ksw b { font-weight: 900; }
+body.look-kids-room .kbed-t small { font-weight: 800; }
+body.look-kids-room .kbed-t b { font-weight: 900; }
+body.look-kids-room .kmoon { padding: 0; background: url(img/moon.svg) center / 64px no-repeat, rgba(255, 255, 255, 0.16); }
+body.look-kids-room .kmoon svg { visibility: hidden; }
+body.look-kids-room .kbed-at, body.look-kids-room .kstep i { font-weight: 900; }
+body.look-kids-room .krib { height: 104px; border-radius: 28px; box-shadow: 0 6px 0 rgba(233, 168, 0, 0.25); }
+body.look-kids-room .krib-t small { font-weight: 800; }
+body.look-kids-room .krib-t b { font-weight: 900; }
+body.look-kids-room .krib .kr-moons { order: 2; }
+body.look-kids-room .kv-right .krib .kr-moons { display: none; }
+body.look-kids-room .krib-n { order: 3; background: var(--kr-orange-t); font-weight: 900; box-shadow: 0 0 0 4px #FFE3CF; }
+body.look-kids-room .ktk-today { font-weight: 900; }
+body.look-kids-room .ktk-script { font-weight: 900; }
+body.look-kids-room .ktk-ti, body.look-kids-room .ktk-chip { font-weight: 800; }
+body.look-kids-room .knav .tabs { border-width: 3px; }
+body.look-kids-room .knav .tab { height: 64px; font-size: 20px; font-weight: 900; padding: 0 18px 0 12px; }
+body.look-kids-room .knav .tab svg { width: 32px; height: 32px; }
+body.look-kids-room .kgrown { height: 68px; border: 3px solid var(--line); font-size: 20px; font-weight: 900; padding: 0 24px 0 18px; box-shadow: 0 5px 0 var(--kr-press); }
+body.look-kids-room .kgrown .kpic { width: 28px; height: 28px; }
+
+/* ---------------- Clock & today ---------------- */
+body.look-kids-room .ck-date { font-weight: 900; letter-spacing: 0.04em; color: var(--soft); }
+body.look-kids-room .ck-time { font-family: var(--sans); font-weight: 900; letter-spacing: -0.02em; }
+body.look-kids-room .ck-time span { font-weight: 900; color: var(--soft); }
+body.look-kids-room .ck-wx .ic { color: #E9A800; }
+body.look-kids-room .ck-verse { font-family: var(--sans); font-style: normal; font-weight: 800; }
+body.look-kids-room .ck-side h2 { font-family: var(--sans); font-weight: 900; }
+body.look-kids-room .ck-ev .ti { font-weight: 900; }
+body.look-kids-room .ck-ev .who { font-family: var(--sans); font-style: normal; font-weight: 800; }
+body.look-kids-room .ck-count { border: 3px solid var(--gilt); border-radius: 22px; background: #FFFFFF; font-weight: 800; }
+body.look-kids-room .ck-count b { font-family: var(--sans); font-weight: 900; }
+
+/* ---------------- this frame (gear) ---------------- */
+body.look-kids-room .fcard { background: #FFFFFF; border: 3px solid var(--line); border-radius: 22px; }
+body.look-kids-room .fcard b { font-family: var(--sans); font-weight: 900; }
+body.look-kids-room .fcard.on { border-color: var(--kr-blue); box-shadow: none; background: #EAF3FD; }
+body.look-kids-room .frame-name { background: var(--kr-sky); color: #FFFFFF; border: 4px solid #FFFFFF; font-family: var(--sans); font-weight: 900; border-radius: 30px; }
+body.look-kids-room .ftoast { background: var(--navy); color: #FFFFFF; border: none; font-weight: 900; }
+
+/* ================= tall frames (800 x 1280) ================= */
+body.look-kids-room.vert .band { height: auto; min-height: 112px; padding: 12px 20px 12px 12px; row-gap: 10px; }
+body.look-kids-room.vert .band.tall { height: 128px; }
+body.look-kids-room.vert .band .script { font-size: 38px; }
+body.look-kids-room.vert .band .clock .t { font-size: 70px; }
+body.look-kids-room.vert .band .wx { padding: 4px 14px 4px 8px; }
+body.look-kids-room.vert .band .wx .temp { font-size: 30px; }
+body.look-kids-room.vert .body { padding: 14px 18px 14px; }
+body.look-kids-room.vert .ribbon { margin: 14px 18px 0; }
+body.look-kids-room.vert .rb-ti { font-size: 24px; }
+body.look-kids-room.vert .rb-art { width: 120px; }
+body.look-kids-room.vert .nav { height: auto; }
+body.look-kids-room.vert .tabs { border-radius: 32px; }
+body.look-kids-room.vert .tab { height: 78px; padding: 0 2px; gap: 3px; border-radius: 24px; font-size: 15px; }
+body.look-kids-room.vert .tab svg { width: 32px; height: 32px; }
+body.look-kids-room.vert .knav .tab { flex-direction: column; justify-content: center; height: 78px; padding: 0 2px; gap: 3px; border-radius: 24px; font-size: 15px; }
+body.look-kids-room.vert .knav .tabs { border-radius: 32px; }
+body.look-kids-room.vert .kgrown { flex-direction: column; justify-content: center; height: 92px; padding: 0 14px; gap: 4px; border-radius: 28px; font-size: 16px; }
+body.look-kids-room.vert .picker { width: 100%; }
+body.look-kids-room.vert .band .pick { padding: 0 12px 0 6px; font-size: 18px; }
+body.look-kids-room.vert .pick .av { width: 44px; height: 44px; }
+body.look-kids-room.vert .chore .btn-primary { min-width: 150px; padding: 0 18px; height: 60px; }
+body.look-kids-room.vert .chore { min-height: 82px; padding: 6px 12px 6px 8px; }
+body.look-kids-room.vert .chore + .chore { margin-top: 12px; }
+body.look-kids-room.vert .medal { width: 64px; height: 64px; }
+body.look-kids-room.vert .chore .ti { font-size: 24px; }
+body.look-kids-room.vert .state { height: 60px; }
+body.look-kids-room.vert .big-total { font-size: 44px; margin-top: 0; }
+body.look-kids-room.vert .chores-side > .card { padding: 12px 20px !important; gap: 6px !important; }
+body.look-kids-room.vert .minibars, body.look-kids-room.vert .minibars div { height: 52px; }
+body.look-kids-room.vert .btn-outline { height: 64px; }
+body.look-kids-room.vert .day:not(.sp) .dh { border-right: 2px dashed var(--line); }
+body.look-kids-room.vert .day.today:not(.sp) .dh { border-right-color: rgba(31, 111, 201, 0.4); }
+body.look-kids-room.vert .day.today::after { right: 8px; top: 8px; width: 30px; height: 30px; }
+body.look-kids-room.vert .band .toggle button { height: 56px; padding: 0 14px; font-size: 17px; }
+body.look-kids-room.vert .legend { font-size: 14px; }
+body.look-kids-room.vert .sheet { width: 740px; }
+body.look-kids-room.vert .overlay > .sheet:not(.ptools):not(.daypop):not(.ladd):not(.fmenu) { width: 560px; }
+body.look-kids-room.vert .keys button { height: 88px; }
+body.look-kids-room.vert #screen-night { padding-left: 0; align-items: center; text-align: center; }
+body.look-kids-room.vert #screen-night .mono { position: relative; left: auto; top: auto; margin: 0 0 30px; width: 340px; height: 340px; background-size: 280px; }
+body.look-kids-room.vert #screen-night .mono { order: -2; }
+body.look-kids-room.vert #screen-night .ns { margin-bottom: 4px; }
+body.look-kids-room.vert #screen-night .t { font-size: 170px; }
+body.look-kids-room.vert .ph-panel { left: 20px; right: 20px; bottom: 20px; }
+body.look-kids-room.vert #screen-screen .band-right { justify-content: flex-start; }
+body.look-kids-room.vert #screen-screen .band-right .count { margin-right: auto; }
+body.look-kids-room.vert .pv-art { top: 112px; height: calc(100% - 176px); }
+body.look-kids-room.vert .st-main > .pv { flex: 1; }
+body.look-kids-room.vert .wrow { padding: 3px 10px; }
+body.look-kids-room.vert .who { gap: 6px; margin-top: 6px; }
+body.look-kids-room.vert .hp-body .li { padding: 4px 0; }
+body.look-kids-room.vert .hp-body .ring { width: 34px; height: 34px; }
+body.look-kids-room.vert .kpart { width: 108px; height: 108px; background-size: 100px; }
+body.look-kids-room.vert .kmore { font-size: 13px; padding: 1px 6px; }
+body.look-kids-room.vert .kprog { gap: 2px; }
+body.look-kids-room.vert .av.kx:not(.s) { width: 56px; height: 56px; font-size: 28px; }
+body.look-kids-room.vert .hp-btns > button { height: 54px; }
+body.look-kids-room.vert .khead.eve .kpart { background-size: 86px; }

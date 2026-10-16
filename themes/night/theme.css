@@ -1,0 +1,12 @@
+/* Quiet night: dark and dim, for a bedroom */
+body.look-night { --paper: #0F1318; --card: #161C24; --tile: #1B222C; --line: #2B3440; --line-soft: #222A34; --ink: #E9E2D3; --soft: #A69D8B; --muted: #7D7566;
+  --navy: #0B0E12; --gilt: #B99A5B; --gilt-soft: #9C8558; --gilt-dim: #8D7A52; --next-bg: #2A2016; --amber-bg: #3A2C14; --amber: #E2B76A; --green-bg: #17301F; --green: #8FCB9C; }
+body.look-night #stage { background: var(--paper); }
+body.look-night .ck-time { color: #D9CFBB; }
+body.look-night .ce { background: #1D242E !important; box-shadow: inset 3px 0 0 var(--gilt-dim); }
+body.look-night .ce .ct { color: var(--soft); }
+body.look-night .ce .t { color: var(--ink); }
+body.look-night .hol { background: #1D242E; }
+body.look-night .ev.next { background: #2A2016; }
+body.look-night .htabs, body.look-night .keys button, body.look-night .kb-row button { background: #1F2630; color: var(--ink); }
+body.look-night .tab, body.look-night .pick, body.look-night .toggle button, body.look-night .pager button { color: var(--ink); }

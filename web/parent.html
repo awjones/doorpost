@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#16324F">
+<title>Frame · Parents</title>
+<link rel="stylesheet" href="static/css/frame.css">
+<link rel="stylesheet" href="static/css/admin-look.css">
+<style>
+  html, body { background: var(--a-paper); overflow: auto; height: auto; }
+  body { user-select: auto; -webkit-user-select: auto; }
+  .pband { background: var(--a-head-bg); border-bottom: 3px double var(--a-head-rule); color: var(--a-head-ink); padding: 16px; display: flex; align-items: center; gap: 12px; }
+  .pband .mono { width: 52px; height: 52px; background: var(--a-head-ink); }
+  .pband .script { font-family: var(--a-font-script); font-size: 34px; line-height: 1.1; }
+  .pband .kicker { font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--a-head-soft); }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+  .card h2 { font-family: var(--a-font-display); font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+  .row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--a-line-soft); flex-wrap: wrap; }
+  .row:last-child { border-bottom: none; }
+  .row .ti { flex: 1; min-width: 140px; font-size: 16px; font-weight: 600; }
+  .row .ti small { display: block; font-weight: 500; color: var(--a-soft); font-size: 13px; }
+  .row.undone .ti { text-decoration: line-through; color: var(--a-muted); }
+  .btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .st { font-size: 13px; font-weight: 700; border-radius: 999px; padding: 4px 10px; }
+  .st.todo { background: var(--a-line-soft); color: var(--a-soft); }
+  .st.waiting { background: var(--a-warn-bg); color: var(--a-warn); }
+  .st.done { background: var(--a-ok-bg); color: var(--a-ok); }
+  .login { display: flex; flex-direction: column; gap: 12px; }
+  .login input { height: 56px; border-radius: 14px; border: 1.5px solid var(--a-line); padding: 0 16px; font-size: 24px; letter-spacing: 0.3em; text-align: center; background: var(--a-field); color: var(--a-field-ink); font-family: var(--a-font-body); }
+  .note { font-size: 13px; color: var(--a-soft); }
+  .err { color: var(--a-danger); font-weight: 600; min-height: 20px; }
+  .kidhead { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-weight: 700; }
+  /* tabs */
+  .ptabs { display: flex; gap: 6px; }
+  .ptab { flex: 1; height: 42px; border-radius: var(--a-pill); font-size: 15px; font-weight: 700; color: var(--a-soft); background: var(--a-card); border: 1px solid var(--a-line); }
+  .ptab.on { background: var(--a-accent); color: var(--a-accent-ink); border-color: var(--a-accent); }
+  .ptab .count { background: var(--a-danger); color: var(--a-danger-ink); border-radius: 999px; font-size: 12px; padding: 1px 7px; margin-left: 4px; }
+  /* screen time */
+  .bigt { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
+  .bigt .n { font-family: var(--a-font-display); font-size: 44px; font-weight: 700; color: var(--a-accent); line-height: 1; }
+  .parts { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+  .parts div { display: flex; justify-content: space-between; border-bottom: 1px solid var(--a-line-soft); padding-bottom: 4px; }
+  .parts div:last-child { border-bottom: none; }
+  .parts span:last-child { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .acts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .act { background: var(--a-accent); color: var(--a-accent-ink); border-radius: calc(var(--a-radius) - 2px); padding: 10px 6px; text-align: center; font-size: 13px; font-weight: 700; line-height: 1.25; box-shadow: inset 0 0 0 1px var(--a-rule); }
+  .act b { display: block; font-family: var(--a-font-display); font-size: 22px; }
+  .act[disabled] { background: var(--a-ok-bg); color: var(--a-ok); box-shadow: none; }
+  .act.on { background: var(--a-accent-ink); color: var(--a-accent); }
+  .switch { display: flex; gap: 8px; }
+  .switch > div { flex: 1; background: var(--a-tile); border: 1px solid var(--a-line-soft); border-radius: calc(var(--a-radius) - 4px); padding: 8px 12px; }
+  .switch .dd { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--a-label); }
+  .switch .vv { font-family: var(--a-font-display); font-size: 24px; font-weight: 700; color: var(--a-accent); }
+  .lbl { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--a-label); margin: 12px 0 6px; }
+  .pick2 { display: flex; gap: 10px; flex-wrap: wrap; }
+  .pick2 > button { border-radius: 50%; opacity: 0.5; }
+  .pick2 > button.sel { opacity: 1; box-shadow: 0 0 0 3px var(--a-card), 0 0 0 5px var(--a-accent); }
+  .chips { gap: 6px; }
+  .chip2 { height: 40px; font-size: 16px; padding: 0 12px; }
+  .chip2.r { height: 36px; font-size: 14px; }
+  .txt { height: 42px; width: 100%; border-radius: calc(var(--a-radius) - 4px); border: 1.5px solid var(--a-line); padding: 0 12px; font: 500 15px var(--a-font-body); background: var(--a-field); color: var(--a-field-ink); margin-top: 8px; box-sizing: border-box; }
+  .confirm { margin-top: 14px; }
+  .nwk { display: flex; align-items: center; gap: 10px; background: var(--a-warn-bg); color: var(--a-warn); border-radius: var(--a-radius); padding: 12px 14px; flex-wrap: wrap; }
+  .nwk div { flex: 1; min-width: 180px; }
+  .nwk b { display: block; font-size: 16px; }
+  .nwk small { font-size: 13px; }
+  .pm { font-weight: 700; color: var(--a-ok); font-variant-numeric: tabular-nums; }
+  .pm.neg { color: var(--a-danger); }
+  .wkhead { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .toast { background: var(--a-ok-bg); color: var(--a-ok); border-radius: 10px; padding: 10px 12px; font-weight: 700; font-size: 14px; }
+  .toast.bad { background: var(--a-danger-bg); color: var(--a-danger); }
+</style>
+</head>
+<body>
+<header class="pband">
+  <span class="mono" role="img" aria-label="Family monogram"></span>
+  <div><div class="script">Our Family</div><div class="kicker" id="who">Frame · Parents</div></div>
+  <a id="settings" href="admin" style="display:none;margin-left:auto;color:var(--a-head-ink);border:1px solid var(--a-head-ink);border-radius:var(--a-pill);padding:8px 14px;font-size:14px;font-weight:600;text-decoration:none">Settings</a>
+</header>
+<main class="wrap" id="root" aria-live="polite"></main>
+<!--admin-look-foot-->
+<script src="static/js/icons.js"></script>
+<script>
+(function () {
+  'use strict';
+  var root = document.getElementById('root');
+  var AMOUNTS = [-15, -10, -5, 5, 10, 15, 30];
+  var REASONS = ['Kind to a sibling', 'Extra help', 'Great attitude', 'Not listening', 'Unkind words', 'Fighting'];
+  var P = { tab: readTab(), sum: null, scr: null, log: null, adjOpen: false, confirmWeek: false, toast: '', bad: false,
+    adj: { kid: 'all', minutes: 0, scope: 'family', why: '', note: '' } };
+
+  function readTab() { try { return localStorage.getItem('ff.parentTab') || 'screen'; } catch (e) { return 'screen'; } }
+  function saveTab(t) { try { localStorage.setItem('ff.parentTab', t); } catch (e) { /* fine */ } }
+  function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function av(k, cls) {
+    cls = cls || 's';
+    if (k.photo) return '<span class="av ' + cls + ' face" style="background:' + esc(k.color) + ' url(\'' + esc(k.photo) + '\') center/cover no-repeat"></span>';
+    return '<span class="av ' + cls + '" style="background:' + esc(k.color) + '">' + esc(k.initial) + '</span>';
+  }
+  function post(url, body) {
+    return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: body ? JSON.stringify(body) : undefined })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { j._status = r.status; return j; }); });
+  }
+  function get(url) {
+    return fetch(url, { credentials: 'same-origin' }).then(function (r) {
+      if (r.status === 401) { var e = new Error('login'); e.login = true; throw e; }
+      return r.json();
+    });
+  }
+  function shortMin(m) {
+    var neg = m < 0, h, r;
+    m = Math.abs(m); h = Math.floor(m / 60); r = m % 60;
+    return (neg ? '−' : '') + (h ? h + ' hr' + (r ? ' ' + r : '') : r + ' min');
+  }
+  function when(at) {
+    var d = new Date(at.replace(' ', 'T'));
+    var day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()];
+    var h = d.getHours(), m = d.getMinutes();
+    return day + ' ' + ((h % 12) || 12) + ':' + (m < 10 ? '0' : '') + m + (h < 12 ? ' AM' : ' PM');
+  }
+
+  function showLogin(msg) {
+    root.innerHTML = '<section class="card login"><h2>Parent sign-in</h2>' +
+      '<p class="note">Use your own frame PIN, so the log shows it was you. This phone stays signed in for 30 days.</p>' +
+      '<input id="pin" type="password" inputmode="numeric" autocomplete="one-time-code" maxlength="8" aria-label="Parent PIN">' +
+      '<button class="btn-primary" id="go">Sign in</button><div class="err" role="alert">' + esc(msg || '') + '</div></section>';
+    var input = document.getElementById('pin');
+    input.focus();
+    function go() {
+      post('api/parent/unlock?remember=1', { pin: input.value }).then(function (r) {
+        if (r.ok) { if (r.name) document.getElementById('who').textContent = 'Signed in as ' + r.name; load(); }
+        else showLogin(r.message || 'That PIN didn’t match.');
+      });
+    }
+    document.getElementById('go').onclick = go;
+    input.onkeydown = function (e) { if (e.key === 'Enter') go(); };
+  }
+
+  // Settings > Modules: only the tabs for modules that are on (an older server sends no list: all on).
+  function on(mod) { var m = P.sum && P.sum.modules; return !m || m.indexOf(mod) >= 0; }
+  function tabList() {
+    var waiting = P.sum.waiting.length, out = [];
+    if (on('screen_time')) out.push(['screen', 'Screen time']);
+    if (on('chores')) out.push(['chores', 'Chores' + (waiting ? '<span class="count">' + waiting + '</span>' : '')]);
+    if (on('screen_time')) out.push(['log', 'Log']);
+    return out;
+  }
+  function load() {
+    return get('api/parent/summary').then(function (sum) {
+      P.sum = sum;
+      var keys = tabList().map(function (t) { return t[0]; });
+      if (keys.indexOf(P.tab) < 0) P.tab = keys[0] || '';
+      var jobs = [on('screen_time') ? get('api/parent/screen') : null];
+      if (P.tab === 'log') jobs.push(get('api/parent/screen/log'));
+      return Promise.all(jobs);
+    }).then(function (r) {
+      P.scr = r[0]; if (r[1]) P.log = r[1];
+      render();
+    }).catch(function (e) { if (e.login) showLogin(); });
+  }
+
+  // ---------------- tabs ----------------
+  function render() {
+    var list = tabList();
+    var tabs = list.length < 2 ? '' : '<div class="ptabs" role="tablist">' +
+      list.map(function (t) {
+        return '<button class="ptab' + (P.tab === t[0] ? ' on' : '') + '" data-a="tab" data-tab="' + t[0] + '">' + t[1] + '</button>';
+      }).join('') + '</div>';
+    var toast = P.toast ? '<div class="toast' + (P.bad ? ' bad' : '') + '" role="status">' + esc(P.toast) + '</div>' : '';
+    var body = !list.length ? '<section class="card"><h2>Nothing to do here</h2><p class="note">Chores and screen time are turned off in Settings &gt; Modules.</p></section>'
+      : P.tab === 'chores' ? choresTab() : P.tab === 'log' ? logTab() : screenTab();
+    root.innerHTML = tabs + toast + body +
+      '<div class="btns"><button class="btn-ghost" data-a="refresh">Refresh calendars &amp; photos</button>' +
+      '<a class="btn-ghost" href="admin" style="display:inline-flex;align-items:center;text-decoration:none;color:inherit">Settings</a>' +
+      '<button class="btn-ghost" data-a="logout">Sign out</button></div>';
+  }
+
+  function screenTab() {
+    var d = P.scr, a = P.adj, html = '';
+    if (d.new_week_due) {
+      html += P.confirmWeek
+        ? '<div class="nwk"><div><b>Start a new week?</b><small>This week ends at ' + esc(shortMin(d.total)) + '. Earning starts again from zero. The log keeps everything.</small></div>' +
+          '<span class="btns"><button class="btn-small no" data-a="week-cancel">Not yet</button><button class="btn-small ok" data-a="week-go">Start it</button></span></div>'
+        : '<div class="nwk"><div><b>Time for a new week</b><small>Nothing resets until a parent starts it.</small></div>' +
+          '<button class="btn-small ok" data-a="week-ask">New week</button></div>';
+    }
+    html += '<section class="card"><h2>' + esc(d.weekend ? 'Screen time this weekend' : 'This weekend so far') + '</h2>' +
+      '<div class="bigt"><div class="n">' + esc(shortMin(d.total)) + '</div><div class="note" style="text-align:right">Week started<br>' +
+      esc(when(d.week_started)) + (d.week_started_by ? ' · ' + esc(d.week_started_by.split(' ')[0]) : '') + '</div></div>' +
+      '<div class="parts">' + d.parts.map(function (p) { return '<div><span>' + esc(p.label) + '</span><span>' + esc(shortMin(p.minutes)) + '</span></div>'; }).join('') + '</div></section>';
+    html += '<div class="acts">' +
+      (d.good_today ? '<button class="act" disabled><b>✓</b>Good day given</button>'
+                    : '<button class="act" data-a="goodday"><b>+' + d.good_day_minutes + '</b>Good day</button>') +
+      '<button class="act' + (P.adjOpen ? ' on' : '') + '" data-a="adj-toggle"><b>±</b>Add or take away</button>' +
+      '<button class="act" data-a="tab" data-tab="chores"><b>' + P.sum.waiting.length + '</b>Chores to approve</button></div>';
+    if (P.adjOpen) html += adjustCard();
+    html += '<section class="card"><h2>Set the Switch</h2><div class="switch"><div><div class="dd">Saturday</div><div class="vv">' +
+      esc(shortMin(d.saturday)) + '</div></div><div><div class="dd">Sunday</div><div class="vv">' + esc(shortMin(d.sunday)) + '</div></div></div>' +
+      '<p class="note" style="margin-top:8px">Type these into the Nintendo parental controls app. They update as minutes come in.</p></section>';
+    var kids = d.kids.map(function (k) {
+      return '<div class="row">' + av(k) + '<span class="ti">' + esc(k.name) + (k.bonus ? '<small>' + (k.bonus > 0 ? '+' : '') + k.bonus + ' min just for ' + esc(k.name) + '</small>' : '') +
+        '</span><span class="pm">' + (k.minutes ? '+' + esc(shortMin(k.minutes)) : '<span class="note">none yet</span>') + '</span></div>';
+    }).join('');
+    html += '<section class="card"><h2>Who filled it this week</h2>' + kids + '</section>';
+    html += '<section class="card"><h2>This week</h2>' + (d.log.map(entryRow).join('') || '<p class="aside">Nothing yet this week.</p>') + '</section>';
+    return html;
+  }
+  function entryRow(e) {
+    var k = e.kid ? P.scr.kids.filter(function (x) { return x.id === e.kid; })[0] : null;
+    return '<div class="row' + (e.undone ? ' undone' : '') + '">' + (k ? av(k) : '<span class="av s all">ALL</span>') +
+      '<span class="ti">' + esc(e.title) + '<small>' + esc(e.by_full) + ' · ' + esc(when(e.at)) + (e.undone ? ' · undone' : '') + '</small></span>' +
+      '<span class="pm' + (e.minutes < 0 ? ' neg' : '') + '">' + (e.minutes > 0 ? '+' : '') + e.minutes + '</span>' +
+      (e.can_undo ? '<button class="btn-small no" data-a="undo" data-id="' + e.id + '">Undo</button>' : '') + '</div>';
+  }
+  function adjustCard() {
+    var a = P.adj, kids = P.scr.kids, kid = a.kid !== 'all' ? kids.filter(function (k) { return k.id === a.kid; })[0] : null;
+    var who = '<button class="av m all' + (a.kid === 'all' ? ' sel' : '') + '" data-a="adj-kid" data-kid="all" aria-label="Everyone">ALL</button>' +
+      kids.map(function (k) { return '<button class="' + (a.kid === k.id ? 'sel' : '') + '" data-a="adj-kid" data-kid="' + esc(k.id) + '" aria-label="' + esc(k.name) + '">' + av(k, 'm') + '</button>'; }).join('');
+    var amts = AMOUNTS.map(function (m) {
+      return '<button class="chip2' + (m < 0 ? ' neg' : '') + (a.minutes === m ? ' sel' : '') + '" data-a="adj-min" data-min="' + m + '">' + (m > 0 ? '+' : '−') + Math.abs(m) + '</button>';
+    }).join('');
+    var where = kid ? '<div class="lbl">Where it goes</div><div class="chips">' +
+      '<button class="chip2 r' + (a.scope === 'family' ? ' sel' : '') + '" data-a="adj-scope" data-scope="family">' + (a.minutes < 0 ? 'From the family pool' : 'Family pool, ' + esc(kid.name) + ' gets credit') + '</button>' +
+      '<button class="chip2 r' + (a.scope === 'kid' ? ' sel' : '') + '" data-a="adj-scope" data-scope="kid">' + (a.minutes < 0 ? 'Just from ' : 'Just for ') + esc(kid.name) + '</button></div>' : '';
+    var why = REASONS.map(function (r) {
+      return '<button class="chip2 r' + (a.why === r ? ' sel' : '') + '" data-a="adj-why" data-why="' + esc(r) + '">' + esc(r) + '</button>';
+    }).join('');
+    var summary = !a.minutes ? 'Pick how much' : (a.minutes > 0 ? '+' : '−') + Math.abs(a.minutes) + ' min ' +
+      (!kid ? (a.minutes > 0 ? 'for everyone' : 'from everyone') : a.scope === 'kid' ? (a.minutes > 0 ? 'just for ' : 'just from ') + kid.name :
+      a.minutes > 0 ? 'to the family pool, credited to ' + kid.name : 'from the family pool, because of ' + kid.name);
+    return '<section class="card"><h2>Add or take away</h2>' +
+      '<div class="lbl">Who</div><div class="pick2">' + who + '</div>' +
+      '<div class="lbl">How much</div><div class="chips">' + amts + '</div>' + where +
+      '<div class="lbl">Why</div><div class="chips">' + why + '</div>' +
+      '<input class="txt" id="adj-note" maxlength="80" placeholder="Or write a reason" value="' + esc(a.note) + '">' +
+      '<div class="confirm"><span>' + esc(summary) + '</span><button class="btn-small ok" data-a="adj-go"' + (a.minutes ? '' : ' disabled') + '>' +
+      (a.minutes < 0 ? 'Take away' : 'Add') + '</button></div></section>';
+  }
+
+  function choresTab() {
+    var d = P.sum;
+    var waiting = d.waiting.map(function (c) {
+      return '<div class="row">' + av({ color: c.color, initial: c.initial, photo: c.photo }) + '<span class="ti">' + esc(c.title) +
+        '<small>' + esc(c.kid_name) + ' · +' + c.minutes + ' min</small></span><span class="btns">' +
+        '<button class="btn-small ok" data-a="approve" data-id="' + esc(c.id) + '">Approve</button>' +
+        '<button class="btn-small no" data-a="send-back" data-id="' + esc(c.id) + '">Not yet</button></span></div>';
+    }).join('') || '<p class="aside">Nothing is waiting.</p>';
+    var kids = d.kids.map(function (k) {
+      return '<div class="kidhead">' + av(k) + esc(k.name) + '</div>' + (k.chores.map(function (c) {
+        return '<div class="row"><span class="ti">' + esc(c.title) + '<small>+' + c.minutes + ' min</small></span>' +
+          '<span class="st ' + c.status + '">' + { todo: 'To do', waiting: 'Waiting', done: 'Done' }[c.status] + '</span>' +
+          (c.status !== 'done' ? '<button class="btn-small ok" data-a="approve" data-id="' + esc(c.id) + '">Approve</button>' : '') + '</div>';
+      }).join('') || '<p class="note">No chores today.</p>');
+    }).join('');
+    var recent = d.recent.map(function (r) {
+      return '<div class="row"><span class="ti">' + esc(r.title) + '<small>' + esc(r.kid) + ' · +' + r.minutes + ' min · ' +
+        esc(r.approved_by) + ' · ' + esc(r.approved_at.replace('T', ' ').slice(0, 16)) + '</small></span></div>';
+    }).join('') || '<p class="aside">No approvals yet.</p>';
+    return '<section class="card"><h2>Waiting for you</h2>' + waiting + '</section>' +
+      '<section class="card"><h2>Today’s chores</h2>' + kids + '</section>' +
+      '<section class="card"><h2>Recent approvals</h2>' + recent + '</section>';
+  }
+
+  function logTab() {
+    if (!P.log) return '<section class="card"><p class="aside">Loading…</p></section>';
+    var kids = {};
+    P.scr.kids.forEach(function (k) { kids[k.id] = k; });
+    return P.log.weeks.map(function (w, i) {
+      var rows = w.rows.map(function (r) {
+        var k = kids[r.kid];
+        var title = r.kind === 'good_day' ? 'A good day for everyone' : r.note + (r.scope === 'kid' && k ? ' (just ' + k.name + ')' : '');
+        return '<div class="row">' + (k ? av(k) : '<span class="av s all">ALL</span>') + '<span class="ti">' + esc(title) +
+          '<small>' + esc(r.by) + ' · ' + esc(when(r.at)) + '</small></span><span class="pm' + (r.minutes < 0 ? ' neg' : '') + '">' +
+          (r.minutes > 0 ? '+' : '') + r.minutes + '</span></div>';
+      }).join('') || '<p class="aside">Nothing this week.</p>';
+      return '<section class="card"><div class="wkhead"><h2>' + (i === 0 ? 'This week' : 'Week from ' + esc(when(w.started))) + '</h2>' +
+        '<span class="note">' + esc(w.pool_label) + ' earned · started by ' + esc(w.started_by) + '</span></div>' + rows + '</section>';
+    }).join('');
+  }
+
+  // ---------------- actions ----------------
+  function done(r, okMsg) {
+    if (r._status === 401) { showLogin(); return; }
+    P.bad = r._status >= 400;
+    P.toast = P.bad ? (r.detail || 'Something went wrong.') : okMsg;
+    clearTimeout(done.t); done.t = setTimeout(function () { P.toast = ''; if (P.sum) render(); }, 4000);
+    load();
+  }
+  root.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-a]');
+    if (!el) return;
+    var a = el.getAttribute('data-a'), id = el.getAttribute('data-id'), adj = P.adj;
+    if (a === 'tab') { P.tab = el.getAttribute('data-tab'); saveTab(P.tab); render(); if (P.tab === 'log') load(); window.scrollTo(0, 0); return; }
+    if (a === 'adj-toggle') { P.adjOpen = !P.adjOpen; render(); return; }
+    if (a === 'adj-kid') { adj.kid = el.getAttribute('data-kid'); if (adj.kid === 'all') adj.scope = 'family'; keepNote(); render(); return; }
+    if (a === 'adj-min') { adj.minutes = +el.getAttribute('data-min'); keepNote(); render(); return; }
+    if (a === 'adj-scope') { adj.scope = el.getAttribute('data-scope'); keepNote(); render(); return; }
+    if (a === 'adj-why') { var w = el.getAttribute('data-why'); adj.why = adj.why === w ? '' : w; keepNote(); render(); return; }
+    if (a === 'week-ask') { P.confirmWeek = true; render(); return; }
+    if (a === 'week-cancel') { P.confirmWeek = false; render(); return; }
+    el.disabled = true;
+    if (a === 'adj-go') {
+      keepNote();
+      var kid = adj.kid === 'all' ? null : adj.kid;
+      post('api/parent/screen/adjust', { minutes: adj.minutes, kid: kid, scope: kid ? adj.scope : 'family', note: adj.note.trim() || adj.why })
+        .then(function (r) { done(r, (adj.minutes > 0 ? 'Added ' : 'Took away ') + Math.abs(adj.minutes) + ' min.'); if (r._status < 400) { P.adj = { kid: 'all', minutes: 0, scope: 'family', why: '', note: '' }; P.adjOpen = false; } });
+      return;
+    }
+    if (a === 'goodday') { post('api/parent/screen/good-day').then(function (r) { done(r, 'Good day added for everyone.'); }); return; }
+    if (a === 'week-go') { P.confirmWeek = false; post('api/parent/screen/new-week').then(function (r) { done(r, 'New week started.'); }); return; }
+    if (a === 'undo') { post('api/parent/screen/' + id + '/undo').then(function (r) { done(r, 'Undone.'); }); return; }
+    var url = a === 'logout' ? 'api/parent/logout' : a === 'refresh' ? 'api/parent/refresh'
+      : 'api/parent/chores/' + encodeURIComponent(id) + '/' + a;
+    post(url).then(function (r) { if (a === 'logout') showLogin(); else if (r._status === 401) showLogin(); else load(); });
+  });
+  function keepNote() { var n = document.getElementById('adj-note'); if (n) P.adj.note = n.value; }
+
+  // Signed in through Cloudflare (frame.example.com)? Then no PIN, and a Settings button.
+  fetch('api/parent/me', { credentials: 'same-origin' }).then(function (r) { return r.json(); }).then(function (me) {
+    if (me.name) document.getElementById('who').textContent = 'Signed in as ' + me.name;
+    if (me.can_admin) document.getElementById('settings').style.display = '';
+  }).catch(function () {});
+  load();
+  // Refresh every 30 s, but never while a form is half filled in.
+  setInterval(function () { if (!document.getElementById('pin') && !P.adjOpen && !P.confirmWeek) load(); }, 30000);
+})();
+</script>
+</body>
+</html>

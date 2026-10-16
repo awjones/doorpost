@@ -1,0 +1,409 @@
+{
+  "secrets": {
+    "parent_pins": [
+      {
+        "name": "Dad",
+        "hash": "pbkdf2$200000$32710a3ed8c5748bc19925fd4026a47c$4d9f3412675ac4f378e683948927cc7b3c5458e5f4e474f6c558398f9e94c190"
+      },
+      {
+        "name": "Mom",
+        "hash": "pbkdf2$200000$26a7308d7621e643eb4fc61fd456e8ee$c1b769a08163634d369f029ca43d2b16d9866d3fdd3ef2704066fde1b7cd6a93"
+      }
+    ],
+    "secret": "fixture-signing-secret-not-real",
+    "upload_token": "fixture-upload-token-not-real",
+    "google_client_secret": "fake-client-secret"
+  },
+  "family_name": "The Example Family",
+  "frame_url": "https://frame.example.net",
+  "lan_url": "http://10.0.0.5:8090",
+  "timezone": "America/Chicago",
+  "location": {
+    "latitude": 41.88,
+    "longitude": -87.63
+  },
+  "night": {
+    "start": "22:00",
+    "end": "06:00"
+  },
+  "idle_minutes_to_photos": 5.0,
+  "return_to_today_minutes": 2.0,
+  "photo_seconds": 20,
+  "people": [
+    {
+      "name": "Dad",
+      "birthday": "1985-03-02"
+    },
+    {
+      "name": "Mom",
+      "birthday": "1986-07-09"
+    },
+    {
+      "name": "Child 1",
+      "birthday": "2015-10-20"
+    },
+    {
+      "name": "Child 2",
+      "aliases": [
+        "Bee"
+      ]
+    },
+    {
+      "name": "Child 3",
+      "aliases": [
+        "Buddy"
+      ]
+    },
+    {
+      "name": "Child 4"
+    },
+    {
+      "name": "Child 5",
+      "use_initial": true
+    }
+  ],
+  "kids": [
+    {
+      "id": "child1",
+      "name": "Child 1",
+      "initial": "C",
+      "color": "#2E5C9A",
+      "screen_time_nickname": "Child 1",
+      "photo": "38ba11ca"
+    },
+    {
+      "id": "child2",
+      "name": "Child 2",
+      "initial": "B",
+      "color": "#3F7A45",
+      "screen_time_nickname": "Child 2",
+      "photo": null
+    },
+    {
+      "id": "child3",
+      "name": "Child 3",
+      "initial": "T",
+      "color": "#B4581F",
+      "screen_time_nickname": "Child 3",
+      "photo": null
+    },
+    {
+      "id": "child4",
+      "name": "Child 4",
+      "initial": "C",
+      "color": "#7B4B8C",
+      "screen_time_nickname": "Child 4",
+      "photo": null
+    },
+    {
+      "id": "child5",
+      "name": "Child 5",
+      "initial": "C",
+      "color": "#1F7576",
+      "screen_time_nickname": "Child 5",
+      "photo": null
+    }
+  ],
+  "chores": [
+    {
+      "kid": "child1",
+      "title": "Make your bed",
+      "minutes": 5,
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri"
+      ]
+    },
+    {
+      "kid": "child1",
+      "title": "Unload the dishwasher",
+      "minutes": 10,
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ]
+    },
+    {
+      "kid": "child2",
+      "title": "Sweep the kitchen",
+      "minutes": 10,
+      "days": [
+        "mon",
+        "wed",
+        "thu"
+      ]
+    },
+    {
+      "kid": "child3",
+      "title": "Pick up the toys",
+      "minutes": 10,
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "id": "child3-toys"
+    },
+    {
+      "kid": "child4",
+      "title": "Toys in the bin",
+      "minutes": 5,
+      "days": [
+        "thu"
+      ]
+    },
+    {
+      "kid": "child5",
+      "title": "Shoes in the basket",
+      "minutes": 5,
+      "days": [
+        "thu",
+        "fri"
+      ]
+    }
+  ],
+  "special_days": {
+    "portrait_names": {
+      "dad": "Dad Example",
+      "child-3": "Sam Example"
+    },
+    "holiday_modes": {
+      "halloween": "special",
+      "columbus day": "hide"
+    },
+    "church": {
+      "reformation": true
+    },
+    "words": [
+      {
+        "word": "Lakeside Fun Park",
+        "look": "lakeside"
+      },
+      {
+        "word": "Big Lodge",
+        "look": "lodge"
+      },
+      {
+        "word": "Lakeside Park",
+        "look": "park"
+      },
+      {
+        "word": "Cruise",
+        "look": "cruise"
+      },
+      {
+        "word": "VBS",
+        "look": "vbs"
+      },
+      {
+        "word": "Dentist",
+        "look": ""
+      },
+      {
+        "word": "Birthday",
+        "look": "birthday"
+      },
+      {
+        "word": "Beach",
+        "look": "beach"
+      }
+    ],
+    "sundays": true,
+    "seasons": true,
+    "countdown_days": 14,
+    "google_photos": {
+      "client_id": "123-fake.apps.googleusercontent.com"
+    }
+  },
+  "calendars": [
+    {
+      "key": "family",
+      "label": "Family",
+      "color": "#9E2235",
+      "who_default": "everyone",
+      "filter_mode": "all",
+      "filter_emails": "",
+      "ics_url": "http://127.0.0.1:9/family.ics"
+    },
+    {
+      "key": "kids",
+      "label": "Kids",
+      "color": "#2F6B5E",
+      "who_default": "",
+      "filter_mode": "all",
+      "filter_emails": "",
+      "ics_url": "https://127.0.0.1:9/kids.ics"
+    },
+    {
+      "key": "dad",
+      "label": "Dad",
+      "color": "#2E4A7A",
+      "who_default": "Dad",
+      "filter_mode": "all",
+      "filter_emails": "",
+      "filter": {
+        "skip_declined_by": [
+          "dad@example.com"
+        ]
+      },
+      "ics_url": "http://127.0.0.1:9/dad.ics"
+    },
+    {
+      "key": "mom",
+      "label": "Mom",
+      "color": "#8B4F24",
+      "who_default": "Mom",
+      "filter_mode": "family",
+      "filter_emails": "dad@example.com",
+      "filter": {
+        "require_attendee_any": [
+          "dad@example.com"
+        ],
+        "include_titles_matching": [
+          "(?i)\\b(child 1|child 2|child 3|buddy|kids|family)\\b"
+        ],
+        "exclude_titles_matching": []
+      },
+      "ics_url": "http://127.0.0.1:9/mom.ics"
+    }
+  ],
+  "merge_shared_events": true,
+  "screen_time": {
+    "base_saturday_minutes": 90,
+    "base_sunday_minutes": 60,
+    "good_day_minutes": 30,
+    "full_minutes": 480,
+    "new_week_day": "sun",
+    "new_week_time": "21:00",
+    "views": [
+      "leader",
+      "vault",
+      "rocket",
+      "glass"
+    ]
+  },
+  "home_assistant": {
+    "enabled": true,
+    "entities": [
+      {
+        "entity": "cover.garage_door",
+        "name": "Garage",
+        "icon": "garage",
+        "states": {
+          "closed": "Garage closed",
+          "open": "Garage open",
+          "opening": "Garage opening",
+          "closing": "Garage closing"
+        },
+        "alert_when": [
+          "open",
+          "opening"
+        ]
+      },
+      {
+        "entity": "lock.front_door",
+        "name": "Front door",
+        "icon": "lock",
+        "states": {
+          "locked": "Front door locked",
+          "unlocked": "Front door unlocked"
+        },
+        "alert_when": [
+          "unlocked"
+        ]
+      }
+    ],
+    "url": "http://homeassistant.local:8123"
+  },
+  "photos": {
+    "folder": "photos",
+    "sources": []
+  },
+  "frames": [
+    {
+      "id": "kitchen",
+      "name": "Kitchen",
+      "look": "navy",
+      "home": "today",
+      "screens": [
+        "today",
+        "clock",
+        "calendar",
+        "chores",
+        "screen",
+        "lists",
+        "photos"
+      ],
+      "calendars": [],
+      "kids": [],
+      "approvals": true,
+      "night": null
+    },
+    {
+      "id": "bedroom",
+      "name": "Bedroom",
+      "look": "night",
+      "home": "clock",
+      "screens": [
+        "clock",
+        "calendar",
+        "photos"
+      ],
+      "calendars": [
+        "family",
+        "dad",
+        "mom"
+      ],
+      "kids": [],
+      "approvals": false,
+      "night": {
+        "start": "21:00",
+        "end": "06:30"
+      }
+    },
+    {
+      "id": "playroom",
+      "name": "Playroom",
+      "look": "kids",
+      "home": "chores",
+      "screens": [
+        "chores",
+        "screen",
+        "photos"
+      ],
+      "calendars": [
+        "kids"
+      ],
+      "kids": [
+        "child3",
+        "child4",
+        "child5"
+      ],
+      "approvals": false,
+      "night": null
+    }
+  ],
+  "lists": {
+    "shown": [
+      "L-groceries"
+    ],
+    "sections": [
+      "L-groceries"
+    ],
+    "home": "L-groceries",
+    "anyone_add": true,
+    "anyone_check": true
+  }
+}

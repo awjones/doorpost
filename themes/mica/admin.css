@@ -1,0 +1,6 @@
+/* Mica View in Settings: a light tinted title bar and quiet cards. Decoration only. */
+body.admin-look-mica .aband { border-bottom: 1px solid var(--a-head-rule); }
+body.admin-look-mica .aband .script { font-weight: 600; font-size: 26px; }
+body.admin-look-mica .aband .kicker { letter-spacing: 0.06em; }
+body.admin-look-mica .card { border-color: rgba(0, 0, 0, 0.06); }
+body.admin-look-mica .card > h2 { font-weight: 600; font-size: 22px; }

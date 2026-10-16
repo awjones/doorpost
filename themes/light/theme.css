@@ -1,0 +1,150 @@
+/* Light: the kitchen layout on warm paper, no navy. Ink headings and pills, a gold hairline
+   with a diamond under the header, classic type (Playfair, Libre Franklin, Pinyon). Mockups: BL-*.
+   The --navy slot holds the near-black ink used for selected pills and the dark screen time panel. */
+body.look-light { --paper: #F6F1E7; --card: #FFFDF8; --line: #E2D8C3; --line-soft: #EEE6D6; --tile: #FAF5EA;
+  --ink: #1F1B16; --soft: #5E5547; --muted: #6E6556;
+  --navy: #1F1B16; --gilt: #C9A55A; --gilt-soft: #B9A06E; --gilt-dim: #7A6236;
+  --red: #C8102E; --next-bg: #F7E9E6;
+  --amber: #7D5210; --amber-bg: #F6E7C8; --green: #2F5E36; --green-bg: #E2EEDD;
+  --light-on: #FFFDF8; --light-gold: #A8812F; --light-rule: #CDBB94; }
+
+/* ---------- header: on the paper, with a gold hairline and a diamond ---------- */
+body.look-light .band { background: var(--paper); color: var(--ink); border-bottom: none; position: relative; }
+body.look-light .band::before { content: ""; position: absolute; left: 32px; right: 32px; bottom: 0; height: 1px; background: var(--light-rule); }
+body.look-light .band::after { content: ""; position: absolute; left: 50%; bottom: -5px; width: 9px; height: 9px; margin-left: -5px;
+  background: var(--light-gold); -webkit-transform: rotate(45deg); transform: rotate(45deg); box-shadow: 0 0 0 7px var(--paper); }
+body.look-light .band .script { color: var(--ink); }
+body.look-light .band .kicker { color: var(--soft); }
+body.look-light .band .clock .ap, body.look-light .band .wx .sub, body.look-light .band .count .sm, body.look-light .band .aside { color: var(--soft); }
+body.look-light .vrule { background: #D8CCB5; }
+/* the family mark: an italic initial in an ink ring with a gold inner ring and two gold diamonds (theme.json "monogram": "initial") */
+body.look-light .mono { --mono-color: var(--ink); }
+body.look-light .mono-i { font-style: italic; }
+body.look-light .band .mono { position: relative; background: transparent; border-radius: 50%; border: 2px solid var(--ink);
+  box-shadow: inset 0 0 0 4px var(--paper), inset 0 0 0 5px var(--light-gold); }
+body.look-light .band .mono::before, body.look-light .band .mono::after { content: ""; position: absolute; left: 50%; width: 6px; height: 6px; margin-left: -3px;
+  background: var(--light-gold); -webkit-transform: rotate(45deg); transform: rotate(45deg); }
+body.look-light .band .mono::before { top: -4px; }
+body.look-light .band .mono::after { bottom: -4px; }
+body.look-light .band .ic, body.look-light .band svg { color: var(--ink); }
+body.look-light .body { padding-top: 22px; }
+
+/* ---------- selected pills and buttons: ink with cream text ---------- */
+body.look-light .tab.on, body.look-light .pick.on, body.look-light .htabs button.on, body.look-light .seg2 button.on,
+body.look-light .toggle button.on, body.look-light .vp.on, body.look-light .chip2.sel, body.look-light .pager .mid.back,
+body.look-light .btn-primary, body.look-light .keys button.ok, body.look-light .btn-small.ok, body.look-light .kb-row button.ok {
+  background: var(--ink); color: var(--light-on); box-shadow: none; border-color: var(--ink); }
+body.look-light .pick.on .av { box-shadow: 0 0 0 2px var(--ink), 0 0 0 3px var(--gilt); }
+body.look-light .btn-outline .count, body.look-light .av.all { background: var(--ink); color: var(--gilt); }
+body.look-light .pick.on .lcount { background: var(--light-on); color: var(--ink); }
+body.look-light .more, body.look-light .more-link { color: var(--ink); }
+body.look-light .frame-name, body.look-light .ftoast { background: var(--card); color: var(--ink); border-color: var(--light-gold); }
+
+/* ---------- special days: cream with a gold edge instead of navy ---------- */
+body.look-light .ribbon { background: var(--card); color: var(--ink); border: 1px solid var(--light-gold); box-shadow: inset 0 0 0 3px var(--card), inset 0 0 0 4px var(--light-rule); }
+body.look-light .ribbon.solemn { border-color: var(--light-rule); }
+body.look-light .rb-art { border-right: 1px solid var(--light-rule); }
+body.look-light .rb-script { color: #9E2235; }
+body.look-light .ribbon.solemn .rb-script { color: var(--gilt-dim); }
+body.look-light .rb-sub { color: var(--soft); }
+body.look-light .rb-stars { color: var(--light-gold); }
+/* the countdown: "in 2 days" as a chip at the right end (today and tomorrow keep their words) */
+body.look-light .ribbon:not([data-days="0"]):not([data-days="1"]):not(.solemn) .rb-script { display: none; }
+body.look-light .ribbon:not([data-days="0"]):not([data-days="1"]):not(.solemn) .rb-count { display: flex; order: 5; margin-left: auto; font-size: 14px; font-weight: 700;
+  color: #9E2235; background: #F7E9E6; border-radius: 999px; padding: 4px 12px; white-space: nowrap; }
+body.look-light .ribbon:not([data-days="0"]):not([data-days="1"]):not(.solemn) .rb-stars { display: none; }
+body.look-light .rb-count::before { content: "in"; margin-right: 1px; }
+body.look-light .rb-n { font-weight: 700; }
+/* a day's panel: the picture stays, the words sit on paper (BL-Special-Week) */
+body.look-light .day.sp, body.look-light button.mcell.sp { background: #FAF5EA; color: var(--ink); border: 1.5px solid var(--light-gold); }
+body.look-light .day.sp.solemn, body.look-light button.mcell.sp.solemn { border-color: var(--light-rule); }
+body.look-light .sp-top, body.look-light .sp-head { background: #FAF5EA; padding-bottom: 8px; }
+body.look-light .day.sp .dw, body.look-light .sp-k, body.look-light .sp-mh b, body.look-light .sp-mh .of { color: var(--gilt-dim); }
+body.look-light .day.sp .dn, body.look-light .sp-ti { color: var(--ink); }
+body.look-light .sp-script, body.look-light .sp-sscript, body.look-light .sp-mscript { color: #9E2235; }
+body.look-light .solemn .sp-script, body.look-light .solemn .sp-sscript { color: var(--gilt-dim); }
+body.look-light .sp-card, body.look-light .sp-mini, body.look-light .sp-mlabel { background: rgba(255, 253, 248, 0.93); border: 1px solid var(--light-rule); color: var(--ink); }
+body.look-light .sp-mini.today { border-color: var(--light-gold); }
+body.look-light .sp-l, body.look-light .sp-ms, body.look-light .sp-also { color: var(--soft); }
+body.look-light .sp-verse { color: var(--ink); }
+body.look-light .sp-also { border-top-color: var(--line); }
+body.look-light .sp-card .star, body.look-light .sp-mlabel .star { color: var(--light-gold); }
+/* month: a small cell, so just the day and the name on paper chips over the picture */
+body.look-light .mcell.sp .mn { color: var(--ink); background: rgba(255, 253, 248, 0.93); border-radius: 6px; padding: 0 5px; }
+body.look-light .sp-mscript { display: none; }
+/* the pop-up: the picture's shade turns to paper so the words are ink */
+body.look-light .sp-side, body.look-light .sp-banner { background: #FAF5EA; border-color: var(--light-gold); }
+body.look-light .sp-side { border-right: 1px solid var(--light-gold); }
+body.look-light .sp-banner { border-bottom: 1px solid var(--light-gold); }
+body.look-light .sp-sshade { background: linear-gradient(180deg, rgba(250, 245, 234, 0) 0%, rgba(250, 245, 234, 0.94) 62%); }
+body.look-light .sp-shade { background: linear-gradient(90deg, rgba(250, 245, 234, 0.97) 0%, rgba(250, 245, 234, 0.85) 52%, rgba(250, 245, 234, 0) 100%); }
+body.look-light .sp-bt { color: var(--ink); }
+body.look-light .sp-bt .sp-k { color: var(--gilt-dim); }
+body.look-light .sp-head2, body.look-light .dp-head { border-bottom: 1px solid var(--light-rule); }
+body.look-light .sp-x { background: var(--card); color: var(--ink); border-color: var(--line); }
+body.look-light .sp-mono { background: var(--light-gold); }
+body.look-light .hol { border-color: var(--light-gold); }
+
+/* ---------- PIN pad and sheets ---------- */
+body.look-light .sheet { border-color: var(--light-gold); background: #F6F1E7; }
+body.look-light .sheet h1 .mono { background: transparent; border-radius: 50%; border: 1.5px solid var(--ink); box-shadow: inset 0 0 0 3px #F6F1E7, inset 0 0 0 4px var(--light-gold); }
+body.look-light .pindots i { border-color: var(--ink); }
+body.look-light .pindots i.f { background: var(--ink); }
+body.look-light .la-input { border-color: var(--ink); }
+body.look-light .caret { background: var(--ink); }
+
+/* ---------- screen time: the dark panel is ink; its drawings were made in navy ---------- */
+body.look-light .pv.dark { border-color: var(--ink); }
+body.look-light.pics-original { --draw-navy: #1F1B16; }
+body.look-light .kscreen.dark { background: #1F1B16; }
+
+/* ---------- photos and night ---------- */
+body.look-light .ph-panel { background: rgba(255, 253, 248, 0.9); border: 1px solid var(--light-gold); color: var(--ink); box-shadow: 0 10px 30px rgba(31, 27, 22, 0.25); }
+body.look-light .ph-panel .clock .t { color: var(--ink); }
+body.look-light .ph-panel .clock .ap, body.look-light .ph-panel .d { color: var(--soft); }
+body.look-light .ph-panel .n { border-top-color: var(--line); }
+body.look-light .ph-panel .n b { color: var(--ink); }
+body.look-light .ph-panel .mono { background: transparent; border-radius: 50%; border: 1.5px solid var(--ink); }
+body.look-light .ph-cap { background: rgba(31, 27, 22, 0.55); color: var(--light-on); }
+body.look-light #screen-night { background: #0C0A08; color: #8A7B61; }
+body.look-light #screen-night .mono { background: transparent; --mono-color: #5E5040; }
+body.look-light #screen-night .t .ap { display: inline; margin-left: 8px; font-size: 40px; color: #6E6253; }
+body.look-light #screen-night .nwx { display: flex; font-size: 20px; color: #8A7B61; margin-top: 4px; }
+body.look-light #screen-night .t { color: #9A8A6C; font-weight: 600; }
+body.look-light #screen-night .d { text-transform: uppercase; letter-spacing: 0.2em; font-weight: 700; font-size: 22px; }
+body.look-light #screen-night .d::after { content: ""; display: block; width: 360px; height: 10px; margin: 22px auto 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='10'%3E%3Cpath d='M0 5h162M198 5h162' stroke='%233A3226'/%3E%3Cpath d='M180 1l4 4-4 4-4-4z' fill='%235E5040'/%3E%3C/svg%3E") no-repeat center; }
+body.look-light .ph-empty { background: var(--paper); }
+body.look-light .ph-empty p { color: var(--soft); }
+body.look-light .gday { background: var(--ink); }
+
+/* ---------- a tall frame: a special day is a row, its words on paper at the left ---------- */
+body.look-light.vert .day.sp:not(.span) .sp-top { background: #FAF5EA; min-width: 150px; border-right: 1px solid var(--light-rule); }
+body.look-light.vert .day.sp:not(.span) .sp-card { background: rgba(255, 253, 248, 0.95); }
+
+/* ---------- the Kids screen: the same paper and ink, with the kids' big type kept ---------- */
+body.look-light #screen-kids { --k-ink: #1F1B16; --k-soft: #5E5547; --k-line: #E2D8C3; background: #F6F1E7; }
+body.look-light .khead { background: #FFFDF8; color: #1F1B16; border: 1px solid #E2D8C3; box-shadow: inset 0 -3px 0 #E9DFC8; }
+body.look-light .khead.eve { background: #1F1B16; color: #FFFDF8; border-color: #1F1B16; box-shadow: inset 0 -3px 0 #A8812F; }
+body.look-light .kpart { background: #E9C46A; color: #1F1B16; box-shadow: 0 0 0 6px rgba(201, 165, 90, 0.25); }
+body.look-light .kdow, body.look-light .kt { font-family: var(--serif); font-weight: 600; }
+body.look-light .khi, body.look-light .kdate { opacity: 1; }
+body.look-light .khead:not(.eve) .khi, body.look-light .khead:not(.eve) .kdate { color: #5E5547; }
+body.look-light .kwx { background: #FAF5EA; border: 1px solid #E2D8C3; }
+body.look-light .khead.eve .kwx { background: rgba(255, 253, 248, 0.12); border-color: rgba(255, 253, 248, 0.2); }
+body.look-light .ktake { background: #1F1B16; }
+
+/* ---------- Match the look: the screen time drawings turn light (their night sky becomes pale sage), so the dark panel's words turn ink ---------- */
+body.look-light.pics-match .pv.dark { background: #CFE0D6; border-color: var(--light-rule); }
+body.look-light.pics-match .pv.dark .pv-top h2 { color: var(--ink); }
+body.look-light.pics-match .pv.dark .aside { color: var(--soft); }
+body.look-light.pics-match .pv.dark .vp { background: rgba(255, 253, 248, 0.85); border-color: var(--line); color: var(--ink); }
+body.look-light.pics-match .pv.dark .vp.on { background: var(--ink); color: var(--light-on); border-color: var(--ink); }
+body.look-light.pics-match .pv.dark svg text, body.look-light.pics-match .pv.dark svg tspan { fill: #1F1B16 !important; }
+body.look-light.pics-match .kscreen.dark { background: #CFE0D6; color: var(--ink); }
+body.look-light.pics-match .kscreen.dark svg text, body.look-light.pics-match .kscreen.dark svg tspan { fill: #1F1B16 !important; }
+body.look-light.pics-match .kscreen.dark .ks-when { color: #7A6236; }
+
+/* ---------- kid tiles on Today: "1 waiting" and "Almost!" chips ---------- */
+body.look-light .ktile .kwbadge { display: inline-block; font-size: 12px; font-weight: 700; color: #7D5210; background: #F6E7C8; border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
+body.look-light .ktile .kwbadge.almost { color: #2F5E36; background: #E2EEDD; }

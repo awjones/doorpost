@@ -1,0 +1,16 @@
+# Words that must never appear in the public code. One exact string per line, any case.
+# scripts/check-private.sh looks for them in every file outside local/, and the pre-push hook
+# looks for them in everything you push to a public remote. Lines starting with # are notes.
+#
+# Copy this file to local/denylist.txt and replace the examples with your own.
+# Put in: your family name, your domain, your home IP addresses, your email addresses,
+# your Cloudflare Access team name and AUD tag, and anything else only your family has.
+# Avoid short everyday words (they match too much). Lines under 3 characters are skipped.
+
+Example-Surname
+example-family.net
+frame.example-family.net
+10.1.2.99
+mom@example-family.net
+dad@example-family.net
+example-team.cloudflareaccess.com

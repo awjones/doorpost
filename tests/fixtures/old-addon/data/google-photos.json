@@ -1,0 +1,1 @@
+{"access_token": "fake-access", "expires_in": 3599, "refresh_token": "fake-refresh-token", "scope": "https://www.googleapis.com/auth/photospicker.mediaitems.readonly", "token_type": "Bearer", "expires_at": 1792000000.0}

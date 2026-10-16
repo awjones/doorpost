@@ -1,0 +1,9 @@
+[project]
+name = "doorpost"
+version = "1.0.0"
+description = "Self-hosted family dashboard for a rooted Android picture frame: today, calendar, chores tied to screen time, photos."
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]

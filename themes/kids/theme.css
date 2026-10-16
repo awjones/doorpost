@@ -1,0 +1,14 @@
+/* Bright & playful: for the kids' frame (its heading font is set in theme.json) */
+body.look-kids { --paper: #FFF6E5; --card: #FFFFFF; --tile: #FFF1D6; --line: #F1D9A8; --line-soft: #F7E6C4; --navy: #1D4E89; --gilt: #F4B400; --gilt-soft: #FFD666;
+  --gilt-dim: #B07A00; --red: #E5484D; }
+body.look-kids .band { border-bottom: 6px solid var(--gilt); }
+body.look-kids .band .script { font-family: var(--sans); font-weight: 800; font-size: 40px; }
+body.look-kids .card { border-radius: 22px; border-width: 2px; }
+body.look-kids .chore { border-radius: 20px; min-height: 100px; border-width: 2px; }
+body.look-kids .chore .ti { font-size: 26px; font-weight: 700; }
+body.look-kids .btn-primary { height: 64px; font-size: 21px; background: var(--green); color: #FFFFFF; box-shadow: none; }
+body.look-kids .medal { width: 70px; height: 70px; border-radius: 35px; background: var(--gilt) !important; }
+body.look-kids .tab { font-size: 18px; font-weight: 700; }
+body.look-kids .tab.on { background: var(--navy); color: #FFFFFF; box-shadow: none; }
+body.look-kids .pick { font-weight: 700; }
+body.look-kids .pick.on { color: #FFFFFF; }

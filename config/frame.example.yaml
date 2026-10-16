@@ -1,0 +1,124 @@
+# Doorpost settings. Copy to config/frame.yaml and edit.
+# Secrets (calendar addresses, logins, tokens, PIN) go in .env, never here.
+
+timezone: America/New_York
+location:            # for the weather. Set to the house (2 decimals is plenty).
+  latitude: 40.71
+  longitude: -74.01
+weather:             # optional; Settings > General edits this. See docs/weather.md.
+  source: auto       # auto (U.S. weather service in the U.S., Open-Meteo elsewhere), nws, or open-meteo
+  temp: auto         # auto (F in the U.S., C elsewhere), F, or C
+  wind: auto         # auto (mph in the U.S., km/h elsewhere), mph, or kmh
+
+family_name: Our Family
+# app_name: Our Frame   # optional: what the Settings page calls itself
+
+# How people reach it. frame_url is the friendly address people use from their
+# phones (for example a Cloudflare tunnel behind an Access login, or just the
+# home-network address); lan_url is the home-network address the Mac photo
+# script and the frame itself use.
+frame_url: https://frame.example.com
+lan_url: http://doorpost.local:8090
+
+# Optional: if you put the frame behind a Cloudflare Access app, requests signed
+# in there may use the parent page and Settings without the PIN. Off unless both
+# values are set. Not secrets: the team domain and the app's Audience (AUD) tag.
+# cloudflare_access:
+#   team_domain: yourteam.cloudflareaccess.com
+#   aud: <the Access application's AUD tag>
+
+idle_minutes_to_photos: 5     # nobody touching the screen -> photo slideshow
+return_to_today_minutes: 2    # left on Chores/Calendar -> back to Today
+photo_seconds: 20
+night:                        # dim night clock between these times
+  start: "22:00"
+  end: "06:00"
+
+# Kids shown on the frame.
+kids:
+  - {id: child1, name: Child 1, initial: "1", color: "#2E5C9A", tint: "#DCE5F2"}
+  - {id: child2, name: Child 2, initial: "2", color: "#3F7A45", tint: "#DFEBDD"}
+  - {id: child3, name: Child 3, initial: "3", color: "#B4581F", tint: "#F4E0D2"}
+
+# Names to look for in event titles, to show who an event is for.
+people:
+  - Dad
+  - Mom
+  - Child 1
+  - Child 2
+  - {name: Child 3, aliases: [Buddy]}
+
+# Calendars. Each one's private iCal address goes in .env under ics_url_env.
+# In Google Calendar: Settings > (calendar) > Integrate calendar >
+# "Secret address in iCal format". ics_file is only used in demo mode.
+calendar_refresh_minutes: 5
+# Show an event once when it's on several calendars (e.g. an invite between Dad
+# and Mom). The copy from the calendar listed first below wins.
+merge_shared_events: true
+calendars:
+  - key: family
+    label: Family
+    provider: google
+    color: "#9E2235"
+    tint: "#F7E9E6"
+    who_default: everyone
+    ics_url_env: CAL_FAMILY_ICS
+    ics_file: config/demo-calendars/family.ics
+  - key: kids
+    label: Kids
+    provider: google
+    color: "#2F6B5E"
+    tint: "#E4EFEA"
+    ics_url_env: CAL_KIDS_ICS
+    ics_file: config/demo-calendars/kids.ics
+  - key: dad
+    label: Dad
+    provider: google
+    color: "#2E4A7A"
+    tint: "#E5EAF2"
+    who_default: Dad
+    ics_url_env: CAL_DAD_ICS
+    ics_file: config/demo-calendars/dad.ics
+    filter:
+      skip_declined_by: [dad@example.com]
+  - key: mom
+    label: Mom
+    color: "#8B4F24"
+    tint: "#F3E8DC"
+    who_default: Mom
+    # A private Apple iCloud calendar. Set it up in Settings > Calendars:
+    # Apple ID email, an app-specific password, then pick the calendar.
+    # (See docs/calendars.md. The demo shows sample events instead.)
+    provider: icloud
+    kind: caldav
+    ics_file: config/demo-calendars/mom.ics
+    filter:
+      # Only Mom's events that involve Dad or name a kid.
+      require_attendee_any: [dad@example.com]
+      include_titles_matching: ["(?i)\\b(child 1|child 2|child 3|buddy|kids|family)\\b"]
+      exclude_titles_matching: []
+
+screen_time:
+  base_saturday_minutes: 90      # weekend time everyone gets to start
+  base_sunday_minutes: 90
+  good_day_minutes: 30           # the one-tap "good day for everyone"
+  full_minutes: 480              # where the vault, fuel tank and hourglass read "full"
+  new_week_day: sun              # when the "start a new week" reminder appears
+  new_week_time: "21:00"         # (the week never resets by itself)
+  views: [leader, vault, rocket, glass]
+
+home_assistant:
+  enabled: false
+  url: http://homeassistant.local:8123
+  entities:
+    - entity: cover.garage_door
+      icon: garage
+      states: {closed: Garage closed, open: Garage open, opening: Garage opening, closing: Garage closing}
+      alert_when: [open, opening]
+    - entity: lock.front_door
+      icon: lock
+      states: {locked: Front door locked, unlocked: Front door unlocked}
+      alert_when: [unlocked]
+
+photos:
+  folder: photos   # drop JPEGs here (subfolders OK); captions.yaml optional
