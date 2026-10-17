@@ -297,3 +297,26 @@ def test_disconnect_removes_the_kept_old_sign_in(tmp_path):
     g.disconnect()
     assert not (tmp_path / "google.json").exists() and not (tmp_path / "google-photos.json").exists()
     assert not GoogleAccount(tmp_path / "google.json", "id", "secret", "https://frame.example.com", "s").connected
+
+
+def test_lists_screen_kept_without_a_saved_list_choice(old_install):
+    """Older versions showed the Groceries list from the Mac helper without anything saved in Settings."""
+    data = old_install / "data"
+    store = json.loads((data / "settings.json").read_text())
+    store.pop("lists", None)
+    (data / "settings.json").write_text(json.dumps(store))
+    with sqlite3.connect(data / "frame.db") as conn:
+        conn.execute("UPDATE list_meta SET value = ? WHERE key = 'available'",
+                     (json.dumps([{"id": "L-groceries", "name": "Groceries", "count": 2}]),))
+    with _client() as c:
+        d = c.get("/api/frame").json()
+    assert "lists" in d["modules"]
+    assert d["lists"]["home"] == "L-groceries" and d["lists"]["can_add"]
+    assert json.loads((data / "settings.json").read_text())["modules"]["lists"] is True
+
+
+def test_new_install_lists_stay_off(tmp_path, monkeypatch):
+    from app import compat
+    data = tmp_path / "data"
+    data.mkdir()
+    assert compat._lists_in_use(data) is False

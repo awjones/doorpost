@@ -44,7 +44,8 @@ NWS_FORECAST = {"properties": {"periods": [
 ]}}
 NWS_HOURLY = {"properties": {"periods": [
     {"startTime": "2026-10-15T16:00:00-04:00", "temperature": 63, "isDaytime": True, "shortForecast": "Partly Sunny",
-     "windSpeed": "5 to 10 mph", "probabilityOfPrecipitation": {"value": 10}},
+     "windSpeed": "5 to 10 mph", "probabilityOfPrecipitation": {"value": 10},
+     "icon": "https://api.weather.gov/icons/land/day/bkn?size=small"},
     {"startTime": "2026-10-15T17:00:00-04:00", "temperature": 61, "isDaytime": True, "shortForecast": "Partly Sunny",
      "windSpeed": "10 mph", "probabilityOfPrecipitation": {"value": 20}},
 ]}}
@@ -243,3 +244,9 @@ def test_frame_weather_carries_display_choices(demo_env):
     write_store(store, True)
     w = Services(load_settings()).weather_now(NOW)
     assert w["display"] == {"wind": "everywhere", "letter": True} and w["units"]["temp"] == "C"
+
+
+def test_hourly_icons_are_our_own_not_the_weather_service_address():
+    """The frame has no internet: the Home screen's hours use the frame's icons, never api.weather.gov's pictures."""
+    w = _svc(US, Fake()).get(NOW)
+    assert w["hours"] and all("/" not in h["icon"] for h in w["hours"])

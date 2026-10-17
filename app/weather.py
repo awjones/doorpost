@@ -290,13 +290,19 @@ def _hour_label(start: str) -> str:
     return "midnight" if h == 0 else "noon" if h == 12 else f"{h % 12} {'AM' if h < 12 else 'PM'}"
 
 
+def _own_icon(v) -> str:
+    """One of our icon names. The weather service's hourly periods carry a web address in "icon" instead, which
+    the frame can't load (it has no internet), so that one is worked out from the forecast text."""
+    return v if isinstance(v, str) and v and "/" not in v else ""
+
+
 def hours_ahead(hourly: list[dict], n: int = 6) -> list[dict]:
     """The Home screen's weather strip: now and the next few hours."""
     out = []
     for i, h in enumerate(hourly[:n]):
         out.append({"label": "Now" if i == 0 else _hour_label(h["startTime"]).replace("midnight", "12 AM").replace("noon", "12 PM"),
                     "temp": h.get("temperature"), "rain": _pop(h),
-                    "icon": h.get("icon") or icon_for(h.get("shortForecast", ""), bool(h.get("isDaytime", True)))})
+                    "icon": _own_icon(h.get("icon")) or icon_for(h.get("shortForecast", ""), bool(h.get("isDaytime", True)))})
     return out
 
 

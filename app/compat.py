@@ -45,6 +45,20 @@ def is_old(store: dict) -> bool:
     return bool(store) and "data_version" not in store
 
 
+def _lists_in_use(data_dir: Path) -> bool:
+    """The Mac's Reminders helper has sent lists. Older versions showed the Groceries list without a saved choice,
+    so a setup like that has no 'lists' settings and would otherwise lose its Lists screen."""
+    import sqlite3
+    db = data_dir / "frame.db"
+    if not db.exists():
+        return False
+    try:
+        with sqlite3.connect(f"file:{db}?mode=ro", uri=True) as conn:
+            return bool(conn.execute("SELECT 1 FROM list_meta WHERE key IN ('available', 'synced_at') LIMIT 1").fetchone())
+    except sqlite3.Error:
+        return False
+
+
 def plan(data_dir: Path, store: dict) -> list[str]:
     """What upgrade() would do, in plain words (nothing is changed)."""
     from . import pack_build, packs as P
@@ -57,6 +71,8 @@ def plan(data_dir: Path, store: dict) -> list[str]:
     cid = ((store.get("special_days") or {}).get("google_photos") or {}).get("client_id")
     if cid and not (store.get("google") or {}).get("client_id"):
         out.append("Copy the Google client ID to its new place in the settings.")
+    if "lists" not in (store.get("modules") or {}) and _lists_in_use(data_dir):
+        out.append("Turn on the Lists module (the Mac's Reminders helper is sending lists).")
     have = {p["id"] for p in P.load(False).all}
     for e in P.read_index():
         if e["id"] in pack_build.OPTIONAL and e["id"] not in have:
@@ -89,6 +105,9 @@ def upgrade(data_dir: Path, demo: bool, install: Optional[Callable[[str], dict]]
     if cid and not (store.get("google") or {}).get("client_id"):
         store["google"] = dict(store.get("google") or {}, client_id=cid)
         done.append("Copied the Google client ID to settings 'google'.")
+    if "lists" not in (store.get("modules") or {}) and _lists_in_use(data_dir):
+        store["modules"] = dict(store.get("modules") or {}, lists=True)
+        done.append("Turned on the Lists module (the Mac's Reminders helper is sending lists).")
     have = {p["id"] for p in P.load(False).all}
     installed = []
     for e in P.read_index():
