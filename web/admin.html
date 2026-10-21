@@ -231,6 +231,28 @@
   .fold-head[aria-expanded="true"] .chev, .chev[aria-expanded="true"] { transform: rotate(180deg); }
   .fold-body { padding: 12px 14px 14px; border-top: 1px solid var(--a-line-soft); display: flex; flex-direction: column; gap: 10px; }
   .fold-body[hidden] { display: none; }
+  /* Blocks: every page is one card; its sections fold inside it (admin.js blocks()) */
+  .blks { display: flex; flex-direction: column; gap: 10px; }
+  .blks > .actions { margin-top: 2px; }
+  .blk[hidden] { display: none; }
+  .blk > .fold-head > b { min-width: 200px; }
+  .blk > .fold-body { background: var(--a-card); gap: 12px; }
+  .blk > .fold-head .dot { width: 12px; height: 12px; border-radius: 6px; background: var(--a-rule); }
+  .blk > .fold-head .dot.ok { background: var(--a-ok); } .blk > .fold-head .dot.warn { background: var(--a-warn); } .blk > .fold-head .dot.bad { background: var(--a-danger); }
+  .blk > .fold-body > .card { border: none; padding: 0; background: transparent; box-shadow: none; }
+  /* Overview: the storage tile, and what's using the disk under the tiles */
+  .stat.ov { display: flex; flex-wrap: wrap; } .stat.ov > * { flex: 1 1 130px; min-width: 0; } .stat.ov > .disk-tile { flex: 2 1 260px; }
+  .stat .disk-tile { text-align: left; background: var(--a-tile); border: 1px solid var(--a-line-soft); border-radius: calc(var(--a-radius) - 2px);
+    padding: 12px; display: flex; flex-direction: column; gap: 6px; font: inherit; color: var(--a-ink); cursor: pointer; }
+  .stat .disk-tile[aria-expanded="true"] { border-color: var(--a-accent); }
+  .disk-tile .dt-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .disk-tile .dt-top > b { font-family: var(--a-font-display); font-size: 26px; }
+  .disk-tile .dbar { display: block; }
+  .disk-tile .dt-foot { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--a-soft); flex-wrap: wrap; }
+  .disk-tile .dt-link { font-weight: 700; color: var(--a-accent); }
+  .disk-details { border: 1px solid var(--a-line); background: var(--a-card); border-radius: calc(var(--a-radius) - 2px); padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+  .disk-details[hidden] { display: none; }
+  @media (max-width: 760px) { .stat.ov > .disk-tile { flex-basis: 100%; } .blk > .fold-head > b { min-width: 0; } }
   .chrow .fold-head { padding: 6px 10px 6px 14px; cursor: default; }
   .ch-name { flex: 1; min-width: 0; text-align: left; font: 600 16px var(--a-font-body); color: var(--a-ink); background: none; border: none; padding: 8px 0; cursor: pointer; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
   .seg.mins button { min-width: 34px; height: 28px; padding: 0 8px; }

@@ -36,7 +36,7 @@
   }
 
   function html() {
-    if (!D) { load(); return '<section class="card" id="settings-look"><h2>Settings look</h2><p class="help">Loading…</p></section>'; }
+    if (!D) { load(); return '<div id="settings-look"><p class="help">Loading…</p></div>'; }
     var looks = D.looks.map(function (l) {
       var on = PICK.look === l.key;
       return '<label class="al-look' + (on ? ' on' : '') + (l.ready ? '' : ' off') + '"><input type="radio" name="al-look" value="' + esc(l.key) + '"' +
@@ -50,13 +50,13 @@
     var match = '<label class="al-look' + (PICK.look === 'frame' ? ' on' : '') + '"><input type="radio" name="al-look" value="frame"' +
       (PICK.look === 'frame' ? ' checked' : '') + '><b>Match a frame</b><small>Follows that frame’s look and its options, like its color.</small></label>';
     var why = D.now.reason ? '<p class="warn">Settings uses Navy &amp; gilt for now: ' + esc(D.now.reason) + '.</p>' : '';
-    return '<section class="card" id="settings-look"><h2>Settings look</h2>' +
+    return '<div id="settings-look">' +
       '<p class="help">How Settings and the parent phone page look. A look only changes colors and type: every switch, field and button stays where it is. ' +
       'Add <b>?look=plain</b> to the address, or use the link at the bottom of the page, to see the plain style any time.</p>' + why +
       '<div class="al-looks">' + looks + match + '</div>' +
       (PICK.look === 'frame' ? '<div class="row"><label class="f">Which frame<select data-al="frame">' + frames + '</select></label></div>' : '') +
       '<label class="sp-switch"><input type="checkbox" data-al="phone"' + (PICK.phone ? ' checked' : '') + '><span></span>Use it on the phone page too</label>' +
-      '<div class="actions"><button class="btn primary" data-al-save>Save Settings look</button></div></section>';
+      '<div class="actions"><button class="btn primary" data-al-save>Save Settings look</button></div></div>';
   }
 
   function wire() {
@@ -79,5 +79,11 @@
     };
   }
 
-  window.AdminLook = { html: html, wire: wire };
+  function summary() {   // the line on the Overview's folded "Settings look" block
+    if (!D || !PICK) return '';
+    if (PICK.look === 'frame') return 'Matches a frame' + (PICK.phone ? ' · phone page too' : '');
+    var l = D.looks.filter(function (x) { return x.key === PICK.look; })[0];
+    return (l ? l.name : PICK.look) + (PICK.phone ? ' · phone page too' : '');
+  }
+  window.AdminLook = { html: html, wire: wire, summary: summary };
 })();

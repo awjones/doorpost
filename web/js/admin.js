@@ -62,6 +62,69 @@
     return '<input type="' + (type || 'text') + '" data-k="' + name + '" value="' + esc(value) + '"' + (extra || '') + '>';
   }
 
+  // ---------------- blocks: every page is one card; its sections fold inside it ----------------
+  // One block is open at a time (or all, with Open all). The first that needs attention opens first.
+  // Opening and folding only flips `hidden`, never redraws, so half-typed fields stay as they are.
+  var FOLD = {};
+  function blocks(specs) {
+    specs = specs.filter(Boolean);
+    if (!specs.length) return '';
+    if (!(PAGE in FOLD) || (FOLD[PAGE] && FOLD[PAGE] !== '*' && !specs.some(function (b) { return b.key === FOLD[PAGE]; }))) {
+      var need = specs.filter(function (b) { return b.tone === 'warn' || b.tone === 'bad'; })[0];
+      var first = specs.filter(function (b) { return !b.closed; })[0];
+      FOLD[PAGE] = need ? need.key : first ? first.key : '';
+    }
+    var html = specs.map(function (b) {
+      var open = FOLD[PAGE] === '*' || FOLD[PAGE] === b.key;
+      return '<section class="fold blk" data-blk="' + esc(b.key) + '"' + (b.id ? ' id="' + esc(b.id) + '"' : '') + '>' +
+        '<button type="button" class="fold-head" data-blk-toggle="' + esc(b.key) + '" aria-expanded="' + open + '">' +
+        '<span class="dot ' + (b.tone || 'none') + '" aria-hidden="true"></span><b>' + b.name + '</b><i>' + esc(b.sum || '') + '</i>' +
+        (b.chip ? '<span class="chip ' + (b.tone || 'ok') + '">' + esc(b.chip) + '</span>' : '') +
+        '<span class="chev">' + I('chevron-down', 20, 2) + '</span></button>' +
+        '<div class="fold-body"' + (open ? '' : ' hidden') + '>' + b.body + '</div></section>';
+    }).join('');
+    return '<div class="blks">' + html + (specs.length > 1 ? '<div class="actions"><button type="button" class="btn quiet" data-blk-all>' +
+      (FOLD[PAGE] ? 'Fold all' : 'Open all') + '</button></div>' : '') + '</div>';
+  }
+  function saveRow(id, label, extra) {
+    return '<div class="actions"><button class="btn primary" data-save="' + id + '">' + label + '</button>' + (extra || '') + '</div>';
+  }
+  function applyFold(wrap) {
+    var f = FOLD[PAGE];
+    $$('.blk', wrap).forEach(function (b) {
+      if (b.parentNode !== wrap) return;
+      var open = f === '*' || f === b.getAttribute('data-blk');
+      b.querySelector('.fold-body').hidden = !open;
+      b.querySelector('.fold-head').setAttribute('aria-expanded', open);
+    });
+    var all = $('[data-blk-all]', wrap);
+    if (all) all.textContent = f ? 'Fold all' : 'Open all';
+  }
+  root.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-blk-toggle], [data-blk-all], [data-disk-toggle]');
+    if (!t || !root.contains(t)) return;
+    e.preventDefault();
+    if (t.hasAttribute('data-disk-toggle')) {   // Overview: the storage tile opens what's using the disk
+      DISK_OPEN = !DISK_OPEN;
+      var det = $('#disk-details');
+      if (det) det.hidden = !DISK_OPEN;
+      t.setAttribute('aria-expanded', DISK_OPEN);
+      var lbl = $('[data-disk-label]', t);
+      if (lbl) lbl.textContent = DISK_OPEN ? 'Hide' : 'What’s using it';
+      return;
+    }
+    var wrap = t.closest('.blks');
+    if (t.hasAttribute('data-blk-all')) FOLD[PAGE] = FOLD[PAGE] ? '' : '*';
+    else {
+      var k = t.getAttribute('data-blk-toggle');
+      FOLD[PAGE] = FOLD[PAGE] === '*' ? k : (FOLD[PAGE] === k ? '' : k);
+    }
+    applyFold(wrap);
+    if (t.hasAttribute('data-blk-toggle') && t.getAttribute('aria-expanded') === 'true' && t.getBoundingClientRect().top < 0) t.scrollIntoView({ block: 'start' });
+  });
+  window.AdminBlocks = { blocks: blocks };   // the page plug-ins (email-admin.js) use the same blocks
+  var DISK_OPEN = false;
+
   // ---------------- sign-in (standalone only) ----------------
   function showGate(err) {
     if (err.status === 403) {
@@ -120,7 +183,7 @@
     }).join('');
     $('.aband .kicker').textContent = 'Settings · ' + name;
     document.title = 'Doorpost · ' + name;
-    var BUILD = { overview: function () { return overview() + storageCard() + display() + (window.AdminLook ? window.AdminLook.html() : ''); }, modules: modulesPage, frames: framesPage, calendars: calendars, 'special-days': function () { return special() + (window.FrameBible ? window.FrameBible.html() : ''); }, 'art-packs': artPacks, photos: photos,
+    var BUILD = { overview: overview, modules: modulesPage, frames: framesPage, calendars: calendars, 'special-days': special, 'art-packs': artPacks, photos: photos,
       family: family, chores: chores, lists: lists, 'screen-time': screenTime, house: house, pins: security,
       'email-updates': function () { return window.EmailAdmin ? window.EmailAdmin.html() : ''; } };
     if (waitingFor()) {
@@ -158,16 +221,23 @@
     if (modOn('lists') && LISTS && LISTS.sources && LISTS.sources.google.error) todo.push(['Lists: Google Tasks says “' + LISTS.sources.google.error + '”', 'lists']);
     var mode = S.mode.demo ? 'Demo mode: sample data. PINs: 1234 (Dad), 5678 (Mom).' : S.mode.addon ? 'Running as a Home Assistant app.' : 'Running on its own server.';
     var good = S.calendars.filter(function (c) { return c.has_url; }).length;
-    return card('overview', 'Overview', mode,
-      '<div class="stat"><div><b>' + good + ' of ' + S.calendars.length + '</b><span>calendars connected</span></div>' +
+    var look = window.AdminLook ? window.AdminLook.html() : '';
+    return card('overview', 'Overview', mode + ' Tap the storage tile for what’s using the disk; the sections below fold.',
+      '<div class="stat ov"><div><b>' + good + ' of ' + S.calendars.length + '</b><span>calendars connected</span></div>' +
       (modOn('photos') ? '<div><b>' + st.photos + '</b><span>photos in the slideshow</span></div>' : '') +
       '<div><b>' + S.kids.length + '</b><span>kids' + (modOn('chores') ? ' · ' + S.chores.length + ' chores' : '') + '</span></div>' +
-      (modOn('screen_time') ? '<div><b>' + esc(st.screen_total) + '</b><span>' + esc(st.screen_headline.toLowerCase()) + '</span></div>' : '') + '</div>' +
+      (modOn('screen_time') ? '<div><b>' + esc(st.screen_total) + '</b><span>' + esc(st.screen_headline.toLowerCase()) + '</span></div>' : '') + diskTile() + '</div>' +
+      '<div class="disk-details" id="disk-details"' + (DISK_OPEN ? '' : ' hidden') + '>' + storageBody() + '</div>' +
       (todo.length ? '<h3 class="kick">Needs attention</h3>' + todo.map(function (t) {
         return '<a class="warn attn" href="' + pageHref(t[1]) + '"><span>' + esc(t[0]) + '</span>' +
           (t[1] !== 'overview' ? '<b>Open ' + esc(PAGES.filter(function (x) { return x[0] === t[1]; })[0][1]) + ' ›</b>' : '') + '</a>';
       }).join('') : '<p class="result ok">Everything is connected.</p>') +
-      (st.calendar_refreshed ? '<p class="help">Calendars last read at ' + esc(st.calendar_refreshed.replace('T', ' ')) + '.</p>' : ''));
+      (st.calendar_refreshed ? '<p class="help">Calendars last read at ' + esc(st.calendar_refreshed.replace('T', ' ')) + '.</p>' : '') +
+      blocks([
+        { key: 'general', id: 'display', name: 'General', body: display(),
+          sum: [S.display.family_name, S.display.timezone, (S.display.frame_url || '').replace(/^https?:\/\//, '')].filter(Boolean).join(' · ') },
+        look ? { key: 'look', name: 'Settings look', body: look, sum: window.AdminLook.summary ? window.AdminLook.summary() : '' } : null
+      ]));
   }
 
   // Where a calendar comes from (see docs/calendars.md). kinds: 'ics' is a link, 'caldav' a private sign-in.
@@ -358,13 +428,23 @@
         '<span>' + esc(e.description) + '</span>' + (e.license ? '<small>License: ' + esc(e.license) + '</small>' : '') + '</div>' +
         '<div class="pk-acts"><button type="button" class="btn primary" data-act="pk-install" data-id="' + esc(e.id) + '">Install</button></div></div>';
     }).join('');
+    var onCount = PK.packs.filter(function (p) { return p.on; }).length, avail = PK.index.filter(function (e) { return !e.installed; });
+    var updates = PK.index.filter(function (e) { return e.update; }).length;
     return card('art-packs', 'Art packs',
       'Art packs hold the pictures for special days and the rules that bring them up: holidays, church days, title words, the seasons and the Sunday pictures. ' +
-      'A pack that is off shows nothing on the frame and nothing in Settings.', '<div class="pk-list">' + (mine || '<p class="help">No packs found.</p>') + '</div>') +
-      card('pk-more', 'Get more packs', 'Each one is checked before it is installed (a checksum, then every drawing is cleaned of anything that could run code).',
-        '<div class="pk-list">' + (more || '<p class="help">Everything in the list is installed.</p>') + '</div>') +
-      card('pk-up', 'Install from a zip', 'A pack you made or were given: a .zip with a pack.json and its drawings, up to ' + PK.max_mb + ' MB. See docs/art-packs.md for how to make one.',
-        '<div class="row">' + field('Pack zip', '<input type="file" id="pk-file" accept=".zip,application/zip">') + '<button type="button" class="btn primary" data-act="pk-upload">Install</button></div>');
+      'A pack that is off shows nothing on the frame and nothing in Settings.',
+      blocks([
+        { key: 'installed', name: 'Installed packs', sum: PK.packs.map(function (p) { return p.name; }).join(', '),
+          chip: updates ? updates + ' update' + (updates === 1 ? '' : 's') : onCount + ' on', tone: updates ? 'warn' : 'ok',
+          body: '<div class="pk-list">' + (mine || '<p class="help">No packs found.</p>') + '</div>' },
+        { key: 'more', id: 'pk-more', name: 'Get more packs', sum: avail.length ? avail.map(function (e) { return e.name; }).join(', ') : 'Everything in the list is installed',
+          chip: avail.length ? avail.length + ' to get' : 'All installed', tone: 'ok',
+          body: '<p class="help">Each one is checked before it is installed (a checksum, then every drawing is cleaned of anything that could run code).</p>' +
+            '<div class="pk-list">' + (more || '<p class="help">Everything in the list is installed.</p>') + '</div>' },
+        { key: 'zip', id: 'pk-up', name: 'Install from a zip', sum: 'A pack you made or were given',
+          body: '<p class="help">A pack you made or were given: a .zip with a pack.json and its drawings, up to ' + PK.max_mb + ' MB. See docs/art-packs.md for how to make one.</p>' +
+            '<div class="row">' + field('Pack zip', '<input type="file" id="pk-file" accept=".zip,application/zip">') + '<button type="button" class="btn primary" data-act="pk-upload">Install</button></div>' }
+      ]));
   }
 
   // ---------------- Settings > Special days ----------------
@@ -424,7 +504,9 @@
     return card('special', 'Special days',
       'Star an event (⭐) in Google Calendar, or use a title word below, and its day gets a full picture. Tap any picture to see when it comes up and change it. ' +
       'More pictures: <a href="' + pageHref('art-packs') + '"><b>Art packs</b></a>. In an event’s description, <b>photo: waterpark</b> picks a picture and <b>photo: none</b> keeps that one event plain. Birthdays live on the <a href="' + pageHref('family') + '"><b>Family</b></a> page.',
-      cards + toggles + view + (SP_VIEW === 'list' ? rulesList() : pictureGroups()));
+      cards + toggles + view + (SP_VIEW === 'list' ? rulesList() : pictureGroups()) +
+      (window.FrameBible && window.FrameBible.html() ? blocks([{ key: 'bible', name: 'Bible translation', closed: true,
+        sum: window.FrameBible.summary ? window.FrameBible.summary() : '', body: window.FrameBible.html() }]) : ''));
   }
   function pictureGroups() {
     return (SP.groups || []).map(function (g) {
@@ -880,32 +962,36 @@
       ['Google', '<b>Shared album</b> link (live), or photos you <b>pick</b> in Google Photos.', 'nothing extra for a shared album. Picking needs a Google sign-in (one-time setup below). No extra computer.', googleSt, googleSt ? 'ok' : 'off'],
       ['Your own', '<b>Upload</b> here, or drop files in the photos folder.', 'nothing.', PHOTOS.photos.length ? PHOTOS.photos.length + ' photos in the frame’s folder' : '', 'ok'],
       ['None', 'With no photos there’s no slideshow; the frame stays on the Today screen.', 'nothing.', PHOTOS.photos.length || S.photos.sources.length ? '' : 'In use: no photos yet', 'ok']]);
-    var gpick = '<h3 class="aside" style="font-size:18px;margin-top:8px">Pick photos from Google Photos</h3>' +
-      '<p class="help">Opens Google Photos in a new tab. Pick as many photos as you like and tap <b>Done</b>; the frame copies them into its folder (up to 2048 pixels wide), so they stay even after Google’s link expires. ' +
+    var gpick = '<p class="help">Opens Google Photos in a new tab. Pick as many photos as you like and tap <b>Done</b>; the frame copies them into its folder (up to 2048 pixels wide), so they stay even after Google’s link expires. ' +
       'Picking the same photo again later doesn’t copy it twice. Since March 2025 Google lets apps see only photos you pick by hand or share by link, so this can’t follow your whole library or your Favorites.</p>' +
       '<div class="actions"><button class="btn primary" data-act="' + (g.connected || g.demo ? 'gp-pick' : 'g-setup') + '">Pick photos from Google Photos</button><span class="result" data-res-gp></span></div>' +
       googleSetup(g, 'photos');
+    var nSrc = S.photos.sources.filter(function (x) { return x.enabled !== false; }).length;
+    var srcErr = (PHOTOS.status || STATUS.photo_sources || []).filter(function (p) { return p.error; }).length;
     return card('photos', 'Photos',
       'The slideshow mixes everything below and picks a new random order each day. Use Apple, Google, your own uploads, any mix, or none (no photos means no slideshow).',
-      pick +
-      '<h3 class="aside" style="font-size:18px">Shared albums (live)</h3>' +
-      '<p class="help"><b>Google Photos:</b> open an album, then <b>Share</b>, then <b>Create link</b>, and paste it. A <i>live album</i> (Google picks photos of chosen people automatically) works well. ' +
+      blocks([
+        { key: 'sources', name: 'Where photos come from', sum: [appleSt && 'Apple: ' + appleSt, googleSt && 'Google: ' + googleSt].filter(Boolean).join(' · ') || 'Your own uploads', body: pick },
+        { key: 'albums', name: 'Shared albums (live)', sum: nSrc ? nSrc + ' album' + (nSrc === 1 ? '' : 's') : 'None yet',
+          chip: srcErr ? srcErr + ' with an error' : '', tone: srcErr ? 'bad' : 'ok',
+          body: '<p class="help"><b>Google Photos:</b> open an album, then <b>Share</b>, then <b>Create link</b>, and paste it. A <i>live album</i> (Google picks photos of chosen people automatically) works well. ' +
       'Google no longer lets apps read Favorites directly. <b>iPhone:</b> in Photos, open a Shared Album, then <b>People</b>, and turn on <b>Public Website</b>, then copy the link. ' +
       'Both read the album the way a browser does, so if Google or Apple changes their page an error shows here and the frame keeps the photos it has.</p>' +
-      albums + '<div class="actions"><button class="btn quiet" data-act="add-src">+ Add an album</button><button class="btn primary" data-save="photos">Save albums</button></div>' +
-      '<h3 class="aside" style="font-size:18px;margin-top:8px">Apple Photos Favorites (from the Mac)</h3>' +
-      '<p class="help">Your real Favorites live only in the Photos library. A Mac with the library sends new favorites and removes un-favorited ones when the sync script runs (see docs/photos.md to schedule it). To run it by hand in Terminal, inside the doorpost folder:</p>' +
-      '<div class="code">' + esc(cmd) + '</div><div class="actions"><button class="btn quiet" data-act="rotate-token">Make a new upload key</button></div>' +
-      gpick +
-      '<h3 class="aside" style="font-size:18px;margin-top:8px">Upload photos</h3>' +
-      '<label class="drop" id="drop">Drop photos here, or <u>choose files</u><input id="files" type="file" accept="image/*" multiple hidden></label>' +
+      albums + '<div class="actions"><button class="btn quiet" data-act="add-src">+ Add an album</button><button class="btn primary" data-save="photos">Save albums</button></div>' },
+        { key: 'favorites', name: 'Apple Photos Favorites (from the Mac)', sum: bySrc['apple-favorites'] ? bySrc['apple-favorites'] + ' favorites from the Mac' : 'Not sending yet',
+          body: '<p class="help">Your real Favorites live only in the Photos library. A Mac with the library sends new favorites and removes un-favorited ones when the sync script runs (see docs/photos.md to schedule it). To run it by hand in Terminal, inside the doorpost folder:</p>' +
+      '<div class="code">' + esc(cmd) + '</div><div class="actions"><button class="btn quiet" data-act="rotate-token">Make a new upload key</button></div>' },
+        { key: 'google', name: 'Pick photos from Google Photos', sum: bySrc['google-picks'] ? bySrc['google-picks'] + ' picked photos' : (g.connected ? 'Connected' : 'Not connected'), body: gpick },
+        { key: 'upload', name: 'Upload and focal points', sum: PHOTOS.photos.length + ' photos in the frame’s folder',
+          body: '<label class="drop" id="drop">Drop photos here, or <u>choose files</u><input id="files" type="file" accept="image/*" multiple hidden></label>' +
       (PHOTOS.photos.length ? '<p class="help">' + PHOTOS.photos.length + ' photos in the frame’s folder, newest first. <b>Tap a photo to set its focal point</b>: ' +
         'what the frames keep in view, wide or tall. <b>Faces</b> means it follows the faces Apple Photos found; <b>Center</b> means nothing is set.</p>' +
         '<div class="actions">' + chips + '</div>' +
         (thumbs ? '<div class="grid">' + thumbs + '</div>' : '<p class="help">None here.</p>') +
         (shown.length > PHOTO_SHOWN ? '<div class="actions"><button class="btn quiet" data-act="photos-more">Show ' +
           Math.min(24, shown.length - PHOTO_SHOWN) + ' more</button></div>' : '')
-        : '<p class="help">No photos in the frame’s own folder yet.</p>'));
+        : '<p class="help">No photos in the frame’s own folder yet.</p>') }
+      ]));
   }
 
   var PRESETS = [['all', 'Every day', DAYS], ['wk', 'Weekdays', ['mon', 'tue', 'wed', 'thu', 'fri']], ['we', 'Weekends', ['sun', 'sat']]];
@@ -1097,7 +1183,7 @@
     [[st.disk, 'The server'], [st.photos_disk, 'The photos disk']].forEach(function (x) {
       var d = x[0];
       if (!d || d.level === 'ok') return;
-      out.push(x[1] + ' is ' + (d.level === 'red' ? 'almost full' : 'getting full') + ': ' + bytes(d.free) + ' free. See Storage below.');
+      out.push(x[1] + ' is ' + (d.level === 'red' ? 'almost full' : 'getting full') + ': ' + bytes(d.free) + ' free. Tap the storage tile above.');
     });
     Object.keys(st.frames || {}).forEach(function (id) {
       var h = st.frames[id], ds = h && h.device_storage;
@@ -1105,9 +1191,19 @@
     });
     return out;
   }
-  function storageCard() {
+  function diskTile() {
+    var st = STORAGE, d = st && st.disk;
+    if (!d) return '<button type="button" class="disk-tile" data-disk-toggle aria-expanded="' + DISK_OPEN + '"><b>' + (st ? '?' : '…') + '</b>' +
+      '<span>' + (st ? 'Couldn’t read the server’s disk' : 'Checking the disk') + '</span></button>';
+    var chip = d.level === 'red' ? ['bad', 'Almost full'] : d.level === 'amber' ? ['warn', 'Getting full'] : ['ok', 'Plenty of room'];
+    return '<button type="button" class="disk-tile disk ' + d.level + '" data-disk-toggle aria-expanded="' + DISK_OPEN + '">' +
+      '<span class="dt-top"><b>' + bytes(d.free) + '</b><span class="chip ' + chip[0] + '">' + chip[1] + '</span></span>' +
+      '<span class="dbar" role="img" aria-label="' + bytes(d.used) + ' used of ' + bytes(d.total) + '"><i style="width:' + Math.min(100, Math.round(100 * d.used / d.total)) + '%"></i></span>' +
+      '<span class="dt-foot"><span>free of ' + bytes(d.total) + ' on the server</span><span class="dt-link" data-disk-label>' + (DISK_OPEN ? 'Hide' : 'What’s using it') + '</span></span></button>';
+  }
+  function storageBody() {
     var st = STORAGE;
-    if (!st) return card('storage', 'Storage', '<span class="spin" aria-hidden="true"></span> Checking…', '');
+    if (!st) return '<p class="help"><span class="spin" aria-hidden="true"></span> Checking…</p>';
     var bd = st.breakdown, rows = '';
     if (bd) {
       rows = '<div class="sizes">' + bd.items.filter(function (it) { return it.bytes > 0 || it.key !== 'other'; }).map(function (it) {
@@ -1116,8 +1212,7 @@
       }).join('') + '<div class="hrow total"><span class="hn"><b>Doorpost in all</b></span><span class="sz"><b>' + bytes(bd.total) + '</b></span></div></div>';
     }
     var cache = bd && bd.items.filter(function (it) { return it.key === 'photo_cache'; })[0];
-    return card('storage', 'Storage',
-      'How full the server’s disk is, and what Doorpost keeps on it. The frames themselves store almost nothing.' + (st.demo ? ' Demo mode: sample numbers.' : ''),
+    return '<p class="help">How full the server’s disk is, and what Doorpost keeps on it. The frames themselves store almost nothing.' + (st.demo ? ' Demo mode: sample numbers.' : '') + '</p>' +
       (st.disk ? diskLine(st.disk, 'Server disk') : '<p class="help">Couldn’t read the server’s disk.</p>') +
       (st.photos_disk ? diskLine(st.photos_disk, 'Photos disk') : '') +
       (st.level !== 'ok' ? '<p class="warn">' + (st.level === 'red' ? 'Almost full. ' : 'Getting full. ') +
@@ -1127,7 +1222,7 @@
       (bd && !st.counting && bd.at && (Date.now() / 1000 - bd.at) > 360 ? '<p class="help">Counted a while ago; a fresh count is on its way.</p>' : '') +
       (cache && cache.bytes > 0 ? '<div class="actions"><button class="btn line" data-act="clear-photo-cache">Clear prepared photos (' + bytes(cache.bytes) + ')</button>' +
         '<span class="result" data-res></span></div>' : '') +
-      '<p class="help">Warnings show under <b>Needs attention</b> when a disk has ' + esc(st.warn_at.amber) + ' (amber), or ' + esc(st.warn_at.red) + ' (red).</p>');
+      '<p class="help">Warnings show under <b>Needs attention</b> when a disk has ' + esc(st.warn_at.amber) + ' (amber), or ' + esc(st.warn_at.red) + ' (red).</p>';
   }
   function frameDevice(id) {
     if (!STORAGE || !id) return '';
@@ -1188,44 +1283,57 @@
       ['None', 'Leave every list off. The Lists screen stays hidden.', 'nothing.', noneSt && noneSt[0], noneSt && noneSt[1]]]);
     var mac = ap.synced_ago != null && ap.synced_ago > 600
       ? '<div class="warn">The Mac last checked in ' + ago(ap.synced_ago) + '. Is it asleep or off? The frame keeps the last Reminders lists and holds their changes until the Mac is back.</div>' : '';
+    var tone = function (x) { return x === 'bad' ? 'bad' : x === 'ok' ? 'ok' : 'none'; };
+    var shownNames = L.available.filter(function (a) { return L.shown.indexOf(a.id) >= 0; }).map(function (a) { return a.name; });
     return card('lists', 'Lists',
       'The frame can show lists from Apple Reminders, Google Tasks, both, or none. Lists you share with Mom in Reminders or Google Tasks work for both of you; private lists stay off unless you turn them on.',
-      pick + mac + (rows || '<p class="help">No lists yet: they appear here after the Mac’s first check-in or once Google Tasks is connected.</p>') +
-      (homeOpts ? '<div class="row">' + field('On the Today screen', '<select id="list-home">' + homeOpts + '</select>') + '</div>' : '') +
-      '<h3 class="kick">On the frame</h3>' +
-      '<label class="check"><input type="checkbox" id="list-check"' + (L.anyone_check ? ' checked' : '') + '> Anyone can check items off</label>' +
+      blocks([
+        { key: 'lists', name: 'Lists on the frame', sum: shownNames.length ? shownNames.join(', ') : 'None yet', chip: shownNames.length + ' shown', tone: 'ok',
+          body: pick + mac + (rows || '<p class="help">No lists yet: they appear here after the Mac’s first check-in or once Google Tasks is connected.</p>') +
+            (homeOpts ? '<div class="row">' + field('On the Today screen', '<select id="list-home">' + homeOpts + '</select>') + '</div>' : '') + saveRow('lists', 'Save lists') },
+        { key: 'frame', name: 'Checking off and adding', sum: (L.anyone_check ? 'Anyone can check off' : 'Checking off is off') + ' · ' + (L.anyone_add ? 'anyone can add' : 'adding is off'),
+          body: '<label class="check"><input type="checkbox" id="list-check"' + (L.anyone_check ? ' checked' : '') + '> Anyone can check items off</label>' +
       '<p class="help">Kids can help: checking off is easy to undo on a phone.</p>' +
       '<label class="check"><input type="checkbox" id="list-add"' + (L.anyone_add ? ' checked' : '') + '> Anyone can add items</label>' +
-      '<p class="help">Items added on the frame get the note “Added on the frame” in Reminders or Google Tasks.</p>' +
-      '<h3 class="kick">Google Tasks</h3>' +
-      '<label class="check"><input type="checkbox" id="list-google"' + (gs.on ? ' checked' : '') + '> Use Google Tasks</label>' +
+      '<p class="help">Items added on the frame get the note “Added on the frame” in Reminders or Google Tasks.</p>' + saveRow('lists', 'Save lists') },
+        { key: 'google', name: 'Google Tasks', sum: gs.on ? 'Read every minute by the server' : 'Not used', chip: gSt[0], tone: tone(gSt[1]),
+          body: '<label class="check"><input type="checkbox" id="list-google"' + (gs.on ? ' checked' : '') + '> Use Google Tasks</label>' +
       '<p class="help">The server reads Google Tasks every minute and sends changes made on the frame right away. Nothing runs on a Mac or phone.</p>' +
       (gs.ready && gs.on ? '<div class="actions"><button class="btn line" data-act="gt-check">Check now</button><span class="result" data-res-gt></span></div>' : '') +
-      googleSetup(g, 'tasks') +
-      '<h3 class="kick">Apple Reminders: the Mac helper</h3>' +
-      '<p class="help">Apple has no web service for Reminders, so a small helper on the Mac passes changes back and forth every 30 seconds while the Mac is on, ' +
+      googleSetup(g, 'tasks') + saveRow('lists', 'Save lists') },
+        { key: 'apple', name: 'Apple Reminders: the Mac helper', sum: 'Passes changes every 30 seconds while the Mac is on', chip: apSt[0], tone: tone(apSt[1]),
+          body: '<p class="help">Apple has no web service for Reminders, so a small helper on the Mac passes changes back and forth every 30 seconds while the Mac is on, ' +
       'the same way it sends your Favorites. It needs a one-time Reminders permission (System Settings › Privacy &amp; Security › Reminders › Doorpost Lists). ' +
-      'See docs/lists.md to install it. <b>Store sections</b> sorts a grocery list into Produce, Dairy, Bakery and so on by the item’s name; neither Reminders nor Google Tasks shares grocery sections with other apps.</p>',
-      'Save lists');
+      'See docs/lists.md to install it. <b>Store sections</b> sorts a grocery list into Produce, Dairy, Bakery and so on by the item’s name; neither Reminders nor Google Tasks shares grocery sections with other apps.</p>' }
+      ]));
   }
 
   function screenTime() {
     var st = S.screen_time;
+    var dayName = (DAY_NAMES.filter(function (d) { return d[0] === st.new_week_day; })[0] || ['', st.new_week_day])[1];
+    var hm = String(st.new_week_time || '21:00').split(':'), hh = +hm[0];
     return card('screen', 'Screen time',
       'Kids earn during the week; the family spends it on the weekend. Approved chores, good days and anything you add or take away go into one family pool. ' +
       'Chore minutes are set on the Chores page.',
-      '<div class="row">' + field('Saturday to start (minutes)', input('base_saturday_minutes', st.base_saturday_minutes, 'number', ' min="0" step="5"')) +
+      blocks([
+        { key: 'weekend', name: 'Weekend time', sum: 'Sat ' + st.base_saturday_minutes + ' min + Sun ' + st.base_sunday_minutes + ' min to start · a good day is ' + st.good_day_minutes + ' min',
+          body: '<div class="row">' + field('Saturday to start (minutes)', input('base_saturday_minutes', st.base_saturday_minutes, 'number', ' min="0" step="5"')) +
       field('Sunday to start (minutes)', input('base_sunday_minutes', st.base_sunday_minutes, 'number', ' min="0" step="5"')) + '</div>' +
       '<div class="row">' + field('A good day is worth (minutes)', input('good_day_minutes', st.good_day_minutes, 'number', ' min="5" step="5"')) +
       field('“Full” vault, fuel tank and hourglass (minutes)', input('full_minutes', st.full_minutes, 'number', ' min="60" step="30"')) + '</div>' +
-      '<div class="row">' + field('Remind us to start a new week on', '<select data-k="new_week_day">' + DAY_NAMES.map(function (d) {
+          saveRow('screen', 'Save screen time') },
+        { key: 'week', name: 'New week reminder', sum: dayName + ' ' + ((hh % 12) || 12) + ':' + (hm[1] || '00') + (hh < 12 ? ' AM' : ' PM') + ' · nothing resets by itself',
+          body: '<div class="row">' + field('Remind us to start a new week on', '<select data-k="new_week_day">' + DAY_NAMES.map(function (d) {
         return '<option value="' + d[0] + '"' + (st.new_week_day === d[0] ? ' selected' : '') + '>' + d[1] + '</option>'; }).join('') + '</select>') +
       field('at', input('new_week_time', st.new_week_time, 'time')) + '</div>' +
       '<p class="help">The week never resets by itself. After this time, the parent page and the frame’s parent panel show a <b>New week</b> button.</p>' +
-      '<p class="help" style="margin-top:6px"><b>Pictures on the frame’s Screen Time tab.</b> Kids tap to switch; each frame remembers the one it was left on.</p>' +
-      '<div class="row">' + VIEW_NAMES.map(function (v) {
-        return '<label class="check"><input type="checkbox" data-view="' + v[0] + '"' + (st.views.indexOf(v[0]) >= 0 ? ' checked' : '') + '> ' + v[1] + '</label>';
-      }).join('') + '</div>', 'Save screen time');
+          saveRow('screen', 'Save screen time') },
+        { key: 'pictures', name: 'Pictures on the frame', sum: VIEW_NAMES.filter(function (v) { return st.views.indexOf(v[0]) >= 0; }).map(function (v) { return v[1]; }).join(', '),
+          body: '<p class="help">The pictures on the frame’s Screen Time tab. Kids tap to switch; each frame remembers the one it was left on.</p>' +
+            '<div class="row">' + VIEW_NAMES.map(function (v) {
+              return '<label class="check"><input type="checkbox" data-view="' + v[0] + '"' + (st.views.indexOf(v[0]) >= 0 ? ' checked' : '') + '> ' + v[1] + '</label>';
+            }).join('') + '</div>' + saveRow('screen', 'Save screen time') }
+      ]));
   }
 
   function house() {
@@ -1272,7 +1380,7 @@
 
   function display() {
     var d = S.display;
-    return card('display', 'General', 'The family name, addresses, weather, night clock and how long the frame waits before going back to Today or the photos.',
+    return '<p class="help">The family name, addresses, weather, night clock and how long the frame waits before going back to Today or the photos.</p>' +
       '<div class="row">' + field('Family name (top of the frame)', input('family_name', d.family_name)) +
         field('Family initial (some looks show it)', input('family_initial', d.family_initial || '', 'text', ' maxlength="1" placeholder="From the name" style="max-width:9em"')) + field('Time zone', input('timezone', d.timezone)) + '</div>' +
       '<div class="row">' + field('Address for people (phones, browsers)', input('frame_url', d.frame_url, 'url')) +
@@ -1283,7 +1391,7 @@
       '<div class="row">' + field('Night clock from', input('night_start', d.night_start, 'time')) + field('until', input('night_end', d.night_end, 'time')) + '</div>' +
       '<div class="row">' + field('Photos after (idle minutes)', input('idle_minutes_to_photos', d.idle_minutes_to_photos, 'number')) +
       field('Back to Today after (minutes)', input('return_to_today_minutes', d.return_to_today_minutes, 'number')) +
-      field('Seconds per photo', input('photo_seconds', d.photo_seconds, 'number')) + '</div>', 'Save display');
+      field('Seconds per photo', input('photo_seconds', d.photo_seconds, 'number')) + '</div>' + saveRow('display', 'Save general');
   }
 
   function security() {
@@ -1399,8 +1507,8 @@
       };
     });
     if (PAGE === 'special-days' && SP) spWire();
-    if (PAGE === 'special-days' && window.FrameBible) window.FrameBible.wire();
-    if (PAGE === 'email-updates' && window.EmailAdmin) window.EmailAdmin.wire();   // Settings > Email updates (email-admin.js)   // the Bible translation card (bible-admin.js)
+    if (PAGE === 'special-days' && window.FrameBible) window.FrameBible.wire();   // the Bible translation card (bible-admin.js)
+    if (PAGE === 'email-updates' && window.EmailAdmin) window.EmailAdmin.wire();   // Settings > Email updates (email-admin.js)
     if (PAGE === 'overview' && window.AdminLook) window.AdminLook.wire();   // Settings look (admin-look.js)
     $$('[data-act-change=fam-kid]').forEach(function (cb) {
       cb.onchange = function () {

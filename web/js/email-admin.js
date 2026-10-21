@@ -44,13 +44,15 @@
   }
   function refresh() { return api('GET', 'api/admin/email-updates').then(function (v) { E = v; paint(); }); }
 
-  // ---------------- the page ----------------
-  function dailyCard() {
+  // ---------------- the page: one card, a folding block per section (admin.js blocks()) ----------------
+  var SAVE_BTN = '<div class="actions"><button type="button" class="btn primary" data-em-save>Save email updates</button></div>';
+
+  function dailyBody() {
     var d = D.daily, morning = d.time < '12:00';
     var covers = morning
       ? 'Sent in the morning, so it covers <b>yesterday</b>. Chores still waiting from yesterday can be approved any day this week.'
       : 'Sent in the evening, so it covers <b>today</b>. Anything still waiting at bedtime can be approved tomorrow; it counts toward this week.';
-    var body = chk('data-em="daily.on"', d.on, '<b>Send the daily chore recap</b>');
+    var body = '<p class="help">Chores waiting for you to check, what was approved, and what wasn’t done.</p>' + chk('data-em="daily.on"', d.on, '<b>Send the daily chore recap</b>');
     if (d.on) {
       body += '<div class="row">' + '<label class="f">Send at<input type="time" data-em="daily.time" value="' + esc(d.time) + '" step="900"></label>' +
         '<div class="seg" role="group" aria-label="Quick picks">' + PICKS.map(function (p) {
@@ -66,14 +68,15 @@
           : 'Off: the email only lists the chores. Approve them on the parent page with your PIN.') + '</p>' +
         (!E.frame_url ? '<p class="help result bad">Set “Address for people” on the Overview page so the email’s buttons and links have somewhere to go.</p>' : '') + '</div>';
     }
-    return '<section class="card" id="em-daily"><h2>Daily chore recap</h2><p class="help">Chores waiting for you to check, what was approved, and what wasn’t done.</p>' + body + '</section>';
+    return body + SAVE_BTN;
   }
 
-  function weeklyCard() {
+  function weeklyBody() {
     var w = D.weekly, weekend = w.day === 'sat' || w.day === 'sun';
     var line = weekend ? 'This lands on the weekend, after screen time has started. Friday works best for setting devices ahead.'
       : 'Covers the week so far, through ' + dayName(w.day) + '. Chores approved after it goes out still count on the frame.';
-    var body = chk('data-em="weekly.on"', w.on, '<b>Send the weekend screen time email</b>');
+    var body = '<p class="help">What the kids earned this week, split into Saturday and Sunday, so you can set limits on each device.</p>' +
+      chk('data-em="weekly.on"', w.on, '<b>Send the weekend screen time email</b>');
     if (w.on) {
       body += '<div class="row"><div class="f">Day<div class="seg" role="group" aria-label="Day of the week">' + DAYS.map(function (d) {
           return '<button type="button" data-em-day="' + d[0] + '" aria-label="' + d[2] + '" aria-pressed="' + (w.day === d[0]) + '" class="' + (w.day === d[0] ? 'on special' : '') + '">' + d[1] + '</button>';
@@ -84,19 +87,18 @@
         chk('data-em="weekly.warn_waiting"', w.warn_waiting, 'Warn about chores still waiting') +
         chk('data-em="weekly.update"', w.update, 'Send an update if the total changes before Saturday 8 AM') + '</div>';
     }
-    if (!E.screen_time_on) body = '<p class="help">Screen time is turned off in Settings › Modules, so this email has nothing to say.</p>';
-    return '<section class="card" id="em-weekly"><h2>Weekend screen time</h2><p class="help">What the kids earned this week, split into Saturday and Sunday, so you can set limits on each device.</p>' + body + '</section>';
+    if (!E.screen_time_on) return '<p class="help">Screen time is turned off in Settings › Modules, so this email has nothing to say.</p>';
+    return body + SAVE_BTN;
   }
 
-  function reminderCard() {
+  function reminderBody() {
     var nw = E.new_week;
-    return '<section class="card" id="em-reminder"><h2>New week reminder</h2>' +
-      chk('data-em="reminder.on"', D.reminder.on, '<b>Send the new week reminder</b>') +
+    return chk('data-em="reminder.on"', D.reminder.on, '<b>Send the new week reminder</b>') +
       '<p class="help">If nobody has started a new screen time week by <b>' + esc(dayName(nw.day)) + ' ' + esc(clock(nw.time)) + '</b> (set on the <a href="admin/screen-time">Screen time</a> page), ' +
-      'email a reminder with last week’s final total. Nothing resets by itself.</p></section>';
+      'email a reminder with last week’s final total. Nothing resets by itself.</p>' + SAVE_BTN;
   }
 
-  function peopleCard() {
+  function peopleBody() {
     var rows = D.people.map(function (p, i) {
       return '<div class="item" data-em-person="' + i + '"><div class="row">' +
         (p.parent ? '<b style="flex:0 0 110px;align-self:center">' + esc(p.name) + '</b>'
@@ -107,17 +109,14 @@
         (!p.email ? '<p class="help">Add an email address to send to ' + esc(p.name || 'them') + '.</p>' : '') +
         (p.parent ? '' : '<p class="help">Not a parent: gets the emails, never the quick approve buttons.</p>') + '</div>';
     }).join('');
-    return '<section class="card" id="em-people"><h2>Who gets which</h2>' + rows +
-      '<div class="actions"><button type="button" class="btn quiet" data-em-add>+ Add someone else</button></div>' +
-      '<p class="help">Everyone with a parent PIN is listed (Settings › Parent PINs). Someone else, like a grandparent or a sitter, gets emails only.</p>' +
-      '<div class="actions"><button type="button" class="btn primary" data-em-save>Save email updates</button></div></section>';
+    return rows + '<div class="actions"><button type="button" class="btn quiet" data-em-add>+ Add someone else</button></div>' +
+      '<p class="help">Everyone with a parent PIN is listed (Settings › Parent PINs). Someone else, like a grandparent or a sitter, gets emails only.</p>' + SAVE_BTN;
   }
 
-  function accountCard() {
+  function accountBody() {
     var a = E.account, other = a.provider === 'other';
-    var status = a.ready ? '<span class="result ok">Ready to send</span>' : (E.demo ? '<span class="help">Demo mode: emails go to the outbox below, never out.</span>' : '<span class="result bad">Not set up yet</span>');
-    return '<section class="card" id="em-account"><h2>Sending account</h2>' +
-      '<p class="help">The emails come from this account. For Gmail or Google Workspace, turn on 2-Step Verification, then make an <b>app password</b> ' +
+    var status = a.ready ? '<span class="result ok">Ready to send</span>' : (E.demo ? '<span class="help">Demo mode: emails go to the outbox, never out.</span>' : '<span class="result bad">Not set up yet</span>');
+    return '<p class="help">The emails come from this account. For Gmail or Google Workspace, turn on 2-Step Verification, then make an <b>app password</b> ' +
       '(Google Account › Security › App passwords) and paste it here. Your normal password won’t work. The password stays on this server and is never shown again.</p>' +
       '<div class="row"><label class="f">Mail service<select data-ea="provider">' + E.account.providers.map(function (p) {
         return '<option value="' + p + '"' + (a.provider === p ? ' selected' : '') + '>' + esc(PROVIDER[p] || p) + '</option>'; }).join('') + '</select></label>' +
@@ -129,43 +128,66 @@
           return '<option value="' + o[0] + '"' + (a.security === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></label></div>' : '') +
       '<div class="row"><label class="f" style="flex:1 1 200px">From name<input type="text" data-ea="from_name" value="' + esc(a.from_name) + '" placeholder="The app’s name"></label>' +
       '<label class="f" style="flex:1 1 220px">From address (optional)<input type="email" data-ea="from_address" value="' + esc(a.from_address) + '" placeholder="Same as the account"></label></div>' +
-      '<div class="actions"><button type="button" class="btn primary" data-ea-save>Save account</button>' + status +
-      (a.password_set ? '<button type="button" class="btn danger" data-ea-forget>Forget the password</button>' : '') + '</div></section>';
+      '<div class="actions" id="em-account"><button type="button" class="btn primary" data-ea-save>Save account</button>' + status +
+      (a.password_set ? '<button type="button" class="btn danger" data-ea-forget>Forget the password</button>' : '') + '</div>';
   }
 
-  function sideCards() {
-    var withEmail = D.people.filter(function (p) { return p.email; });
-    if (!TEST_TO || !withEmail.some(function (p) { return p.name === TEST_TO; })) TEST_TO = withEmail.length ? withEmail[0].name : '';
+  function tryBody(withEmail) {
+    var outbox = E.demo && E.outbox.length ? '<h3 class="kick">Demo outbox</h3>' + E.outbox.map(function (m, i) {
+      return '<p class="help"><a href="api/admin/email-updates/outbox/' + i + '" target="_blank" rel="noopener">' + esc(m.subject) + '</a> · to ' + esc(m.to) + '</p>';
+    }).join('') : '';
+    return '<p class="help">Sends today’s real numbers to one person, marked TEST. Save first if you changed anything. Preview shows the email here without sending it.</p>' +
+      (withEmail.length ? '<div class="row"><label class="f">Send to<select data-em-test-to>' + withEmail.map(function (p) {
+        return '<option' + (p.name === TEST_TO ? ' selected' : '') + '>' + esc(p.name) + '</option>'; }).join('') + '</select></label></div>' : '<p class="help">Add an email address and save, then send a test.</p>') +
+      [['daily', 'Daily recap'], ['weekly', 'Weekend screen time'], ['reminder', 'New week reminder']].map(function (k) {
+        return '<div class="actions"><button type="button" class="btn line" data-em-test="' + k[0] + '"' + (withEmail.length ? '' : ' disabled') + '>Send the ' + k[1].toLowerCase() + ' now</button>' +
+          '<a class="btn quiet" href="api/admin/email-updates/preview/' + k[0] + '" target="_blank" rel="noopener">Preview</a></div>';
+      }).join('') + outbox;
+  }
+
+  var STATUS = { sent: 'Sent', skipped: 'Skipped', failed: 'Didn’t send', sending: 'Sending' };
+  var KIND = { daily: 'Daily recap', weekly: 'Weekend screen time', weekly_update: 'Weekend update', reminder: 'New week reminder', test: 'Test' };
+  function logBody() {
     var up = E.upcoming.map(function (u) {
       return '<div class="row" style="align-items:center"><b style="flex:0 0 130px">' + esc(when(u.at)) + '</b><span style="flex:1 1 200px">' + esc(u.title) +
         '<br><span class="help">' + (u.to.length ? 'To ' + esc(u.to.join(' and ')) : 'Nobody yet') + (u.note ? ' · ' + esc(u.note) : '') + '</span></span></div>';
     }).join('') || '<p class="help">All email updates are off.</p>';
-    var STATUS = { sent: 'Sent', skipped: 'Skipped', failed: 'Didn’t send', sending: 'Sending' };
-    var KIND = { daily: 'Daily recap', weekly: 'Weekend screen time', weekly_update: 'Weekend update', reminder: 'New week reminder', test: 'Test' };
     var logRows = E.log.map(function (l) {
       return '<div class="row" style="align-items:baseline"><span style="flex:1 1 180px">' + esc(KIND[l.kind] || l.kind) + ' · ' + esc(when(l.at)) + '</span>' +
         '<span class="' + (l.status === 'failed' ? 'result bad' : 'help') + '" style="flex:1 1 220px">' + esc(STATUS[l.status] || l.status) +
         (l.recipients ? ' to ' + esc(l.recipients) : '') + (l.note ? ': ' + esc(l.note) : '') + '</span></div>';
     }).join('') || '<p class="help">Nothing sent yet.</p>';
-    var outbox = E.demo && E.outbox.length ? '<h3 style="margin:8px 0 0;font-size:16px">Demo outbox</h3>' + E.outbox.map(function (m, i) {
-      return '<p class="help"><a href="api/admin/email-updates/outbox/' + i + '" target="_blank" rel="noopener">' + esc(m.subject) + '</a> · to ' + esc(m.to) + '</p>';
-    }).join('') : '';
-    return '<section class="card" id="em-next"><h2>Coming up</h2>' + up + '</section>' +
-      '<section class="card" id="em-test"><h2>Try it</h2><p class="help">Sends today’s real numbers to one person, marked TEST. Save first if you changed anything. ' +
-      'Preview shows the email here without sending it.</p>' +
-      (withEmail.length ? '<div class="row"><label class="f">Send to<select data-em-test-to>' + withEmail.map(function (p) {
-        return '<option' + (p.name === TEST_TO ? ' selected' : '') + '>' + esc(p.name) + '</option>'; }).join('') + '</select></label></div>' : '<p class="help">Add an email address above and save, then send a test.</p>') +
-      [['daily', 'Daily recap'], ['weekly', 'Weekend screen time'], ['reminder', 'New week reminder']].map(function (k) {
-        return '<div class="actions"><button type="button" class="btn line" data-em-test="' + k[0] + '"' + (withEmail.length ? '' : ' disabled') + '>Send the ' + k[1].toLowerCase() + ' now</button>' +
-          '<a class="btn quiet" href="api/admin/email-updates/preview/' + k[0] + '" target="_blank" rel="noopener">Preview</a></div>';
-      }).join('') + outbox + '</section>' +
-      '<section class="card" id="em-log"><h2>Sent lately</h2>' + logRows + '</section>';
+    return '<h3 class="kick">Coming up</h3>' + up + '<h3 class="kick">Sent lately</h3>' + logRows;
   }
 
+  function onOff(on) { return on ? ['On', 'ok'] : ['Off', 'none']; }
   function inner() {
     if (!E) return '<section class="card"><h2>Email updates</h2><p class="help"><span class="spin" aria-hidden="true"></span> Loading…</p></section>';
-    return '<section class="card"><h2>Email updates</h2><p class="help">Short emails to parents about chores and screen time. Nothing is sent to the kids, and an email with nothing to report is skipped.</p></section>' +
-      dailyCard() + weeklyCard() + reminderCard() + peopleCard() + accountCard() + sideCards();
+    var withEmail = D.people.filter(function (p) { return p.email; });
+    if (!TEST_TO || !withEmail.some(function (p) { return p.name === TEST_TO; })) TEST_TO = withEmail.length ? withEmail[0].name : '';
+    var d = D.daily, w = D.weekly, nw = E.new_week, a = E.account;
+    var missing = D.people.filter(function (p) { return !p.email; }).length;
+    var lastFail = E.log.length && E.log[0].status === 'failed';
+    var dOn = onOff(d.on), wOn = onOff(w.on && E.screen_time_on), rOn = onOff(D.reminder.on);
+    var acct = a.ready ? ['Ready', 'ok'] : E.demo ? ['Demo outbox', 'none'] : ['Not set up', 'bad'];
+    var specs = [
+      { key: 'daily', name: 'Daily chore recap', chip: dOn[0], tone: dOn[1], body: dailyBody(),
+        sum: d.on ? 'Every day at ' + clock(d.time) + ' · covers ' + (d.time < '12:00' ? 'yesterday' : 'today') + ' · quick approve ' + (d.quick_approve ? 'on' : 'off') : 'Not sending' },
+      { key: 'weekly', name: 'Weekend screen time', chip: wOn[0], tone: wOn[1], body: weeklyBody(),
+        sum: !E.screen_time_on ? 'Screen time is off' : w.on ? dayName(w.day) + 's at ' + clock(w.time) + (w.per_kid ? ' · a line per kid' : '') : 'Not sending' },
+      { key: 'reminder', name: 'New week reminder', chip: rOn[0], tone: rOn[1], body: reminderBody(),
+        sum: dayName(nw.day) + ' ' + clock(nw.time) + ', only if nobody has started the week' },
+      { key: 'people', name: 'Who gets which', body: peopleBody(),
+        sum: D.people.map(function (p) { return p.name || 'New person'; }).join(' · '),
+        chip: missing ? missing + ' email' + (missing === 1 ? '' : 's') + ' missing' : 'All set', tone: missing ? 'warn' : 'ok' },
+      { key: 'account', name: 'Sending account', chip: acct[0], tone: acct[1], body: accountBody(),
+        sum: a.user ? (PROVIDER[a.provider] || a.provider).split(' or ')[0] + ' · ' + a.user : 'Gmail, Outlook, iCloud or any mail server' },
+      { key: 'try', name: 'Try it', body: tryBody(withEmail), sum: 'Send a test or preview an email' },
+      { key: 'log', name: 'Coming up and sent lately', body: logBody(), chip: lastFail ? 'Last send failed' : '', tone: lastFail ? 'bad' : 'ok',
+        sum: E.upcoming.length ? 'Next: ' + when(E.upcoming[0].at) + ', ' + E.upcoming[0].title.toLowerCase() : 'All email updates are off' }
+    ];
+    return '<section class="card" id="email-updates"><h2>Email updates</h2><p class="help">Short emails to parents about chores and screen time. ' +
+      'Nothing is sent to the kids, and an email with nothing to report is skipped.</p>' + window.AdminBlocks.blocks(specs) + '</section>';
   }
   function paint() {
     var r = document.getElementById('em-root');
@@ -194,7 +216,7 @@
   }
   function account() {
     var out = {};
-    Array.prototype.forEach.call(document.querySelectorAll('#em-account [data-ea]'), function (el) { out[el.getAttribute('data-ea')] = el.value; });
+    Array.prototype.forEach.call(document.querySelectorAll('#em-root [data-ea]'), function (el) { out[el.getAttribute('data-ea')] = el.value; });
     var a = E.account;
     return { provider: out.provider, user: out.user || '', password: out.password || '', from_name: out.from_name || '', from_address: out.from_address || '',
       host: out.host != null ? out.host : a.host, port: +(out.port != null ? out.port : a.port) || 587, security: out.security || a.security };

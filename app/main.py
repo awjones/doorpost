@@ -823,7 +823,7 @@ def _page(name: str, request: Request) -> HTMLResponse:
     html = (WEB_DIR / name).read_text()
     for asset in ("static/css/frame.css", "static/js/icons.js", "static/js/app.js", "static/js/admin.js",
                   "static/css/kids.css", "static/js/kids.js", "static/css/modules.css", "static/js/looks.js", "static/js/look-options.js",
-                  "static/css/admin-look.css", "static/js/admin-look.js", "static/js/email-admin.js"):
+                  "static/css/admin-look.css", "static/js/admin-look.js", "static/js/email-admin.js", "static/js/bible-admin.js"):
         html = html.replace(f'"{asset}"', f'"{asset}?v={v}"')
     html = html.replace('"art.js"', f'"art.js?v={request.app.state.services.packs.signature}"')  # the art packs' drawings
     html = html.replace('"themes.css"', f'"themes.css?v={_themes_version(request.app.state.services)}"')  # the looks (app/themes.py)

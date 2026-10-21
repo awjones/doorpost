@@ -84,21 +84,26 @@
   function html() {
     if (!B) {
       if (!LOADING) load();
-      return '<section class="card" id="bible"><h2>Bible translation</h2><p class="help"><span class="spin" aria-hidden="true"></span> Loading…</p></section>';
+      return '<div id="bible"><p class="help"><span class="spin" aria-hidden="true"></span> Loading…</p></div>';
     }
     if (!B.has_verses) return '';
-    return '<section class="card" id="bible"><h2>Bible translation</h2>' +
+    return '<div id="bible">' +
       '<p class="help">The verses on the Sunday pictures, church days, Thanksgiving and the bedtime clock use the translation you pick. ' +
       'If a verse isn’t on hand in it, the frame uses the <b>KJV</b>, then the text in the Faith pack. Shortened verses are shortened the same way in every translation, so the pictures still fit. ' +
       '<b>Which translation the public release uses is still an open question</b>; the ESV stays the default for now.</p>' +
-      '<div class="bt-list">' + B.translations.map(row).join('') + '</div>' + preview() + '</section>';
+      '<div class="bt-list">' + B.translations.map(row).join('') + '</div>' + preview() + '</div>';
   }
   function repaint() {
     var el = document.getElementById('bible');
     if (!el) return;
     var wrap = document.createElement('div');
     wrap.innerHTML = html();
-    if (wrap.firstChild) el.parentNode.replaceChild(wrap.firstChild, el); else el.parentNode.removeChild(el);
+    var blk = el.closest('.blk');   // it sits in a folding block on the Special days page
+    if (wrap.firstChild) el.parentNode.replaceChild(wrap.firstChild, el);
+    else if (blk) blk.hidden = true;
+    else el.parentNode.removeChild(el);
+    var line = blk && blk.querySelector('.fold-head > i');
+    if (line) line.textContent = summary();
     wire();
   }
   function load() {
@@ -143,5 +148,9 @@
       };
     });
   }
-  window.FrameBible = { html: html, wire: wire, reload: load };
+  function summary() {   // the line on the folded "Bible translation" block
+    var t = B && B.translations.filter(function (x) { return x.chosen; })[0];
+    return t ? (t.abbr || t.code.toUpperCase()) + ' · ' + t.name : '';
+  }
+  window.FrameBible = { html: html, wire: wire, reload: load, summary: summary };
 })();
