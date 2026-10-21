@@ -140,7 +140,7 @@
   // Settings > Modules: only the tabs for modules that are on (an older server sends no list: all on).
   function on(mod) { var m = P.sum && P.sum.modules; return !m || m.indexOf(mod) >= 0; }
   function tabList() {
-    var waiting = P.sum.waiting.length, out = [];
+    var waiting = P.sum.waiting.length + (P.sum.earlier || []).length, out = [];
     if (on('screen_time')) out.push(['screen', 'Screen time']);
     if (on('chores')) out.push(['chores', 'Chores' + (waiting ? '<span class="count">' + waiting + '</span>' : '')]);
     if (on('screen_time')) out.push(['log', 'Log']);
@@ -193,7 +193,7 @@
       (d.good_today ? '<button class="act" disabled><b>✓</b>Good day given</button>'
                     : '<button class="act" data-a="goodday"><b>+' + d.good_day_minutes + '</b>Good day</button>') +
       '<button class="act' + (P.adjOpen ? ' on' : '') + '" data-a="adj-toggle"><b>±</b>Add or take away</button>' +
-      '<button class="act" data-a="tab" data-tab="chores"><b>' + P.sum.waiting.length + '</b>Chores to approve</button></div>';
+      '<button class="act" data-a="tab" data-tab="chores"><b>' + (P.sum.waiting.length + (P.sum.earlier || []).length) + '</b>Chores to approve</button></div>';
     if (P.adjOpen) html += adjustCard();
     html += '<section class="card"><h2>Set the Switch</h2><div class="switch"><div><div class="dd">Saturday</div><div class="vv">' +
       esc(shortMin(d.saturday)) + '</div></div><div><div class="dd">Sunday</div><div class="vv">' + esc(shortMin(d.sunday)) + '</div></div></div>' +
@@ -240,11 +240,13 @@
 
   function choresTab() {
     var d = P.sum;
-    var waiting = d.waiting.map(function (c) {
+    // Still waiting from an earlier day this week (oldest first), then today's.
+    var waiting = (d.earlier || []).concat(d.waiting).map(function (c) {
+      var day = c.day ? ' data-day="' + esc(c.day) + '"' : '';
       return '<div class="row">' + av({ color: c.color, initial: c.initial, photo: c.photo }) + '<span class="ti">' + esc(c.title) +
-        '<small>' + esc(c.kid_name) + ' · +' + c.minutes + ' min</small></span><span class="btns">' +
-        '<button class="btn-small ok" data-a="approve" data-id="' + esc(c.id) + '">Approve</button>' +
-        '<button class="btn-small no" data-a="send-back" data-id="' + esc(c.id) + '">Not yet</button></span></div>';
+        '<small>' + esc(c.kid_name) + ' · +' + c.minutes + ' min' + (c.day_label ? ' · from ' + esc(c.day_label) : '') + '</small></span><span class="btns">' +
+        '<button class="btn-small ok" data-a="approve" data-id="' + esc(c.id) + '"' + day + '>Approve</button>' +
+        '<button class="btn-small no" data-a="send-back" data-id="' + esc(c.id) + '"' + day + '>Not yet</button></span></div>';
     }).join('') || '<p class="aside">Nothing is waiting.</p>';
     var kids = d.kids.map(function (k) {
       return '<div class="kidhead">' + av(k) + esc(k.name) + '</div>' + (k.chores.map(function (c) {
@@ -311,7 +313,7 @@
     if (a === 'week-go') { P.confirmWeek = false; post('api/parent/screen/new-week').then(function (r) { done(r, 'New week started.'); }); return; }
     if (a === 'undo') { post('api/parent/screen/' + id + '/undo').then(function (r) { done(r, 'Undone.'); }); return; }
     var url = a === 'logout' ? 'api/parent/logout' : a === 'refresh' ? 'api/parent/refresh'
-      : 'api/parent/chores/' + encodeURIComponent(id) + '/' + a;
+      : 'api/parent/chores/' + encodeURIComponent(id) + '/' + a + (el.getAttribute('data-day') ? '?day=' + encodeURIComponent(el.getAttribute('data-day')) : '');
     post(url).then(function (r) { if (a === 'logout') showLogin(); else if (r._status === 401) showLogin(); else load(); });
   });
   function keepNote() { var n = document.getElementById('adj-note'); if (n) P.adj.note = n.value; }

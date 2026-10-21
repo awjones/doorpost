@@ -126,6 +126,9 @@ class Settings:
     access_team_domain: Optional[str] = None
     access_aud: Optional[str] = None
     modules_on: Optional[frozenset] = None       # Settings > Modules: the ones that are on (see app/modules.py)
+    email_updates: dict = field(default_factory=dict)  # Settings > Email updates (see app/email_updates.py)
+    smtp_password: Optional[str] = None          # the sending account's password (secrets; never shown again)
+    frame_url: str = ""                          # the address for people (links in emails)
 
 
 DAY_KEYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
@@ -303,6 +306,9 @@ def load_settings() -> Settings:
         lists=dict(cfg.get("lists") or {}),
         frames=list(cfg.get("frames") or (_demo_frames() if demo else [])),
         weather=dict(cfg.get("weather") or {}),
+        email_updates=dict(cfg.get("email_updates") or {}),
+        smtp_password=sec.get("smtp_password") or os.environ.get("FRAME_SMTP_PASSWORD") or None,
+        frame_url=str(cfg.get("frame_url") or "").strip().rstrip("/"),
         access_team_domain=(cfg.get("cloudflare_access") or {}).get("team_domain"),
         access_aud=(cfg.get("cloudflare_access") or {}).get("aud"),
         weather_user_agent=os.environ.get(
@@ -328,7 +334,7 @@ def _special_cfg(sd: dict, demo: bool) -> dict:
 
 STORE_KEYS = ("merge_shared_events", "special_days", "frame_url", "lan_url", "cloudflare_access", "timezone", "location", "family_name", "family_initial", "idle_minutes_to_photos", "return_to_today_minutes",
               "photo_seconds", "night", "kids", "people", "calendars", "calendar_refresh_minutes",
-              "screen_time", "home_assistant", "photos", "lists", "frames", "google", "weather", "modules", "settings_look")
+              "screen_time", "home_assistant", "photos", "lists", "frames", "google", "weather", "modules", "settings_look", "email_updates")
 
 
 def store_path(demo: bool) -> Path:

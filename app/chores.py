@@ -97,6 +97,83 @@ def waiting(db: Database, settings: Settings, day: date) -> list[dict]:
     return [c for c in chores_for(db, settings, day) if c["status"] == "waiting"]
 
 
+# ---------------- approving later in the week ----------------
+# A chore a kid marked done but nobody approved by midnight stays approvable for the rest of
+# the screen time week (the parent page, and the email's quick approve buttons). It counts
+# toward the week it is approved in.
+
+def earliest_day(db: Database, today: date) -> date:
+    """The first day whose waiting chores can still be approved: the start of this screen
+    time week (a week started in the evening begins the next day), and never over 6 days back."""
+    with db.connect() as conn:
+        row = conn.execute("SELECT MAX(at) AS at FROM screen_ledger WHERE kind='new_week'").fetchone()
+    first = today - timedelta(days=6)
+    if row and row["at"]:
+        start = datetime.fromisoformat(row["at"])
+        begins = start.date() if start.time() == datetime.min.time() else start.date() + timedelta(days=1)
+        first = max(first, begins)
+    return min(first, today)
+
+
+def waiting_since(db: Database, settings: Settings, first: date, last: date) -> list[dict]:
+    """Waiting chores from `first` through `last` (oldest first), each with its day."""
+    with db.connect() as conn:
+        rows = conn.execute("SELECT * FROM chore_status WHERE status='waiting' AND day BETWEEN ? AND ? ORDER BY day, claimed_at",
+                            (first.isoformat(), last.isoformat())).fetchall()
+    out = []
+    for r in rows:
+        d = date.fromisoformat(r["day"])
+        c = next((c for c in scheduled(settings, d) if c.id == r["chore_id"]), None)
+        if c:
+            out.append({"id": c.id, "kid": c.kid, "title": c.title, "minutes": c.minutes, "status": "waiting",
+                        "day": r["day"], "claimed_at": r["claimed_at"]})
+    return out
+
+
+def check_day(db: Database, settings: Settings, chore_id: str, day: date, today: date) -> None:
+    """A day other than today: the chore must still be waiting, and the day in this week."""
+    if day == today:
+        return
+    if day > today or day < earliest_day(db, today):
+        raise ChoreError("That day is outside this screen time week.")
+    with db.connect() as conn:
+        row = conn.execute("SELECT status FROM chore_status WHERE day=? AND chore_id=?",
+                           (day.isoformat(), chore_id)).fetchone()
+    if not row or row["status"] != "waiting":
+        raise ChoreError("Only a chore that is waiting can be approved on a later day.")
+
+
+def approve_on(db: Database, settings: Settings, chore_id: str, day: date, now: datetime, approved_by: str) -> dict:
+    """approve() for today or an earlier day this week."""
+    check_day(db, settings, chore_id, day, now.date())
+    return approve(db, settings, chore_id, day, now, approved_by)
+
+
+def unapprove(db: Database, settings: Settings, chore_id: str, day: date, now: datetime, by: str) -> dict:
+    """Undo an approval (the email page's Undo): the chore waits again and its minutes come off
+    with an opposite screen time row. The credit row stays in the log, marked undone."""
+    c = _find(settings, chore_id, day)
+    with db.connect() as conn:
+        row = conn.execute("SELECT status FROM chore_status WHERE day=? AND chore_id=?",
+                           (day.isoformat(), chore_id)).fetchone()
+        if not row or row["status"] != "done":
+            raise ChoreError("That chore isn't approved.")
+        credit = conn.execute("SELECT * FROM screen_ledger WHERE kind='chore' AND chore_day=? AND chore_id=?",
+                              (day.isoformat(), chore_id)).fetchone()
+        conn.execute("UPDATE chore_status SET status='waiting', approved_at=NULL, approved_by=NULL WHERE day=? AND chore_id=?",
+                     (day.isoformat(), chore_id))
+        conn.execute("DELETE FROM ledger WHERE day=? AND chore_id=?", (day.isoformat(), chore_id))
+        if credit:
+            stamp = now.replace(tzinfo=None, microsecond=0).isoformat()
+            conn.execute(
+                """INSERT INTO screen_ledger (at, kind, minutes, scope, kid, note, by, undo_of)
+                   VALUES (?, 'adjust', ?, 'family', ?, ?, ?, ?)""",
+                (stamp, -credit["minutes"], credit["kid"], f"Undid: {credit['note']}", by, credit["id"]))
+            # free the chore's one-credit-per-day slot, so approving it again credits it again
+            conn.execute("UPDATE screen_ledger SET chore_id = chore_id || '#undone-' || id WHERE id = ?", (credit["id"],))
+    return {"id": c.id, "kid": c.kid, "title": c.title, "minutes": c.minutes}
+
+
 def local_week_minutes(db: Database, kid: str, day: date) -> dict[str, int]:
     """Minutes approved on the frame this week, by weekday (mon..sun)."""
     start, end = week_bounds(day)

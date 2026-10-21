@@ -12,7 +12,7 @@ import os
 import threading
 import time
 from contextlib import asynccontextmanager
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from typing import Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Request, Response, UploadFile
@@ -69,6 +69,8 @@ class Services:
         if settings.demo and not pins:
             pins = [(name, hash_pin(pin)) for name, pin in demo.DEMO_PINS]
         self.pin = PinGuard(pins)
+        from .email_updates import make_mailer
+        self.mailer = previous.mailer if previous is not None else make_mailer(settings, DATA_DIR)   # demo outbox survives a save
         self.access = (AccessVerifier(settings.access_team_domain, settings.access_aud) if self.on("remote_access")
                        else AccessVerifier(None, None))
         self._fake_start: Optional[datetime] = None
@@ -203,6 +205,12 @@ def background_loop(app: FastAPI, stop: threading.Event) -> None:
                 s.sync_google_tasks()
         except Exception:
             log.exception("Google Tasks sync error")
+        try:
+            if s.on("email_updates"):
+                from . import email_updates
+                email_updates.tick(s)
+        except Exception:
+            log.exception("email updates error")
         stop.wait(60)
 
 
@@ -462,22 +470,39 @@ def parent_summary(s: Services = Depends(svc), _who: str = Depends(require_paren
     with s.db.connect() as conn:
         recent = [dict(r) for r in conn.execute(
             "SELECT * FROM ledger ORDER BY id DESC LIMIT 15").fetchall()]
+    earlier = []
+    if s.on("chores"):   # waiting since an earlier day this week: still approvable
+        first = chore_logic.earliest_day(s.db, today)
+        if first < today:
+            earlier = chore_logic.waiting_since(s.db, s.settings, first, today - timedelta(days=1))
+    def dressed(c):
+        k = kids[c["kid"]]
+        return dict(c, kid_name=k.name, color=k.color, initial=k.initial, photo=kid_photo_url(k))
     return {
         "date": today.isoformat(),
         "kids": [{"id": k.id, "name": k.name, "initial": k.initial, "color": k.color, "photo": kid_photo_url(k),
                   "chores": [c for c in rows if c["kid"] == k.id]} for k in s.settings.kids],
-        "waiting": [dict(c, kid_name=kids[c["kid"]].name, color=kids[c["kid"]].color,
-                         initial=kids[c["kid"]].initial, photo=kid_photo_url(kids[c["kid"]]))
-                    for c in rows if c["status"] == "waiting"],
+        "waiting": [dressed(c) for c in rows if c["status"] == "waiting"],
+        "earlier": [dict(dressed(c), day_label=date.fromisoformat(c["day"]).strftime("%a")) for c in earlier if c["kid"] in kids],
         "recent": recent if s.on("chores") else [],
         "modules": sorted(mods.on_set(s.settings)),   # the phone page shows only the tabs that are on
     }
 
 
-@app.post("/api/parent/chores/{chore_id}/approve")
-def approve(chore_id: str, s: Services = Depends(svc), who: str = Depends(require_parent)):
+def _chore_day(s: Services, day: Optional[str]) -> date:
+    """?day=YYYY-MM-DD for a chore still waiting from earlier this week; today when left out."""
+    if not day:
+        return s.now().date()
     try:
-        result = chore_logic.approve(s.db, s.settings, chore_id, s.now().date(), s.now(), who)
+        return date.fromisoformat(day)
+    except ValueError:
+        raise HTTPException(400, "day must be YYYY-MM-DD")
+
+
+@app.post("/api/parent/chores/{chore_id}/approve")
+def approve(chore_id: str, day: Optional[str] = None, s: Services = Depends(svc), who: str = Depends(require_parent)):
+    try:
+        result = chore_logic.approve_on(s.db, s.settings, chore_id, _chore_day(s, day), s.now(), who)
     except chore_logic.ChoreError as exc:
         raise HTTPException(409, str(exc))
     _payload_cache["at"] = 0.0
@@ -485,9 +510,9 @@ def approve(chore_id: str, s: Services = Depends(svc), who: str = Depends(requir
 
 
 @app.post("/api/parent/chores/{chore_id}/send-back")
-def send_back(chore_id: str, s: Services = Depends(svc), _who: str = Depends(require_parent)):
+def send_back(chore_id: str, day: Optional[str] = None, s: Services = Depends(svc), _who: str = Depends(require_parent)):
     _payload_cache["at"] = 0.0
-    chore_logic.send_back(s.db, chore_id, s.now().date())
+    chore_logic.send_back(s.db, chore_id, _chore_day(s, day))
     return {"ok": True}
 
 
@@ -758,6 +783,9 @@ from .art_packs_api import public as art_public, router as art_router  # noqa: E
 app.include_router(art_router)
 app.include_router(art_public)
 
+from .email_api import admin as email_admin_router, public as email_public_router  # noqa: E402  (Settings > Email updates)
+app.include_router(email_admin_router)
+app.include_router(email_public_router)
 from .bible_api import router as bible_router  # noqa: E402  (Settings > Special days > Bible translation)
 
 app.include_router(bible_router)
@@ -795,7 +823,7 @@ def _page(name: str, request: Request) -> HTMLResponse:
     html = (WEB_DIR / name).read_text()
     for asset in ("static/css/frame.css", "static/js/icons.js", "static/js/app.js", "static/js/admin.js",
                   "static/css/kids.css", "static/js/kids.js", "static/css/modules.css", "static/js/looks.js", "static/js/look-options.js",
-                  "static/css/admin-look.css", "static/js/admin-look.js"):
+                  "static/css/admin-look.css", "static/js/admin-look.js", "static/js/email-admin.js"):
         html = html.replace(f'"{asset}"', f'"{asset}?v={v}"')
     html = html.replace('"art.js"', f'"art.js?v={request.app.state.services.packs.signature}"')  # the art packs' drawings
     html = html.replace('"themes.css"', f'"themes.css?v={_themes_version(request.app.state.services)}"')  # the looks (app/themes.py)
@@ -868,7 +896,17 @@ def parent_page(request: Request):
     return _look_page("parent.html", request, "parent")
 
 
-ADMIN_PAGES = ("overview", "modules", "frames", "calendars", "special-days", "art-packs", "photos", "family", "kids", "chores", "lists", "screen-time", "house", "pins")
+@app.get("/e/{token}")
+def email_link_page(token: str, request: Request):
+    """A quick approve button in the daily email. The page approves with a POST from its script
+    (app/email_api.py), never on this GET: mail services open links on their own to scan them."""
+    r = _look_page("email.html", request, "parent")
+    r.headers["Referrer-Policy"] = "no-referrer"
+    r.headers["X-Robots-Tag"] = "noindex"
+    return r
+
+
+ADMIN_PAGES = ("overview", "modules", "frames", "calendars", "special-days", "art-packs", "photos", "family", "kids", "chores", "lists", "screen-time", "email-updates", "house", "pins")
 
 
 def _look_page(name: str, request: Request, page: str) -> HTMLResponse:

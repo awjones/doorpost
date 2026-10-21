@@ -31,6 +31,7 @@ window.ICONS = (function () {
     frames: '<rect x="2.5" y="5" width="12" height="9" rx="1.5"/><rect x="16.5" y="8" width="5" height="11" rx="1.5"/><path d="M6 19h5M8.5 14v5"/>',
     face: '<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="10" r="3.2"/><path d="M6.5 21a5.5 5.5 0 0 1 11 0"/>',
     globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+    mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>',
     'alert': '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>'
   };
   return function (name, size, width) {

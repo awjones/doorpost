@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#16324F">
+<meta name="robots" content="noindex">
+<title>Doorpost · Chores</title>
+<link rel="stylesheet" href="static/css/frame.css">
+<link rel="stylesheet" href="static/css/admin-look.css">
+<style>
+  html, body { background: var(--a-paper); overflow: auto; height: auto; }
+  body { user-select: auto; -webkit-user-select: auto; font-family: var(--a-font-body); color: var(--a-ink); }
+  .pband { background: var(--a-head-bg); border-bottom: 3px double var(--a-head-rule); color: var(--a-head-ink); padding: 16px; display: flex; align-items: center; gap: 12px; }
+  .pband .mono { width: 44px; height: 44px; background: var(--a-head-ink); }
+  .pband .script { font-family: var(--a-font-script); font-size: 30px; line-height: 1.1; }
+  .pband .kicker { font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--a-head-soft); }
+  .wrap { max-width: 520px; margin: 0 auto; padding: 18px 16px 32px; display: flex; flex-direction: column; gap: 16px; }
+  .box { background: var(--a-card); border: 1px solid var(--a-line); border-radius: var(--a-radius); padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .box.mid { align-items: center; text-align: center; }
+  h1 { font-family: var(--a-font-display); font-size: 27px; font-weight: 600; margin: 0; line-height: 1.2; }
+  p { margin: 0; font-size: 15px; line-height: 1.45; }
+  .soft { color: var(--a-soft); }
+  .small { font-size: 13px; color: var(--a-muted, var(--a-soft)); }
+  .tick { width: 64px; height: 64px; border-radius: 32px; background: var(--a-ok); color: var(--a-ok-bg); display: flex; align-items: center; justify-content: center; }
+  .tick.warn { background: var(--a-warn); color: var(--a-warn-bg); }
+  .row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--a-line-soft); }
+  .row:first-child { border-top: none; }
+  .row .ti { flex: 1; min-width: 0; font-size: 15px; }
+  .row .ti small { display: block; font-size: 13px; color: var(--a-soft); }
+  .av { width: 32px; height: 32px; border-radius: 16px; color: #FFFFFF; font-family: var(--a-font-display); font-style: italic; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .go { height: 52px; border: none; border-radius: var(--a-pill); background: var(--a-accent); color: var(--a-accent-ink); font: 700 17px var(--a-font-body); box-shadow: inset 0 0 0 1px var(--a-rule); }
+  .one { height: 44px; padding: 0 16px; border: none; border-radius: var(--a-pill); background: var(--a-accent); color: var(--a-accent-ink); font: 700 14px var(--a-font-body); flex-shrink: 0; }
+  .quiet { height: 40px; padding: 0 16px; border: 1px solid var(--a-line); border-radius: var(--a-pill); background: var(--a-card); color: var(--a-soft); font: 700 14px var(--a-font-body); }
+  .pill { font-size: 12px; font-weight: 700; border-radius: 999px; padding: 4px 10px; flex-shrink: 0; }
+  .pill.done { background: var(--a-ok-bg); color: var(--a-ok); }
+  .pill.todo { background: var(--a-line-soft); color: var(--a-soft); }
+  .cap { font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--a-label, var(--a-soft)); }
+  a.link { text-align: center; font-size: 14px; font-weight: 600; color: var(--a-accent); }
+  .err { color: var(--a-danger); font-weight: 600; }
+  button[disabled] { opacity: 0.6; }
+</style>
+</head>
+<body>
+<header class="pband">
+  <span class="mono" role="img" aria-label="Family monogram"></span>
+  <div><div class="script">Doorpost</div><div class="kicker">Chores · from your email</div></div>
+</header>
+<main class="wrap" id="root" aria-live="polite"><div class="box"><p class="soft">Loading…</p></div></main>
+<!--admin-look-foot-->
+<script>
+(function () {
+  'use strict';
+  var root = document.getElementById('root');
+  var token = decodeURIComponent((location.pathname.match(/\/e\/([^/?#]+)/) || [])[1] || '');
+  var q = new URLSearchParams(location.search);
+  var one = q.has('c') ? parseInt(q.get('c'), 10) : null, all = q.get('all') === '1';
+  var V = null, DONE = null, ERR = '';
+  var TICK = '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg>';
+  var BANG = '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 7v6M12 17v.5"></path></svg>';
+
+  function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function call(method, url, body) {
+    return fetch(url, { method: method, headers: body ? { 'Content-Type': 'application/json' } : {}, credentials: 'omit', body: body ? JSON.stringify(body) : undefined })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) throw new Error(j.detail || 'Something went wrong.'); return j; }); });
+  }
+  function mins(m) { var h = Math.floor(m / 60), r = m % 60; return h ? h + ' hr' + (r ? ' ' + r + ' min' : '') : r + ' min'; }
+  function av(i) { return '<span class="av" style="background:' + esc(i.color) + '">' + esc(i.initial || i.kid[0]) + '</span>'; }
+  function waiting() { return V.items.filter(function (i) { return i.status === 'waiting'; }); }
+  function parentLink(label) { return '<a class="link" href="parent">' + esc(label || 'Open the parent page') + '</a>'; }
+
+  function row(i, withButton) {
+    var right = i.status === 'waiting' ? (withButton ? '<button class="one" type="button" data-a="approve" data-i="' + i.idx + '">Approve</button>' : '<span class="small">' + i.minutes + ' min</span>')
+      : i.status === 'done' ? '<span class="pill done">Approved' + (i.approved_by ? ' · ' + esc(i.approved_by) : '') + '</span>'
+      : '<span class="pill todo">Sent back</span>';
+    return '<div class="row">' + av(i) + '<span class="ti"><b>' + esc(i.kid) + '</b> · ' + esc(i.title) + '<small>' + (i.status === 'waiting' && !withButton ? '' : i.minutes + ' min · ') + esc(i.day_label) + '</small></span>' + right + '</div>';
+  }
+
+  function paint() {
+    if (!V) return;
+    var h = '';
+    if (V.state === 'unknown') {
+      h = '<div class="box mid"><span class="tick warn">' + BANG + '</span><h1>This link doesn’t work</h1><p class="soft">It may have been copied wrong. Approve on the parent page instead.</p></div>' + parentLink();
+    } else if (V.state === 'expired') {
+      h = '<div class="box mid"><span class="tick warn">' + BANG + '</span><h1>This link has expired</h1><p class="soft">Email buttons work for 48 hours. Approve on the parent page instead.</p></div>' + parentLink();
+    } else if (DONE) {
+      var n = DONE.approved.length, m = DONE.approved.reduce(function (a, c) { return a + c.minutes; }, 0);
+      var undo = mine();
+      h = '<div class="box mid"><span class="tick">' + TICK + '</span>' +
+        (n ? '<h1>' + (n > 1 || DONE.all ? 'Thanks for confirming' : 'Approved') + '</h1>' +
+             '<p><b>' + (n === 1 ? esc(DONE.approved[0].title) + ', +' + m + ' min' : n + ' chores approved, +' + mins(m)) + '</b>' +
+             (V.total_label ? '<br>The family weekend is now ' + esc(V.total_label) + '.' : '') + '</p>' +
+             (n > 1 || DONE.all ? '' : '<p class="soft">Thanks for confirming. The frame shows it now.</p>')
+           : '<h1>Nothing to approve</h1><p class="soft">' + esc((DONE.skipped || [])[0] || 'Those chores were already taken care of.') + '</p>') +
+        '<p class="small">Approved by ' + esc(V.parent) + ', from email</p>' +
+        (undo.length ? '<button class="quiet" type="button" data-a="undo">' + (undo.length > 1 ? 'Undo all ' + undo.length : 'Undo') + '</button>' : '') + '</div>';
+      var left = waiting();
+      if (left.length) h += '<section class="box"><div class="cap">Still waiting</div>' + left.map(function (i) { return row(i, true); }).join('') + '</section>';
+      else h += '<p class="soft" style="text-align:center">Nothing else is waiting.</p>';
+      h += parentLink();
+    } else if (all) {
+      var w = waiting();
+      if (!w.length) {
+        h = '<div class="box mid"><span class="tick">' + TICK + '</span><h1>All taken care of</h1><p class="soft">Nothing from this email is waiting any more.</p></div>' +
+          '<section class="box">' + V.items.map(function (i) { return row(i, false); }).join('') + '</section>' + parentLink();
+      } else {
+        var total = w.reduce(function (a, c) { return a + c.minutes; }, 0);
+        h = '<div class="box"><h1>Approve ' + (w.length === 1 ? 'this chore' : 'all ' + w.length + ' chores') + '?</h1><p class="soft">Adds ' + mins(total) + ' to the family weekend.</p>' +
+          '<div>' + w.map(function (i) { return row(i, false); }).join('') + '</div>' +
+          '<button class="go" type="button" data-a="all">Yes, approve ' + (w.length === 1 ? 'it' : 'all ' + w.length) + '</button>' + parentLink('Not yet, open the parent page') + '</div>' +
+          '<p class="small" style="text-align:center">No PIN needed. This link came in ' + esc(V.parent) + '’s email.</p>';
+      }
+    } else {
+      h = '<section class="box"><h1>Chores from your email</h1>' + V.items.map(function (i) { return row(i, true); }).join('') + '</section>' + parentLink();
+    }
+    if (ERR) h = '<p class="err" role="alert">' + esc(ERR) + '</p>' + h;
+    root.innerHTML = h;
+  }
+
+  // Undo covers only what this tap approved (and is still undoable).
+  function mine() { return V.items.filter(function (i) { return i.can_undo && DONE && (DONE.idxs || []).indexOf(i.idx) >= 0; }); }
+  function approve(body, isAll) {
+    var idxs = body.all ? waiting().map(function (i) { return i.idx; }) : body.items;
+    ERR = '';
+    return call('POST', 'api/email/link/' + encodeURIComponent(token) + '/approve', body).then(function (r) {
+      DONE = { approved: r.approved, skipped: r.skipped, all: isAll, idxs: idxs }; V = r; paint();
+    }).catch(function (e) { ERR = e.message; paint(); });
+  }
+
+  root.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-a]');
+    if (!el) return;
+    el.disabled = true;
+    var a = el.getAttribute('data-a');
+    if (a === 'all') approve({ all: true }, true);
+    if (a === 'approve') approve({ items: [+el.getAttribute('data-i')] }, false);
+    if (a === 'undo') {
+      var todo = mine();
+      todo.reduce(function (p, i) {
+        return p.then(function () { return call('POST', 'api/email/link/' + encodeURIComponent(token) + '/undo', { idx: i.idx }).then(function (r) { V = r; }); });
+      }, Promise.resolve()).then(function () {
+        DONE = null; ERR = ''; all = false; one = null; paint();
+      }).catch(function (err) { ERR = err.message; paint(); });
+    }
+  });
+
+  call('GET', 'api/email/link/' + encodeURIComponent(token)).then(function (v) {
+    V = v;
+    // One chore's button: approve it right away (by script, so a link scanner's visit does nothing).
+    var item = one !== null && v.state === 'ready' ? v.items.filter(function (i) { return i.idx === one; })[0] : null;
+    if (item && item.status === 'waiting') return approve({ items: [one] }, false);
+    if (item) { DONE = { approved: [], skipped: [item.status === 'done' ? 'Already approved' + (item.approved_by ? ' by ' + item.approved_by : '') + '.' : 'That chore was sent back.'] }; }
+    paint();
+  }).catch(function (e) { V = { state: 'unknown' }; ERR = e.message; paint(); });
+})();
+</script>
+</body>
+</html>

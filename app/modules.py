@@ -26,6 +26,7 @@ NEEDS = {
     "domain": "Your own web address",
     "frame": "Another frame",
     "nothing": "Nothing extra",
+    "email": "An email account",
 }
 
 MODULES: list[dict] = [
@@ -47,6 +48,12 @@ MODULES: list[dict] = [
      "needs": ["nothing"], "needs_text": "Chores turned on",
      "screens": ["screen"], "today": ["screen"], "admin_pages": ["screen-time"],
      "routes": ["/api/parent/screen", "/api/admin/screen_time", "/admin/screen-time"]},
+    {"id": "email_updates", "name": "Email updates", "icon": "mail", "default_on": True, "requires": ["chores"],
+     "description": "A daily chore recap with quick approve buttons, and the weekend’s screen time for setting each device.",
+     "needs": ["email"], "needs_text": "An email account to send from (Gmail works, with an app password)",
+     "admin_pages": ["email-updates"],
+     "routes": ["/e", "/api/email", "/api/admin/email-updates", "/admin/email-updates"],
+     "jobs": ["send the chore and screen time emails at their times"]},
     {"id": "photos", "name": "Photos", "icon": "photos", "default_on": True,
      "description": "A slideshow when the frame sits idle, with the clock and next event.",
      "needs": ["nothing"], "needs_text": "Photos you upload, a shared album, or a photos folder on the home server",

@@ -8,7 +8,7 @@
   var DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];   // the week starts on the Lord's Day, as it always has
   // Each section is its own page: /admin (Overview), /admin/calendars, /admin/chores, ...
   var PAGES = [['overview', 'Overview'], ['modules', 'Modules'], ['frames', 'Frames'], ['calendars', 'Calendars'], ['special-days', 'Special days'], ['art-packs', 'Art packs'], ['photos', 'Photos'],
-    ['family', 'Family'], ['chores', 'Chores'], ['lists', 'Lists'], ['screen-time', 'Screen time'], ['house', 'House status'], ['pins', 'Parent PINs']];
+    ['family', 'Family'], ['chores', 'Chores'], ['lists', 'Lists'], ['screen-time', 'Screen time'], ['email-updates', 'Email updates'], ['house', 'House status'], ['pins', 'Parent PINs']];
   var OLD_HASH = { overview: 'overview', calendars: 'calendars', special: 'special-days', photos: 'photos', kids: 'family', chores: 'chores',
     screen: 'screen-time', house: 'house', display: 'overview', security: 'pins' };
   var PAGE = (function () {
@@ -121,7 +121,8 @@
     $('.aband .kicker').textContent = 'Settings · ' + name;
     document.title = 'Doorpost · ' + name;
     var BUILD = { overview: function () { return overview() + storageCard() + display() + (window.AdminLook ? window.AdminLook.html() : ''); }, modules: modulesPage, frames: framesPage, calendars: calendars, 'special-days': function () { return special() + (window.FrameBible ? window.FrameBible.html() : ''); }, 'art-packs': artPacks, photos: photos,
-      family: family, chores: chores, lists: lists, 'screen-time': screenTime, house: house, pins: security };
+      family: family, chores: chores, lists: lists, 'screen-time': screenTime, house: house, pins: security,
+      'email-updates': function () { return window.EmailAdmin ? window.EmailAdmin.html() : ''; } };
     if (waitingFor()) {
       root.innerHTML = card('loading', name, '<span class="spin" aria-hidden="true"></span> Loading…', '');
       return;
@@ -1398,7 +1399,8 @@
       };
     });
     if (PAGE === 'special-days' && SP) spWire();
-    if (PAGE === 'special-days' && window.FrameBible) window.FrameBible.wire();   // the Bible translation card (bible-admin.js)
+    if (PAGE === 'special-days' && window.FrameBible) window.FrameBible.wire();
+    if (PAGE === 'email-updates' && window.EmailAdmin) window.EmailAdmin.wire();   // Settings > Email updates (email-admin.js)   // the Bible translation card (bible-admin.js)
     if (PAGE === 'overview' && window.AdminLook) window.AdminLook.wire();   // Settings look (admin-look.js)
     $$('[data-act-change=fam-kid]').forEach(function (cb) {
       cb.onchange = function () {

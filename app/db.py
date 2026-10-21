@@ -51,6 +51,37 @@ CREATE TABLE IF NOT EXISTS screen_ledger (
     UNIQUE (chore_day, chore_id)
 );
 CREATE INDEX IF NOT EXISTS screen_ledger_at ON screen_ledger(at);
+
+-- Email updates (see email_updates.py): one row per email per period, so nothing goes twice.
+CREATE TABLE IF NOT EXISTS email_log (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    kind      TEXT NOT NULL,                -- daily | weekly | weekly_update | reminder | test
+    period    TEXT NOT NULL,                -- the day or week it covers
+    status    TEXT NOT NULL,                -- sending | sent | skipped | failed
+    at        TEXT NOT NULL,                -- naive local time of the last try
+    recipients TEXT NOT NULL DEFAULT '',
+    note      TEXT NOT NULL DEFAULT '',
+    attempts  INTEGER NOT NULL DEFAULT 0,
+    total     INTEGER,                      -- weekly: the weekend total it reported
+    UNIQUE (kind, period)
+);
+
+-- Quick approve links in the daily email: one per person per email. Only a hash of the
+-- link's secret is kept. `items` is a JSON list of [day, chore_id].
+CREATE TABLE IF NOT EXISTS email_links (
+    token_hash TEXT PRIMARY KEY,
+    parent     TEXT NOT NULL,
+    items      TEXT NOT NULL,
+    created    TEXT NOT NULL,
+    expires    TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS email_link_uses (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    token_hash  TEXT NOT NULL,
+    idx         INTEGER NOT NULL,
+    approved_at TEXT NOT NULL,
+    undone_at   TEXT
+);
 """
 
 
