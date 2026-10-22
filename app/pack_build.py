@@ -21,8 +21,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = "1.0.0"
-VERSIONS = {"faith": "1.1.1"}   # 1.1.0: each verse also carries its reference and shortening (Bible translations)
+VERSIONS = {"faith": "1.2.0"}   # 1.1.0: each verse also carries its reference and shortening (Bible translations)
                                # 1.1.1: every verse is exact ESV wording (trimmed excerpts, gaps marked "...")
+                               # 1.2.0: the verses are the BSB (public domain), exact wording, gaps marked "..."
 LICENSE = "CC BY 4.0"
 BUILT_IN = ("holidays-us", "seasons", "family-basics")
 OPTIONAL = ("faith", "outings", "kids-activities")
@@ -58,13 +59,13 @@ INFO = {
 
 # A Bible verse on the bedtime clock screen, one per weekday (faith pack only).
 CLOCK_VERSES = [
-    ["In peace I will both lie down and sleep; for you alone, O Lord, make me dwell in safety.", "Psalm 4:8"],
-    ["He will not let your foot be moved; he who keeps you will not slumber.", "Psalm 121:3"],
-    ["The steadfast love of the Lord never ceases; his mercies never come to an end; they are new every morning.", "Lamentations 3:22–23"],
-    ["Come to me, all who labor and are heavy laden, and I will give you rest.", "Matthew 11:28"],
-    ["This is the day that the Lord has made; let us rejoice and be glad in it.", "Psalm 118:24"],
-    ["Casting all your anxieties on him, because he cares for you.", "1 Peter 5:7"],
-    ["The Lord bless you and keep you; the Lord make his face to shine upon you.", "Numbers 6:24–25"],
+    ["I will lie down and sleep in peace, for You alone, O LORD, make me dwell in safety.", "Psalm 4:8"],
+    ["He will not allow your foot to slip; your Protector will not slumber.", "Psalm 121:3"],
+    ["Because of the loving devotion of the LORD we are not consumed, for His mercies never fail. They are new every morning.", "Lamentations 3:22–23"],
+    ["Come to Me, all you who are weary and burdened, and I will give you rest.", "Matthew 11:28"],
+    ["This is the day that the LORD has made; we will rejoice and be glad in it.", "Psalm 118:24"],
+    ["Cast all your anxiety on Him, because He cares for you.", "1 Peter 5:7"],
+    ["The LORD bless you and keep you; may the LORD cause His face to shine upon you.", "Numbers 6:24–25"],
 ]
 
 QUOTED = re.compile(r"^“(.+)” (.+)$")
@@ -88,10 +89,10 @@ def faith_quotes() -> list:
 
 
 def passage(text: str, ref: str):
-    """The verse as the pack stores it: reference, the verses it covers, the ESV text it ships and, per translation,
+    """The verse as the pack stores it: reference, the verses it covers, the BSB text it ships and, per translation,
     which words of the full verse the shortened quote keeps (app/bible_data/quotes.json)."""
     from . import bible
-    return bible.passage_for(text, ref, "esv") if text else None
+    return bible.passage_for(text, ref, "bsb") if text else None
 
 
 BARE_AMP = re.compile(r"&(?!(?:#\d+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]*);)")

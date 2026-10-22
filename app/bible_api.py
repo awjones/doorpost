@@ -19,7 +19,7 @@ def _save(request: Request, s: Services, mutate) -> dict:
 
 
 def _extra(s: Services) -> list:
-    """Every verse the turned-on packs quote, so a download covers packs beyond the built-in pictures too."""
+    """Every verse the turned-on packs quote, so a fetch covers packs beyond the built-in pictures too."""
     out = []
     for p in s.packs.passages():
         out += [v for v in (p.get("verses") or B.parse_ref(p.get("ref", ""))) if v not in out]
@@ -49,7 +49,7 @@ def get_bible(s: Services = Depends(svc)):
 def put_bible(body: dict, request: Request, s: Services = Depends(svc)):
     choice = str(body.get("translation") or "").lower()
     if choice and choice not in B.TRANSLATIONS:
-        raise HTTPException(400, "Pick ESV, KJV, BSB or NASB.")
+        raise HTTPException(400, "Pick BSB, KJV or NASB.")
     edition = str(body.get("nasb_edition") or "")
     if edition and edition not in B.NASB_NOTICE:
         raise HTTPException(400, "The NASB edition is 2020 or 1995.")
@@ -64,22 +64,11 @@ def put_bible(body: dict, request: Request, s: Services = Depends(svc)):
     return _save(request, s, m)
 
 
-@router.post("/bsb/download")
-def download_bsb(s: Services = Depends(svc)):
-    try:
-        n = B.download_bsb(s.settings.demo, _extra(s))
-    except ValueError as exc:
-        raise HTTPException(400, str(exc))
-    except Exception as exc:  # noqa: BLE001
-        raise HTTPException(502, f"Couldn't get the BSB file: {str(exc)[:160]}")
-    return {"ok": True, "verses": n}
-
-
 @router.delete("/{code}")
 def remove(code: str, s: Services = Depends(svc)):
-    """Remove a downloaded or added translation. The frame falls back to the next one (KJV, then the pack's text)."""
-    if code not in ("bsb", "nasb"):
-        raise HTTPException(400, "Only downloaded or added text can be removed.")
+    """Remove an added translation. The frame falls back to the BSB (the pack's own text)."""
+    if code != "nasb":
+        raise HTTPException(400, "Only text you added can be removed.")
     B.remove(s.settings.demo, code)
     return {"ok": True}
 

@@ -57,14 +57,14 @@ FAMILY_SCRIPT = {"park": "Park day!",
 
 CHURCH = [
     # key, name, (days from Easter | (month, day)), look, script, verse, solemn, on by default
-    ("palm", "Palm Sunday", -7, "palm", "Hosanna!", "“Blessed is he who comes in the name of the Lord!” Mark 11:9", False, False),
+    ("palm", "Palm Sunday", -7, "palm", "Hosanna!", "“Blessed is He who comes in the name of the Lord!” Mark 11:9", False, False),
     ("goodfriday", "Good Friday", -2, "goodfriday", "It is finished", "John 19:30", True, True),
-    ("easter", "Resurrection Sunday", 0, "easter", "He is risen!", "“He is not here, for he has risen.” Matthew 28:6", False, True),
-    ("ascension", "Ascension Day", 39, "pattern", "He ascended", "“He was lifted up, and a cloud took him out of their sight.” Acts 1:9", False, False),
+    ("easter", "Resurrection Sunday", 0, "easter", "He is risen!", "“He is not here; He has risen.” Matthew 28:6", False, True),
+    ("ascension", "Ascension Day", 39, "pattern", "He ascended", "“He was taken up, and a cloud hid Him from their sight.” Acts 1:9", False, False),
     ("pentecost", "Pentecost Sunday", 49, "pattern", "Pentecost", "“And they were all filled with the Holy Spirit.” Acts 2:4", False, False),
-    ("reformation", "Reformation Day", (10, 31), "reformation", "Sola Scriptura", "“The righteous shall live by faith.” Romans 1:17", False, True),
-    ("xmaseve", "Christmas Eve", (12, 24), "xmaseve", "Christmas Eve", "“The light shines in the darkness.” John 1:5", False, True),
-    ("christmas", "Christmas Day", (12, 25), "christmas", "Merry Christmas!", "“For to us a child is born.” Isaiah 9:6", False, True),
+    ("reformation", "Reformation Day", (10, 31), "reformation", "Sola Scriptura", "“The righteous will live by faith.” Romans 1:17", False, True),
+    ("xmaseve", "Christmas Eve", (12, 24), "xmaseve", "Christmas Eve", "“The Light shines in the darkness.” John 1:5", False, True),
+    ("christmas", "Christmas Day", (12, 25), "christmas", "Merry Christmas!", "“For unto us a child is born.” Isaiah 9:6", False, True),
 ]
 CHURCH_DEFAULTS = {c[0]: c[7] for c in CHURCH}
 # Google's holiday calendar also lists these; the church year shows them instead (once).
@@ -109,7 +109,7 @@ HOLIDAY_LOOKS = {
     "independence day": ("july4", "Happy 4th!", False, ""),
     "labor day": ("labor", "Labor Day", False, ""),
     "veterans day": ("veterans", "Thank you", True, ""),
-    "thanksgiving day": ("thanksgiving", "Give thanks", False, "“Oh give thanks to the Lord, for he is good.” Psalm 107:1"),
+    "thanksgiving day": ("thanksgiving", "Give thanks", False, "“Give thanks to the LORD, for He is good.” Psalm 107:1"),
 }
 DEFAULT_MODES = {
     "new year's day": "special", "mother's day": "special", "memorial day": "special", "father's day": "special",

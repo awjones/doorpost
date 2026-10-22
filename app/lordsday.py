@@ -253,4 +253,5 @@ def for_sunday(d: date, paused=None) -> dict:
     series = SERIES[s]
     it = series["items"][i]
     return {"series": series["name"], "series_key": series["key"], "n": i + 1, "count": len(series["items"]),
-            "title": it["title"], "verse": f"“{it['verse']}.” {it['ref']}", "about": it["about"], "svg": _picture(s, i)}
+            "title": it["title"], "verse": f"“{it['verse']}{'' if it['verse'][-1:] in '!?' else '.'}” {it['ref']}",
+            "about": it["about"], "svg": _picture(s, i)}

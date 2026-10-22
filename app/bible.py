@@ -1,20 +1,19 @@
 """Bible translations for the verses the art packs show (docs/bible-translations.md).
 
-The Faith pack keeps each verse as a reference plus the text it ships (ESV) and, for the translations we know,
+The Faith pack keeps each verse as a reference plus the text it ships (BSB) and, for the translations we know,
 which words of the full verse its shortened quote keeps (a "passage", built by app/pack_build.py from
-app/bible_data/quotes.json). The verse TEXT for other translations comes from translation sources:
+app/bible_data/quotes.json). The verse TEXT for each translation comes from translation sources:
 
-    esv    the text inside the pack (the default; unchanged wording)
+    bsb    built in: the text inside the pack, and app/bible_data/bsb.json (the default; public domain)
     kjv    built in: app/bible_data/kjv.json, the referenced verses only (public domain)
-    bsb    downloaded on request from the official public-domain file, cached in DATA_DIR/bible/bsb.json
     nasb   the family's own licensed text (a JSON import), or fetched with their own API.Bible key
 
 Every place a verse shows (Sunday pictures, church-year days, Thanksgiving, the bedtime clock) asks
-`show(passage)` here. It tries the chosen translation, then KJV, then the pack's own text, so a verse never
-disappears. A shortened quote stays shortened the same way: the pack's word ranges for that translation,
+`show(passage)` here. It tries the chosen translation, then BSB, then KJV, then the pack's own text, so a verse
+never disappears. A shortened quote stays shortened the same way: the pack's word ranges for that translation,
 or, for a translation without ranges, the closest match to the pack's own (shortened) text.
 
-The choice is an open decision for the project (ESV permission is pending), so ESV stays the default.
+Only public-domain text ships with Doorpost; anything under copyright is the family's own to add.
 """
 from __future__ import annotations
 
@@ -31,11 +30,9 @@ from . import config as _cfg
 ROOT = Path(__file__).resolve().parent.parent
 DATA = Path(__file__).resolve().parent / "bible_data"
 KJV_FILE = DATA / "kjv.json"
+BSB_FILE = DATA / "bsb.json"
 QUOTES_FILE = DATA / "quotes.json"
-BSB_SAMPLE = DATA / "bsb-sample.txt"       # a small cut of the official file, for demo mode and the tests
-BSB_URL = "https://bereanbible.com/bsb.txt"  # the official plain-text file (bereanbible.com, "Free Downloads")
 APIBIBLE_URL = "https://rest.api.bible/v1/bibles/{bible}/verses/{verse}"
-MAX_DOWNLOAD = 12 * 1024 * 1024
 MAX_IMPORT = 1024 * 1024
 MAX_IMPORT_VERSES = 1000   # Lockman: no more than 1,000 NASB verses stored in an electronic system
 
@@ -92,10 +89,6 @@ def canon(ref: str) -> str:
 
 # ---------------- the translations ----------------
 
-ESV_NOTICE = ("Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, "
-              "a publishing ministry of Good News Publishers. ESV Text Edition: 2025. The ESV text may not be quoted in any "
-              "publication made available to the public by a Creative Commons license. The ESV may not be translated in whole "
-              "or in part into any other language. Used by permission. All rights reserved.")
 NASB_NOTICE = {
     "2020": ("Scripture quotations taken from the (NASB®) New American Standard Bible®, Copyright © 1960, 1971, 1977, 1995, "
              "2020 by The Lockman Foundation. Used by permission. All rights reserved. www.Lockman.org"),
@@ -104,23 +97,15 @@ NASB_NOTICE = {
 }
 
 TRANSLATIONS = {
-    "esv": {"abbr": "ESV", "name": "English Standard Version", "kind": "pack",
-            "notice": ESV_NOTICE,
-            "note": "The ESV text is all rights reserved. Using it in a public, Creative Commons-licensed release "
-                    "is waiting on permission from Crossway. It stays the default for now.",
-            "links": [["esv.org", "https://www.esv.org"], ["Crossway permission request",
-                                                           "https://www.crossway.org/permissions/digital/"]]},
+    "bsb": {"abbr": "BSB", "name": "Berean Standard Bible", "kind": "builtin",
+            "notice": "Bible quotations from the Berean Standard Bible (BSB), public domain.",
+            "note": "Built in, and the default: it is the text inside the Faith pack. The BSB asks that changed text "
+                    "not carry its name, so a shortened verse is marked “adapted” instead of “BSB”.",
+            "links": [["berean.bible", "https://berean.bible/terms.htm"]]},
     "kjv": {"abbr": "KJV", "name": "King James Version", "kind": "builtin",
             "notice": "King James Version, public domain in the United States.",
-            "note": "Built in, and the fallback when a verse isn't available in the translation you pick. "
-                    "(In the United Kingdom the KJV is under Crown copyright.)",
+            "note": "Built in. (In the United Kingdom the KJV is under Crown copyright.)",
             "links": []},
-    "bsb": {"abbr": "BSB", "name": "Berean Standard Bible", "kind": "download",
-            "notice": "Bible quotations from the Berean Standard Bible (BSB), public domain.",
-            "note": "Downloads the official public-domain text from bereanbible.com and keeps only the verses the "
-                    "pictures use. The BSB asks that changed text not carry its name, so a shortened verse is marked "
-                    "“adapted” instead of “BSB”.",
-            "links": [["berean.bible", "https://berean.bible/terms.htm"]]},
     "nasb": {"abbr": "NASB", "name": "New American Standard Bible", "kind": "yours",
              "notice": NASB_NOTICE["2020"],
              "note": "The Lockman Foundation's NASB is all rights reserved and isn't included. Add your own licensed "
@@ -129,7 +114,8 @@ TRANSLATIONS = {
              "links": [["lockman.org", "https://www.lockman.org"],
                        ["Lockman permission terms", "https://www.lockman.org/permission-to-quote-copyright-trademark-information/"]]},
 }
-FALLBACK = ("kjv",)   # then the pack's own text
+DEFAULT = "bsb"
+FALLBACK = ("bsb", "kjv")   # then the pack's own text
 
 
 # ---------------- words: shortening a verse the way the pack's quote is shortened ----------------
@@ -215,6 +201,28 @@ def is_whole(keep: list, n: int) -> bool:
     return len(keep) == 1 and int(keep[0][0]) == 0 and int(keep[0][1]) >= n
 
 
+def _plain(w: str) -> str:
+    return w.lower().strip(".,;:!?“”‘’\"'()—–- ")
+
+
+def exact_keep(quote: str, full: str) -> Optional[list]:
+    """The word ranges of `full` that `quote` is made of, word for word and in order ('...' marks a gap), or None
+    when the quote isn't an exact excerpt. Only a capital first letter, quote marks and punctuation at the ends of
+    words may differ."""
+    words = [_plain(w) for w in full.split()]
+    out, pos = [], 0
+    for seg in segments(quote):
+        want = [_plain(w) for w in seg.split()]
+        for i in range(pos, len(words) - len(want) + 1):
+            if words[i:i + len(want)] == want:
+                out.append([i, i + len(want)])
+                pos = i + len(want)
+                break
+        else:
+            return None
+    return out or None
+
+
 # ---------------- the sources ----------------
 
 def bible_dir(demo: bool) -> Path:
@@ -238,7 +246,7 @@ def quotes() -> list[dict]:
     return _quotes_cache["q"]
 
 
-def passage_for(text: str, ref: str, tr: str = "esv") -> Optional[dict]:
+def passage_for(text: str, ref: str, tr: str = DEFAULT) -> Optional[dict]:
     """The passage the pack stores for a quote from the drawing code's tables (app/pack_build.py)."""
     key = (canon(ref), text)
     for q in quotes():
@@ -249,7 +257,7 @@ def passage_for(text: str, ref: str, tr: str = "esv") -> Optional[dict]:
 
 
 def verse_list() -> list[str]:
-    """Every single verse the built-in pictures quote (what a download keeps)."""
+    """Every single verse the built-in pictures quote (what a fetch keeps)."""
     seen: list[str] = []
     for q in quotes():
         for v in q["verses"]:
@@ -261,8 +269,8 @@ def verse_list() -> list[str]:
 class Bible:
     """The family's choice and the verse text on hand. `show` gives the words and the citation for a passage."""
 
-    def __init__(self, choice: str = "esv", sources: Optional[dict] = None, as_is: Optional[dict] = None, nasb_edition: str = "2020"):
-        self.choice = choice if choice in TRANSLATIONS else "esv"
+    def __init__(self, choice: str = DEFAULT, sources: Optional[dict] = None, as_is: Optional[dict] = None, nasb_edition: str = "2020"):
+        self.choice = choice if choice in TRANSLATIONS else DEFAULT   # an old saved choice (the ESV) lands on the BSB
         self.sources = sources or {}        # code: {"Psalm 23:1": "full verse text"}
         self.as_is = as_is or {}            # code: {"Psalm 118:24": "text to show as given"} (your own text)
         self.nasb_edition = nasb_edition
@@ -277,8 +285,9 @@ class Bible:
     def _text(self, code: str, p: dict) -> Optional[tuple[str, bool]]:
         """(text, shortened) in translation `code`, or None when it isn't on hand."""
         own = (p.get("text") or "").strip()
+        rule = (p.get("short") or {}).get(code)
         if code == str(p.get("tr") or "").lower() and own:
-            return own, False
+            return own, bool(rule) and not is_whole(rule.get("keep") or [], int(rule.get("words", 0)))
         given = self.as_is.get(code, {}).get(canon(p.get("ref", "")))
         if given:
             if own and len(given.split()) > 1.5 * len(own.split()) + 3:
@@ -291,7 +300,6 @@ class Bible:
             return None
         full = " ".join(src[v].strip() for v in verses)
         n = len(full.split())
-        rule = (p.get("short") or {}).get(code)
         if rule and int(rule.get("words", -1)) == n and rule.get("keep"):
             keep = rule["keep"]
         elif own:
@@ -333,8 +341,7 @@ _state: dict = {"key": None, "bible": None}
 
 
 def _files(demo: bool) -> dict:
-    d = bible_dir(demo)
-    return {"bsb": d / "bsb.json", "nasb": d / "nasb.json"}
+    return {"nasb": bible_dir(demo) / "nasb.json"}
 
 
 def settings_of(demo: bool) -> dict:
@@ -342,7 +349,7 @@ def settings_of(demo: bool) -> dict:
 
 
 def current(demo: bool) -> Bible:
-    """The Bible to show verses with, read again only when the choice or a downloaded file changes."""
+    """The Bible to show verses with, read again only when the choice or an added file changes."""
     files = _files(demo)
     sp = _cfg.store_path(demo)
     key = (demo, str(_cfg.DATA_DIR), sp.stat().st_mtime_ns if sp.exists() else 0,
@@ -350,7 +357,7 @@ def current(demo: bool) -> Bible:
     with _state_lock:
         if _state["key"] != key:
             cfg = settings_of(demo)
-            sources = {"kjv": _read_json(KJV_FILE).get("verses", {})}
+            sources = {"bsb": _read_json(BSB_FILE).get("verses", {}), "kjv": _read_json(KJV_FILE).get("verses", {})}
             as_is = {}
             for code, path in files.items():
                 data = _read_json(path)
@@ -358,7 +365,7 @@ def current(demo: bool) -> Bible:
                     as_is[code] = data.get("verses", {})
                 elif data.get("verses"):
                     sources[code] = data["verses"]
-            _state["bible"] = Bible(str(cfg.get("translation") or "esv"), sources, as_is, str(cfg.get("nasb_edition") or "2020"))
+            _state["bible"] = Bible(str(cfg.get("translation") or DEFAULT), sources, as_is, str(cfg.get("nasb_edition") or "2020"))
             _state["key"] = key
         return _state["bible"]
 
@@ -371,12 +378,10 @@ def status(demo: bool) -> list[dict]:
     for code, t in TRANSLATIONS.items():
         data = _read_json(files[code]) if code in files else {}
         n = len(data.get("verses", {}))
-        if code == "esv":
+        if code == "bsb":
             state, label = "built-in", "Built in (in the Faith pack)"
         elif code == "kjv":
             state, label = "built-in", "Built in"
-        elif code == "bsb":
-            state, label = ("downloaded", f"Downloaded ({n} verses)") if n else ("download", "Not downloaded yet")
         else:
             key_set = bool((_cfg.read_store(demo).get("secrets") or {}).get("apibible_key"))
             if n:
@@ -390,7 +395,7 @@ def status(demo: bool) -> list[dict]:
     return out
 
 
-# ---------------- getting the BSB ----------------
+# ---------------- the official plain-text files (scripts/bible/make-quotes.py) ----------------
 
 LINE_RE = re.compile(r"^((?:[123] )?[A-Z][A-Za-z ]+?) (\d+):(\d+)\t(.+)$")
 
@@ -431,29 +436,6 @@ def _now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
 
-def download_bsb(demo: bool, extra: Optional[list] = None) -> int:
-    """Get the official BSB text file, keep only the verses the pictures use, save them. Returns how many.
-    Demo mode reads the small sample in app/bible_data/ instead, so it works with no network."""
-    want = wanted_verses(extra)
-    if demo:
-        text, source = BSB_SAMPLE.read_text(encoding="utf-8"), "sample (demo mode)"
-    else:
-        import httpx
-        buf = bytearray()
-        with httpx.stream("GET", BSB_URL, timeout=90, follow_redirects=True) as r:
-            r.raise_for_status()
-            for chunk in r.iter_bytes():
-                buf += chunk
-                if len(buf) > MAX_DOWNLOAD:
-                    raise ValueError("That download is bigger than the BSB file should be.")
-        text, source = buf.decode("utf-8-sig", errors="replace"), BSB_URL
-    verses = parse_plain(text, want)
-    if not verses:
-        raise ValueError("That file didn't have any of the verses the pictures use.")
-    _save_source(demo, "bsb", {"code": "bsb", "source": source, "when": _now(), "verses": verses})
-    return len(verses)
-
-
 def remove(demo: bool, code: str) -> None:
     p = _files(demo).get(code)
     if p and p.exists():
@@ -491,7 +473,7 @@ def import_text(demo: bool, code: str, raw: bytes) -> int:
 
 
 def template() -> dict:
-    """The references to fill in for your own text, each with the shortened quote the picture uses (ESV wording)."""
+    """The references to fill in for your own text, each with the shortened quote the picture uses (BSB wording)."""
     out = {}
     for q in quotes():
         out.setdefault(q["ref"], q["text"])
@@ -500,7 +482,7 @@ def template() -> dict:
 
 def fetch_apibible(demo: bool, key: str, bible_id: str, code: str = "nasb", extra: Optional[list] = None) -> int:
     """Fetch the verses the pictures use from API.Bible with the family's own key and Bible ID (their plan must
-    include the translation). Saves them like a download. Not in demo mode."""
+    include the translation). Saves them like an added file. Not in demo mode."""
     if demo:
         raise ValueError("Fetching with a key is off in demo mode.")
     if not key or not re.match(r"^[A-Za-z0-9_-]{6,80}$", bible_id or ""):

@@ -26,7 +26,7 @@
     toast.t = setTimeout(function () { el.style.display = 'none'; }, bad ? 6000 : 2500);
   }
 
-  var STATE_PILL = { 'built-in': 'Built in', downloaded: 'Downloaded', download: 'Not downloaded', yours: 'Added', key: 'Needs fetching', 'needs-text': 'Needs your text' };
+  var STATE_PILL = { 'built-in': 'Built in', yours: 'Added', key: 'Needs fetching', 'needs-text': 'Needs your text' };
 
   function links(t) {
     return t.links.length ? '<p class="bt-links">' + t.links.map(function (l) {
@@ -36,13 +36,6 @@
   function actions(t) {
     var busy = BUSY === t.code;
     var spin = '<span class="spin" aria-hidden="true"></span> ';
-    if (t.code === 'bsb') {
-      return '<div class="bt-acts">' + (t.state === 'downloaded'
-        ? '<button type="button" class="btn quiet" data-bt="dl-bsb"' + (busy ? ' disabled' : '') + '>' + (busy ? spin + 'Getting it…' : 'Download again') + '</button>' +
-          '<button type="button" class="btn danger" data-bt="rm" data-code="bsb">Remove</button>'
-        : '<button type="button" class="btn line" data-bt="dl-bsb"' + (busy ? ' disabled' : '') + '>' + (busy ? spin + 'Getting it…' : 'Download BSB') + '</button>') +
-        '<span class="bt-small">' + (t.when ? 'Last downloaded ' + esc(t.when) + '. ' : '') + (B.demo ? 'Demo mode uses a small sample instead of the real file.' : 'About 4 MB; only the verses the pictures use are kept.') + '</span></div>';
-    }
     if (t.code === 'nasb') {
       var ab = B.apibible;
       return '<div class="bt-acts">' +
@@ -63,12 +56,12 @@
     return '';
   }
   function row(t) {
-    var usable = t.state === 'built-in' || t.state === 'downloaded' || t.state === 'yours';
+    var usable = t.state === 'built-in' || t.state === 'yours';
     return '<div class="bt-tr' + (t.chosen ? ' on' : '') + '">' +
       '<label class="bt-pick"><input type="radio" name="bt-pick" value="' + t.code + '"' + (t.chosen ? ' checked' : '') + '>' +
       '<span><b>' + esc(t.name) + '</b> <span class="bt-abbr">' + esc(t.abbr) + '</span></span>' +
       '<span class="bt-pill bt-' + esc(t.state) + '">' + esc(STATE_PILL[t.state] || t.state) + '</span></label>' +
-      '<p class="bt-state">' + esc(t.label) + (t.chosen && !usable ? '. Until then the frame shows the KJV.' : '') + '</p>' +
+      '<p class="bt-state">' + esc(t.label) + (t.chosen && !usable ? '. Until then the frame shows the BSB.' : '') + '</p>' +
       '<p class="bt-notice">' + esc(t.notice) + '</p>' +
       '<p class="bt-note">' + esc(t.note) + '</p>' + links(t) + actions(t) + '</div>';
   }
@@ -89,8 +82,8 @@
     if (!B.has_verses) return '';
     return '<section class="card" id="bible"><h2>Bible translation</h2>' +
       '<p class="help">The verses on the Sunday pictures, church days, Thanksgiving and the bedtime clock use the translation you pick. ' +
-      'If a verse isn’t on hand in it, the frame uses the <b>KJV</b>, then the text in the Faith pack. Shortened verses are shortened the same way in every translation, so the pictures still fit. ' +
-      '<b>Which translation the public release uses is still an open question</b>; the ESV stays the default for now.</p>' +
+      'The <b>BSB</b> is the default and is built in, like the KJV. If a verse isn’t on hand in the one you pick, the frame uses the BSB. ' +
+      'Shortened verses are shortened the same way in every translation, so the pictures still fit.</p>' +
       '<div class="bt-list">' + B.translations.map(row).join('') + '</div>' + preview() + '</section>';
   }
   function repaint() {
@@ -129,10 +122,9 @@
         return;
       }
       b.onclick = function () {
-        if (k === 'dl-bsb') { BUSY = 'bsb'; repaint(); act(api('POST', 'api/admin/bible/bsb/download'), function (r) { return 'Saved ' + r.verses + ' BSB verses.'; }); }
         if (k === 'rm') {
           var code = b.getAttribute('data-code');
-          if (!window.confirm('Remove the ' + code.toUpperCase() + ' text from this server? The frame falls back to the KJV. You can get it again any time.')) return;
+          if (!window.confirm('Remove the ' + code.toUpperCase() + ' text from this server? The frame falls back to the BSB. You can add it again any time.')) return;
           act(api('DELETE', 'api/admin/bible/' + code), 'Removed');
         }
         if (k === 'edition') act(api('PUT', 'api/admin/bible', { nasb_edition: b.getAttribute('data-ed') }), 'Saved');
