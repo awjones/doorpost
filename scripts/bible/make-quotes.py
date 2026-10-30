@@ -6,14 +6,15 @@ KJV.txt: https://openbible.com/textfiles/kjv.txt (King James Bible, Pure Cambrid
 BSB.txt: https://bereanbible.com/bsb.txt         (Berean Standard Bible, official file, public domain)
 
 Writes:
-  app/bible_data/quotes.json     every quote in the Faith pack: reference, the verses it covers, the ESV text the
+  app/bible_data/quotes.json     every quote in the Faith pack: reference, the verses it covers, the BSB text the
                                  pack ships, and per translation which words of the full verse the quote keeps
+  app/bible_data/bsb.json        the BSB text of exactly those verses (built in)
   app/bible_data/kjv.json        the KJV text of exactly those verses (built in)
-  app/bible_data/bsb-sample.txt  a small cut of the BSB file for demo mode and the tests (not the whole file)
 
-The word ranges are found by matching the ESV quote against each translation's full verse
-(app/bible.py align), then fixed by hand in scripts/bible/overrides.json where the match is off.
---review prints every quote in all three translations to check by eye.
+Each pack quote must be an exact excerpt of the BSB verse (app/bible.py exact_keep). The KJV word ranges are
+found by matching the quote against the KJV verse (app/bible.py align), then fixed by hand in
+scripts/bible/overrides.json where the match is off.
+--review prints every quote in both translations to check by eye.
 """
 import json
 import re
@@ -30,14 +31,8 @@ OVERRIDES = HERE / "overrides.json"
 KJV_SOURCE = ("King James Version (1769 Oxford text), from https://openbible.com/textfiles/kjv.txt "
               "(Pure Cambridge Edition, text courtesy of BibleProtector.com). Public domain in the United States. "
               "Square brackets (the printed italics) removed.")
-# Verses the demo's BSB sample carries: the church year, Thanksgiving, the bedtime clock, and the Sundays
-# around the demo dates (October to December 2026).
-SAMPLE_REFS = ["Psalm 4:8", "Psalm 121:3", "Lamentations 3:22", "Lamentations 3:23", "Matthew 11:28", "Psalm 118:24",
-               "1 Peter 5:7", "Numbers 6:24", "Numbers 6:25", "Mark 11:9", "Matthew 28:6", "Acts 1:9", "Acts 2:4",
-               "Romans 1:17", "John 1:5", "Isaiah 9:6", "Psalm 107:1", "Romans 6:4", "2 John 1:4", "Jude 1:3",
-               "Exodus 20:15", "John 3:8", "1 Corinthians 11:26", "3 John 1:4", "1 Peter 2:24", "Exodus 20:16",
-               "Isaiah 6:3", "John 11:25", "Jude 1:24", "Exodus 20:17", "2 Corinthians 13:14", "Revelation 20:12",
-               "Revelation 21:5"]
+BSB_SOURCE = ("Berean Standard Bible, from https://bereanbible.com/bsb.txt (the official plain-text file). "
+              "Public domain since April 30, 2023 (https://berean.bible/terms.htm).")
 
 
 def read(path):
@@ -79,12 +74,14 @@ def main(args):
         seen.add(key)
         verses = bible.parse_ref(ref)
         assert verses, ref
-        short = {}
-        for code, src in (("kjv", kjv_all), ("bsb", bsb_all)):
-            full = " ".join(src[v] for v in verses)
-            fix = over.get(f"{key[0]}|{text}", {}).get(code)
-            keep = phrase_ranges(fix, full) if fix else bible.align(text, full)
-            short[code] = {"words": len(full.split()), "keep": keep}
+        full = " ".join(bsb_all[v] for v in verses)
+        keep = bible.exact_keep(text, full)
+        if not keep:
+            raise SystemExit(f"{ref}: {text!r} is not word for word from the BSB: {full!r}")
+        short = {"bsb": {"words": len(full.split()), "keep": keep}}
+        full = " ".join(kjv_all[v] for v in verses)
+        fix = over.get(f"{key[0]}|{text}", {}).get("kjv")
+        short["kjv"] = {"words": len(full.split()), "keep": phrase_ranges(fix, full) if fix else bible.align(text, full)}
         quotes.append({"ref": key[0], "text": text, "verses": verses, "short": short})
     (OUT / "quotes.json").write_text(json.dumps({"about": "Every Bible quote in the Faith pack. 'short': which words of the "
                                                  "full verse (split on spaces) each translation's quote keeps. Made by "
@@ -93,26 +90,18 @@ def main(args):
     want = []
     for q in quotes:
         want += [v for v in q["verses"] if v not in want]
-    (OUT / "kjv.json").write_text(json.dumps({"code": "kjv", "source": KJV_SOURCE, "verses": {v: kjv_all[v] for v in want}},
-                                             indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
-    sample = ["The Holy Bible, Berean Standard Bible, BSB is produced in cooperation with Bible Hub, Discovery Bible, unfoldingWord, "
-              "Bible Aquifer, OpenBible.com, and the Berean Bible Translation Committee. \t",
-              "This text of God's Word has been dedicated to the public domain. Free resources and databases are available at BereanBible.com.\t",
-              "Verse\tBerean Standard Bible",
-              "(A small sample of https://bereanbible.com/bsb.txt for Doorpost demo mode and tests.)\t"]
-    sample += [f"{v}\t{bsb_all[v]}" for v in SAMPLE_REFS]
-    (OUT / "bsb-sample.txt").write_text("\n".join(sample) + "\n", encoding="utf-8")
+    for name, source, src in (("bsb", BSB_SOURCE, bsb_all), ("kjv", KJV_SOURCE, kjv_all)):
+        (OUT / f"{name}.json").write_text(json.dumps({"code": name, "source": source, "verses": {v: src[v] for v in want}},
+                                                    indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     bible._quotes_cache.clear()
     print(f"{len(quotes)} quotes, {len(want)} verses")
     if "--review" in args:
         b = bible.Bible("kjv", {"kjv": kjv_all, "bsb": bsb_all})
         for q in quotes:
-            p = {**q, "tr": "esv"}
-            print(f"\n{q['ref']}\n  ESV {q['text']}")
-            for code in ("kjv", "bsb"):
-                b.choice = code
-                t, cite, _c = b.show(p)
-                print(f"  {code.upper()} {t}   [{cite}]  {q['short'][code]['keep']}/{q['short'][code]['words']}")
+            p = {**q, "tr": "bsb"}
+            print(f"\n{q['ref']}\n  BSB {q['text']}")
+            t, cite, _c = b.show(p)
+            print(f"  KJV {t}   [{cite}]  {q['short']['kjv']['keep']}/{q['short']['kjv']['words']}")
     return 0
 
 

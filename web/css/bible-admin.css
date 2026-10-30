@@ -7,8 +7,8 @@
 #bible .bt-pick input { width: 20px; height: 20px; accent-color: var(--a-accent, #16324F); margin: 0; }
 #bible .bt-abbr { color: var(--soft); font-weight: 600; font-size: 14px; }
 #bible .bt-pill { flex: none; margin-left: auto; font-size: 12px; font-weight: 700; border-radius: 999px; padding: 3px 10px; background: var(--tile); color: var(--soft); border: 1px solid var(--line); }
-#bible .bt-pill.bt-built-in, #bible .bt-pill.bt-downloaded, #bible .bt-pill.bt-yours { background: var(--green-bg); color: var(--green); border-color: transparent; }
-#bible .bt-pill.bt-download, #bible .bt-pill.bt-key, #bible .bt-pill.bt-needs-text { background: var(--amber-bg); color: var(--amber); border-color: transparent; }
+#bible .bt-pill.bt-built-in, #bible .bt-pill.bt-yours { background: var(--green-bg); color: var(--green); border-color: transparent; }
+#bible .bt-pill.bt-key, #bible .bt-pill.bt-needs-text { background: var(--amber-bg); color: var(--amber); border-color: transparent; }
 #bible .bt-state { font-size: 14px; font-weight: 600; color: var(--ink); margin: 0; }
 #bible .bt-notice { font-size: 13px; line-height: 1.45; color: var(--ink); margin: 0; padding: 8px 10px; background: var(--tile); border-left: 3px solid var(--a-rule, var(--gilt)); border-radius: 0 8px 8px 0; }
 #bible .bt-note, #bible .bt-small { font-size: 13px; line-height: 1.45; color: var(--soft); margin: 0; }

@@ -44,8 +44,8 @@ You can still pick and choose after installing it. Settings > Special days
 has a switch for the Sunday pictures and a list of church days to check or
 uncheck.
 
-The verses can show in the ESV (the default), the KJV, the BSB or your own
-NASB text. Pick one under **Bible translation** on the same page. See
+The verses can show in the BSB (the default), the KJV or your own NASB
+text. Pick one under **Bible translation** on the same page. See
 [bible-translations.md](bible-translations.md).
 
 ## Install a pack
@@ -241,7 +241,6 @@ The art packs are shared under the
 [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/)
 license (CC BY 4.0), separate from the code's MIT license (see `LICENSE`). You can
 reuse and change the pictures, including in your own packs, as long as you give credit.
-The Bible verses in the Faith pack are short quotations from the ESV, which
-is not under that license: it is all rights reserved, and permission for a
-public release is still pending. The translation choice is an open decision.
-See [bible-translations.md](bible-translations.md).
+The Bible verses in the Faith pack are short quotations from the Berean
+Standard Bible (BSB), which is in the public domain, so they can travel with
+the pictures. See [bible-translations.md](bible-translations.md).

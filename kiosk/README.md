@@ -8,6 +8,14 @@ copied at `fbe9a30`) with three changes:
 - The main activity is also a **Home** app, so the frame opens it after a power cut.
 - The label is "Doorpost".
 
+## License
+
+This folder is not covered by Doorpost's MIT license. It is Wes Bos's code,
+included here as he posted it publicly, so it's easy to build alongside the
+rest of Doorpost. His repo has no license file, so all rights stay with him.
+If you want to reuse this code beyond building your own frame, go to
+[his repo](https://github.com/wesbos/photo-frame-dashboard).
+
 Hold two fingers still for 1.5 s for the menu (open launcher, Android settings, reload).
 
 Build (JDK 17 + Android build-tools 34 + platform 34):

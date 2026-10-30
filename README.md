@@ -17,8 +17,9 @@ This project started from Wes Bos's
 his video about it, [https://youtu.be/ZLycoUMltNI](https://youtu.be/ZLycoUMltNI).
 His repo covers the hardware side: which frames work, how to get ADB access,
 how to remove the vendor's app, and the Android kiosk app. The `kiosk/` folder
-here is a lightly modified copy of his kiosk app (see `kiosk/README.md`).
-Doorpost replaces the dashboard part with its own server and screens.
+here is a lightly modified copy of his kiosk app (see `kiosk/README.md`),
+included as he posted it so it's easy to build. It is not covered by
+Doorpost's license (see [License](#license)). Doorpost replaces the dashboard part with its own server and screens.
 
 ## What it shows
 
@@ -236,7 +237,11 @@ in Settings > Art packs, and none of them show.
 
 ## License
 
-The code is under the MIT license (see `LICENSE`). The art packs are under
+The code is under the MIT license (see `LICENSE`), except the `kiosk/`
+folder. That folder is Wes Bos's code from
+[photo-frame-dashboard](https://github.com/wesbos/photo-frame-dashboard),
+included as he posted it so it's easy to build. It isn't covered by
+Doorpost's license, and all rights to it stay with him. The art packs are under
 Creative Commons Attribution 4.0 (CC BY 4.0); see `docs/art-packs.md`.
 Weather outside the U.S. comes from Open-Meteo.com, whose data is also
 CC BY 4.0 and free for non-commercial use (see `docs/weather.md`).

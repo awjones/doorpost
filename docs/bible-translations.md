@@ -4,9 +4,9 @@ The Faith pack shows Bible verses in four places: the Sunday pictures (and
 their pop-ups), the church-year days, Thanksgiving, and the bedtime clock.
 You can pick which translation those verses use.
 
-**This is an open decision.** Which translation the public release should
-use has not been settled. The ESV stays the default for now, while the
-question of permission from Crossway is worked out (see below).
+The Faith pack's verses are the **Berean Standard Bible (BSB)**, which is
+in the public domain. It is the default, and it is built in, so there is
+nothing to download or set up.
 
 ## Pick a translation
 
@@ -18,9 +18,8 @@ it needs:
 
 | Translation | Status | What it needs |
 |---|---|---|
-| ESV (English Standard Version) | Built in | Nothing. It is the text inside the Faith pack. The default. |
-| KJV (King James Version) | Built in | Nothing. It is also the fallback. |
-| BSB (Berean Standard Bible) | Download | Press **Download BSB** once. |
+| BSB (Berean Standard Bible) | Built in | Nothing. It is the text inside the Faith pack. The default. |
+| KJV (King James Version) | Built in | Nothing. |
 | NASB (New American Standard Bible) | Your text | Add your own licensed text, or fetch it with your own API.Bible key. |
 
 The card also shows Psalm 118:24 in each translation, so you can compare.
@@ -30,9 +29,8 @@ Changes save right away. The frame picks them up within a minute.
 ### When a verse isn't there
 
 If a verse is not on hand in the translation you picked, the frame uses the
-**KJV**, then the text inside the pack. A verse never disappears. Every
-verse on the frame ends with the translation it came from, for example
-"Psalm 23:1 (KJV)".
+**BSB**, then the KJV. A verse never disappears. Every verse on the frame
+ends with the translation it came from, for example "Psalm 23:1 (KJV)".
 
 ### Shortened verses
 
@@ -42,48 +40,29 @@ Faith pack stores exactly which words of the full verse to keep. For any
 other text, Doorpost keeps the words that best match the pack's own
 shortened quote.
 
-The pack's ESV quotes are never reworded. Each one is the published ESV
+The pack's quotes are never reworded. Each one is the published BSB
 wording, cut to a short piece of the verse; where words in the middle are
 left out, the gap is marked with "...". Every quote shows its reference.
 
 ## The licensing situation, in plain words
 
-### ESV
+### BSB
 
-The ESV belongs to Crossway. Its text is all rights reserved. Crossway lets
-people quote up to 500 verses without asking, with this notice:
+The Berean Standard Bible has been in the public domain since April 30,
+2023 ([berean.bible/terms.htm](https://berean.bible/terms.htm)). That is
+why it can sit inside the Faith pack, which is shared under Creative
+Commons (CC BY 4.0). No notice is required, but credit is welcome, so the
+card shows:
 
-> Scripture quotations are from the ESV® Bible (The Holy Bible, English
-> Standard Version®), © 2001 by Crossway, a publishing ministry of Good News
-> Publishers. ESV Text Edition: 2025. The ESV text may not be quoted in any
-> publication made available to the public by a Creative Commons license.
-> The ESV may not be translated in whole or in part into any other language.
-> Used by permission. All rights reserved.
+> Bible quotations from the Berean Standard Bible (BSB), public domain.
 
-The art packs are shared under Creative Commons (CC BY 4.0). The notice
-itself rules that out for ESV text. Crossway also lists "digital artwork"
-as something that needs written permission. So a public release with the
-ESV inside the Faith pack needs written permission from Crossway first.
+Doorpost includes the BSB text of exactly the verses the pictures use, in
+`app/bible_data/bsb.json`, from the official plain-text file at
+[bereanbible.com/bsb.txt](https://bereanbible.com/bsb.txt).
 
-How to ask:
-
-1. Fill in Crossway's digital permission form:
-   [crossway.org/permissions/digital](https://www.crossway.org/permissions/digital/).
-2. Describe the project as a free, open-source family picture frame. About
-   174 verses, shown one at a time beside original drawings. Not sold.
-3. Say that some verses are shortened to fit the pictures (the form asks
-   whether you plan to edit the text).
-4. Expect that Crossway may ask for the verse text to be kept apart from
-   the Creative Commons license, with its own "all rights reserved" notice.
-
-More about the ESV: [esv.org](https://www.esv.org).
-
-A likely long-term path is the **ESV API** at
-[api.esv.org](https://api.esv.org/). It is free for non-commercial use.
-Each family would get their own key, and the frame would fetch the verses
-from Crossway at run time instead of shipping them inside the pack. This is
-not built yet. It would work like the NASB key below, and the stored
-shortening would be worked out from the pack's ESV quotes.
+The BSB asks that text which differs from the official text not use the
+Berean name. So a verse shown whole says "(BSB)", and a shortened verse
+says "(adapted)" instead.
 
 ### KJV
 
@@ -96,28 +75,6 @@ at [openbible.com/textfiles/kjv.txt](https://openbible.com/textfiles/kjv.txt)
 italics were removed. A sample of verses was checked against a second
 source (bible-api.com) and matched word for word, apart from psalm titles,
 which this file counts as part of verse 1.
-
-### BSB
-
-The Berean Standard Bible has been in the public domain since April 30,
-2023 ([berean.bible/terms.htm](https://berean.bible/terms.htm)). No notice
-is required, but credit is welcome, so the card shows:
-
-> Bible quotations from the Berean Standard Bible (BSB), public domain.
-
-**Download BSB** gets the official plain-text file from
-[bereanbible.com/bsb.txt](https://bereanbible.com/bsb.txt) (about 4 MB),
-keeps only the verses the pictures use, and saves them in the data folder
-(`bible/bsb.json`). **Remove** deletes that file; you can download it
-again any time.
-
-The BSB asks that text which differs from the official text not use the
-Berean name. So a verse shown whole says "(BSB)", and a shortened verse
-says "(adapted)" instead.
-
-Demo mode does not go online. It uses a small sample of the BSB file
-(`app/bible_data/bsb-sample.txt`), which covers the bedtime clock, the
-church year, Thanksgiving and the Sundays from September to December 2026.
 
 ### NASB
 
@@ -158,17 +115,24 @@ Lockman does not offer its own API. There are two ways to add the NASB:
    real key yet. Check API.Bible's own terms (they may ask you to report
    views).
 
+### Why not the ESV?
+
+Doorpost doesn't include the ESV. Crossway's terms don't allow ESV text in a
+Creative Commons release, and Crossway licenses apps only to organizations,
+not to individual developers.
+
 ## For people working on the code
 
 - `app/bible.py` holds the translations, the notices, the fallback order,
-  the shortening, the BSB download, your own text and the API.Bible fetch.
+  the shortening, your own text and the API.Bible fetch.
 - `app/bible_api.py` is the Settings API. `web/js/bible-admin.js` and
   `web/css/bible-admin.css` draw the card.
 - `app/bible_data/quotes.json` lists every quote in the Faith pack with its
-  reference, the verses it covers, the ESV text and, for the KJV and BSB,
+  reference, the verses it covers, the BSB text and, for the BSB and KJV,
   which words of the full verse to keep (word positions, split on spaces).
+  `bsb.json` and `kjv.json` hold the full text of those verses.
 - The Faith pack (version 1.1.0 and later) stores a `passage` next to each
-  verse: `ref`, `verses`, `text` (the ESV text, unchanged), `tr` and
+  verse: `ref`, `verses`, `text` (the BSB text, unchanged), `tr` and
   `short`. Older packs without it keep showing their verse as it was.
 - To remake the data files, download the two official text files and run:
 
@@ -177,11 +141,12 @@ Lockman does not offer its own API. There are two ways to add the NASB:
   python3 scripts/build-pack.py --all
   ```
 
-  `--review` prints every quote in all three translations to check by eye.
-  Fix a poor match in `scripts/bible/overrides.json` with the exact words
-  to keep, using `...` for a gap.
-- `tests/test_esv_quotes.py` checks every ESV quote in the pack against the
-  published ESV text of its verses (`tests/fixtures/esv_verses.json`, checked
-  on Bible Gateway). A quote must be one exact piece of the verse, or exact
-  pieces in order joined by `...`; only a capital first letter and the end
-  punctuation may differ. A new verse needs its ESV text added there first.
+  Every quote in the drawing code must be an exact piece of its BSB verse,
+  or the script stops and says which one. `--review` prints every quote in
+  the BSB and the KJV to check by eye. Fix a poor KJV match in
+  `scripts/bible/overrides.json` with the exact words to keep, using `...`
+  for a gap.
+- `tests/test_bsb_quotes.py` checks every quote in the pack against the BSB
+  text of its verses (`app/bible_data/bsb.json`). A quote must be one exact
+  piece of the verse, or exact pieces in order joined by `...`; only a
+  capital first letter, quote marks and the end punctuation may differ.
