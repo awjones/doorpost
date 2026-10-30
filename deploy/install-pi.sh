@@ -32,12 +32,14 @@ IP="$(hostname -I | awk '{print $1}')"
 cat <<EOF
 
 Done. Doorpost is running at  http://$IP:8090/
-Parent phone page:                http://$IP:8090/parent
+Settings:                     http://$IP:8090/admin
+Parent phone page:            http://$IP:8090/parent
 
-Still to do (see README "Going live"):
-  1. Edit config/frame.yaml (location) and config/chores.yaml
-  2. Put calendar addresses + screen time login in .env
-  3. Set the parent PIN:   .venv/bin/python -m app.tools set-pin
-  4. Check every source:   .venv/bin/python -m app.tools check
-  5. sudo systemctl restart doorpost
+Next, from a laptop on your home Wi-Fi (see docs/setup-guide.md):
+  1. Open Settings and add your location, family, calendars, chores
+     and a PIN for each parent.
+  2. Give this Pi a fixed address in your router ($IP now).
+  3. Check calendars and weather:  .venv/bin/python -m app.tools check
+Optional extras (Home Assistant token, weather contact email) go in .env;
+restart after editing it:  sudo systemctl restart doorpost
 EOF
