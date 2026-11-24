@@ -221,3 +221,80 @@ def test_how_far_from_home():
     assert 1530 <= v["far"]["miles"] <= 1570 and v["far"]["miles"] % 10 == 0
     assert v["far"]["xy"][1] < 0   # north of the Caribbean map, on north.svg
     assert trip.view(CFG, track, now)["far"] is None   # no weather location: no button
+
+
+def test_an_old_report_shown_again_keeps_its_time():
+    t = {"fixes": []}
+    trip._keep(t, {"lat": 22.68, "lon": -74.48, "sog": None, "at": "2027-11-23T15:11:00+00:00", "src": "cruisemapper"})
+    trip._keep(t, {"lat": 22.68, "lon": -74.48, "sog": None, "at": "2027-11-23T15:21:00+00:00", "src": "cruisemapper", "rough": True})
+    assert [f["at"] for f in t["fixes"]] == ["2027-11-23T15:11:00+00:00"]   # "3 hours ago" again: not a new hearing
+
+
+def test_a_late_position_goes_in_its_place():
+    t = {"fixes": []}
+    trip._keep(t, {"lat": 22.0, "lon": -74.0, "sog": None, "at": "2027-11-23T15:00:00+00:00", "src": "cruisemapper"})
+    trip._keep(t, {"lat": 21.0, "lon": -74.2, "sog": None, "at": "2027-11-23T18:00:00+00:00", "src": "phone"})
+    trip._keep(t, {"lat": 21.5, "lon": -74.1, "sog": None, "at": "2027-11-23T16:30:00+00:00", "src": "phone"})
+    assert [f["src"] + f["at"][11:16] for f in t["fixes"]] == ["cruisemapper15:00", "phone16:30", "phone18:00"]
+
+
+def test_add_fix_checks_what_it_gets(tmp_path, monkeypatch):
+    monkeypatch.setattr(trip, "DATA_DIR", tmp_path)
+    with pytest.raises(ValueError):
+        trip.add_fix(True, "north", "-74")
+    with pytest.raises(ValueError):
+        trip.add_fix(True, 22.5, -74.3, "2020-01-01T00:00:00+00:00")
+    with pytest.raises(ValueError):
+        trip.add_fix(True, 22.5, -74.3, "2027-11-23T12:00")   # no time zone
+    f = trip.add_fix(True, "22.51234567", "-74.3", None, "hand")
+    assert f["src"] == "hand" and f["lat"] == 22.51235
+    assert trip.read_track(True)["fixes"][-1]["at"] == f["at"]
+
+
+def test_the_guess_sails_on_from_where_she_was_heard():
+    now = at("2027-11-23T20:00")   # heard 6 hours ago between Miami and Montego Bay (arrives tomorrow 10 AM)
+    track = {"fixes": [{**fix(21.3, -73.8, now - timedelta(hours=6)), "src": "cruisemapper"}]}
+    v = trip.view(CFG, track, now)
+    assert v["ship"]["stale"] and v["ship"]["src"] == "cruisemapper"
+    g = v["guess"]
+    assert g and 6 <= g["knots"] <= 22
+    heard, port = v["ship"]["xy"], v["next"]["xy"]
+    assert g["xy"][1] > heard[1] and g["xy"][1] < port[1]   # further south than where she was heard, not there yet
+    fresh = {"fixes": [{**fix(21.3, -73.8, now - timedelta(minutes=20)), "src": "phone"}]}
+    assert trip.view(CFG, fresh, now)["guess"] is None   # heard lately: no guess
+
+
+class _FakeHA:
+    def __init__(self, state):
+        self.state, self.asked = state, []
+
+    def get(self, url, headers=None):
+        self.asked.append(url)
+        state = self.state
+
+        class R:
+            def raise_for_status(self):
+                pass
+
+            def json(self):
+                return state
+        return R()
+
+
+def test_the_phone_position_comes_from_home_assistant(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from datetime import timezone
+    monkeypatch.setattr(trip, "DATA_DIR", tmp_path)
+    settings = SimpleNamespace(ha_url="http://ha.test:8123", ha_token="t")
+    when = datetime.now(timezone.utc).replace(microsecond=0) - timedelta(minutes=4)
+    ha = _FakeHA({"state": "not_home", "last_updated": when.isoformat(),
+                  "attributes": {"latitude": 20.1, "longitude": -74.9, "gps_accuracy": 35}})
+    got = trip.read_phone(settings, "device_tracker.phone_on_board", True, http=ha)
+    assert got["src"] == "phone" and got["lat"] == 20.1
+    assert ha.asked == ["http://ha.test:8123/api/states/device_tracker.phone_on_board"]
+    assert trip.read_phone(settings, "device_tracker.phone_on_board", True, http=ha) is None   # nothing new
+    ha.state["attributes"]["gps_accuracy"] = 5000
+    ha.state["last_updated"] = datetime.now(timezone.utc).isoformat()
+    assert trip.read_phone(settings, "device_tracker.phone_on_board", True, http=ha) is None   # too rough to keep
+    assert trip.read_phone(settings, "light.kitchen", True, http=ha) is None
+    assert len(trip.read_track(True)["fixes"]) == 1

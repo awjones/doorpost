@@ -751,6 +751,16 @@
         '<g class="ttag"><rect x="' + (-rw / 2) + '" y="' + (-rr - 32 * u) + '" width="' + rw + '" height="' + (24 * u) + '" rx="' + (12 * u) + '"/>' +
         '<text class="trclock" x="0" y="' + (-rr - 15.5 * u) + '" font-size="' + (fs * 1.08) + '" text-anchor="middle"></text></g></g></g>';
     }
+    if (t.guess && t.ship) {   // where it probably is by now (sailing on from where it was last heard), drawn faint
+      var gp = t.guess.xy, gr = (opt.mini ? 8 : 10) * u;
+      out += '<g class="tguess">' + tripMarker({ ship: { estimated: true } }, gp, gr, u);
+      if (!opt.mini) {
+        var gt = 'probably about here', gw = gt.length * fs * 0.56 + 16 * u;
+        out += '<g class="ttag"><rect x="' + (gp[0] - gw / 2) + '" y="' + (gp[1] + gr + 8 * u) + '" width="' + gw + '" height="' + (22 * u) + '" rx="' + (11 * u) + '"/>' +
+          '<text x="' + gp[0] + '" y="' + (gp[1] + gr + 23.5 * u) + '" font-size="' + fs + '" text-anchor="middle">' + gt + '</text></g>';
+      }
+      out += '</g>';
+    }
     if (t.ship) {
       var p = t.ship.xy, r = (opt.mini ? 8 : 10) * u;
       out += '<g class="tme"><circle class="tpulse" cx="' + p[0] + '" cy="' + p[1] + '" r="' + (r * 2.6) + '"/>' + tripMarker(t, p, r, u);
@@ -786,7 +796,7 @@
     });
     var t0 = 0, t1 = acc, days = (t1 - t0) / 864e5;
     var dur = Math.min(20000, Math.max(6000, days * 2500)), line = g.querySelector('polyline'), mark = g.querySelector('.trmark'), clk = g.querySelector('.trclock');
-    var hide = svg.querySelectorAll('.tme, .tahead, svg > polyline.tsailed'), start = null, i = 0;
+    var hide = svg.querySelectorAll('.tme, .tguess, .tahead, svg > polyline.tsailed'), start = null, i = 0;
     S.replay = true;
     Array.prototype.forEach.call(hide, function (el) { el.style.display = 'none'; });
     g.style.display = '';
@@ -905,9 +915,9 @@
   }
   function tripHeard(t) {
     if (!t.ship) return '';
-    if (t.ship.stale) return 'Last heard ' + tripTime(t.ship.at) + ' (' + t.heard + ')';
+    if (t.ship.stale) return 'Last heard ' + tripTime(t.ship.at) + (t.ship.src === 'phone' ? ' · ' + t.traveler + '’s phone' : t.ship.src === 'hand' ? ' · by hand' : ' (' + t.heard + ')');
     if (t.ship.estimated) return 'Estimated from the itinerary' + (t.heard ? ' · last heard ' + t.heard : '');
-    return 'Ship’s position heard ' + t.heard;
+    return (t.ship.src === 'phone' ? t.traveler + '’s phone' : 'Ship’s position') + ' heard ' + t.heard + (t.ship.src === 'hand' ? ' (entered by hand)' : '');
   }
   function tripPanel() {
     var t = S.data.trip;

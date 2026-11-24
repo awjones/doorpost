@@ -793,6 +793,16 @@ from .email_api import admin as email_admin_router, public as email_public_route
 app.include_router(email_admin_router)
 from .trip import make_routers as trip_routers  # noqa: E402  (Settings > Cruise ship tracker)
 app.include_router(trip_routers(require_admin, svc))
+
+
+@app.post("/api/trip/fix", dependencies=[Depends(require_upload_token)])
+def post_trip_fix(body: dict, s: Services = Depends(svc)):
+    """A position from a phone on board (mac/trip-phone-relay.py passes on the ones texted home)."""
+    from . import trip
+    try:
+        return trip.add_fix(s.settings.demo, body.get("lat"), body.get("lon"), body.get("at"), "phone")
+    except ValueError as exc:
+        raise HTTPException(400, str(exc))
 app.include_router(email_public_router)
 from .bible_api import router as bible_router  # noqa: E402  (Settings > Special days > Bible translation)
 

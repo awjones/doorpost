@@ -108,6 +108,7 @@ DEFAULTS = {
     "ship": "",
     "mmsi": "",         # the ship's 9-digit AIS number (only the AISStream backup needs it)
     "page_url": "",     # the ship's CruiseMapper page, https://www.cruisemapper.com/ships/<Ship-Name>-<id>
+    "phone_entity": "",  # a Home Assistant tracker for a phone on board (device_tracker.* or person.*), read every few minutes
     "show_from": "",    # nothing shows until the trip's dates are set
     "show_until": "",
     "check_minutes": 10,
@@ -384,8 +385,11 @@ def parse_cruisemapper(html: str, now_utc: datetime) -> tuple[dict, str]:
         mins = n * {"minute": 1, "hour": 60, "day": 1440}[a.group(2).lower()]
     when = (now_utc - timedelta(minutes=mins)).replace(second=0, microsecond=0)
     d = _CM_DEST.search(text)
-    return ({"lat": round(lat, 5), "lon": round(lon, 5), "sog": None, "cog": None, "nav": None,
-             "at": when.isoformat(timespec="seconds"), "src": "cruisemapper"}, d.group(1).strip() if d else "")
+    fix = {"lat": round(lat, 5), "lon": round(lon, 5), "sog": None, "cog": None, "nav": None,
+           "at": when.isoformat(timespec="seconds"), "src": "cruisemapper"}
+    if mins >= 60:
+        fix["rough"] = True   # "3 hours ago": the time is only good to the hour (see _keep)
+    return fix, d.group(1).strip() if d else ""
 
 
 def fetch_cruisemapper(url: str) -> tuple[dict, str]:
@@ -403,10 +407,31 @@ def fetch_cruisemapper(url: str) -> tuple[dict, str]:
     return parse_cruisemapper(html, datetime.now(timezone.utc))
 
 
+_TRACK_LOCK = threading.Lock()   # the hourly check and positions sent from a phone both write the line
+
+
+def _same_report(fixes: list, fix: dict) -> bool:
+    """CruiseMapper showing an old report again while the ship is out of range. Its time, worked out from
+    "3 hours ago", drifts from check to check, so it's matched by the exact spot. Only for those rough
+    times: a docked ship heard minutes ago can sit at the very same spot, and that should move its time on."""
+    return bool(fix.get("rough")) and any(f["lat"] == fix["lat"] and f["lon"] == fix["lon"] and f.get("src") == fix.get("src") for f in fixes[-30:])
+
+
 def _keep(t: dict, fix: dict) -> None:
     """Add a position to the line. Same spot as last time: just move its time on. Speed from the last
-    position when the page doesn't give one."""
+    position when the page doesn't give one. One older than the newest (a phone's that came late, or the
+    ship's own report behind a phone's) goes in its place in time."""
     fixes = t.setdefault("fixes", [])
+    if _same_report(fixes, fix):
+        return
+    fix.pop("rough", None)
+    if fixes and fix["at"] < fixes[-1]["at"]:
+        i = len(fixes)
+        while i and fixes[i - 1]["at"] > fix["at"]:
+            i -= 1
+        fixes.insert(i, fix)
+        del fixes[:-TRACK_MAX]
+        return
     prev = fixes[-1] if fixes else None
     if prev and prev["at"] == fix["at"]:
         return
@@ -429,12 +454,7 @@ def check_now(demo: bool, wait_seconds: float = 215) -> dict:   # a docked ship 
     """Read the ship's CruiseMapper page (AISStream as the backup) and keep what it says. Returns the saved track."""
     store = read_store(demo)
     cfg = config(store)
-    t = read_track(demo)
-    if t.get("mmsi") != cfg["mmsi"]:   # a different ship: put the old line aside (never thrown away) and start fresh
-        if t.get("fixes") and t.get("mmsi"):
-            _track_path(demo).with_name(f"trip-track-{t['mmsi']}.json").write_text(json.dumps(t))
-        t = {"mmsi": cfg["mmsi"], "fixes": [], "destination": ""}
-    t["last_try"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    tried = datetime.now(timezone.utc).isoformat(timespec="seconds")
     problems, fix, dest = [], None, ""
     if cfg.get("page_url"):
         try:
@@ -454,15 +474,85 @@ def check_now(demo: bool, wait_seconds: float = 215) -> dict:   # a docked ship 
             log.warning("trip tracker: %s", exc)
     if fix is None and not problems:
         problems.append("Add the ship's CruiseMapper page first.")
-    t["last_error"] = None if fix else " ".join(problems)
-    t["last_source"] = fix.get("src") if fix else None
-    if dest:
-        t["destination"] = dest
-    if fix:
-        _keep(t, fix)
-    _write_track(demo, t)
+    with _TRACK_LOCK:   # read the line only now: a phone's position may have come in during the check
+        t = read_track(demo)
+        if t.get("mmsi") != cfg["mmsi"]:   # a different ship: put the old line aside (never thrown away) and start fresh
+            if t.get("fixes") and t.get("mmsi"):
+                _track_path(demo).with_name(f"trip-track-{t['mmsi']}.json").write_text(json.dumps(t))
+            t = {"mmsi": cfg["mmsi"], "fixes": [], "destination": ""}
+        t["last_try"] = tried
+        t["last_error"] = None if fix else " ".join(problems)
+        t["last_source"] = fix.get("src") if fix else None
+        if dest:
+            t["destination"] = dest
+        if fix:
+            _keep(t, fix)
+        _write_track(demo, t)
     log.info("trip check: done (%s)", "position heard" if not t.get("last_error") else t["last_error"])
     return t
+
+
+def add_fix(demo: bool, lat, lon, at=None, src: str = "phone") -> dict:
+    """A position from outside the hourly check: a phone on board ("phone"), or typed in Settings ("hand")."""
+    try:
+        lat, lon = float(lat), float(lon)
+    except (TypeError, ValueError):
+        raise ValueError("That isn't a latitude and longitude.")
+    if not (-90 <= lat <= 90 and -180 <= lon <= 180) or (lat == 0 and lon == 0):
+        raise ValueError("That isn't a latitude and longitude.")
+    now = datetime.now(timezone.utc)
+    if at in (None, ""):
+        when = now
+    else:
+        try:
+            when = datetime.fromisoformat(str(at).strip().replace("Z", "+00:00"))
+        except ValueError:
+            raise ValueError("The time should look like 2026-11-24T14:30:00-05:00.")
+        if when.tzinfo is None:
+            raise ValueError("The time needs its time zone (like -05:00).")
+    when = when.astimezone(timezone.utc)
+    if when > now + timedelta(minutes=10) or when < now - timedelta(days=21):
+        raise ValueError("That time is too far from now.")
+    fix = {"lat": round(lat, 5), "lon": round(lon, 5), "sog": None, "cog": None, "nav": None,
+           "at": when.isoformat(timespec="seconds"), "src": src if src in ("phone", "hand") else "phone"}
+    with _TRACK_LOCK:
+        t = read_track(demo)
+        _keep(t, fix)
+        _write_track(demo, t)
+    log.info("trip: position from %s", fix["src"])
+    return fix
+
+
+PHONE_ENTITY = re.compile(r"^(device_tracker|person)\.[a-z0-9_]{1,80}$")
+PHONE_MINUTES = 5          # how often to look at the phone's tracker in Home Assistant
+PHONE_ACCURACY_M = 1500    # a rougher fix than this (cell towers, Wi-Fi guesses) isn't kept
+
+
+def read_phone(settings, entity: str, demo: bool, http=None) -> Optional[dict]:
+    """The phone's latest GPS position from Home Assistant (the companion app, or the iCloud / Find My
+    integration), kept as a "phone" position when it's new. Returns the position kept, if any."""
+    if not settings.ha_url or not settings.ha_token or not PHONE_ENTITY.match(entity or ""):
+        return None
+    import httpx
+    client = http or httpx.Client(timeout=8)
+    r = client.get(f"{settings.ha_url.rstrip('/')}/api/states/{entity}", headers={"Authorization": f"Bearer {settings.ha_token}"})
+    r.raise_for_status()
+    st = r.json()
+    a = st.get("attributes") or {}
+    lat, lon, acc = a.get("latitude"), a.get("longitude"), a.get("gps_accuracy")
+    if lat is None or lon is None or (acc is not None and float(acc) > PHONE_ACCURACY_M):
+        return None
+    when = st.get("last_updated") or st.get("last_changed")
+    try:
+        when_dt = datetime.fromisoformat(str(when).replace("Z", "+00:00")).astimezone(timezone.utc)
+    except ValueError:
+        return None
+    t = read_track(demo)
+    if any(f.get("src") == "phone" and f["at"] >= when_dt.isoformat(timespec="seconds") for f in (t.get("fixes") or [])[-50:]):
+        return None   # nothing newer than what we have
+    if when_dt < datetime.now(timezone.utc) - timedelta(days=2):
+        return None   # an old position (the phone has been off the air): not news
+    return add_fix(demo, lat, lon, when_dt.isoformat(timespec="seconds"), "phone")
 
 
 def in_window(now: datetime) -> bool:
@@ -494,6 +584,7 @@ class Checker:
         self.last = 0.0
         self.started = 0.0
         self.next_at: Optional[datetime] = None
+        self.phone_at: Optional[datetime] = None   # when the phone's tracker was last looked at
 
     def busy(self) -> bool:
         """A check that has run over 6 minutes is stuck: let the next one start."""
@@ -503,11 +594,17 @@ class Checker:
         return self.running
 
     def tick(self, services) -> None:
-        if self.busy():
-            return
         store = read_store(services.settings.demo)
         cfg = config(store)
         now = services.now()
+        if cfg.get("phone_entity") and showing(cfg, now.date()) and (self.phone_at is None or now - self.phone_at >= timedelta(minutes=PHONE_MINUTES)):
+            self.phone_at = now
+            try:
+                read_phone(services.settings, cfg["phone_entity"], services.settings.demo)
+            except Exception as exc:   # never let the phone hold up the ship's own check
+                log.warning("trip: couldn't read the phone from Home Assistant: %s", exc)
+        if self.busy():
+            return
         if not showing(cfg, now.date()) or not (cfg.get("page_url") or api_key(store)):
             self.next_at = None
             return
@@ -682,6 +779,8 @@ def view(cfg: dict, track: dict, now: datetime, demo: bool = False, house: Optio
     elif recent:
         ship = {"lat": last["lat"], "lon": last["lon"], "xy": xy(last["lat"], last["lon"]), "estimated": False, "stale": True,
                 "sog": last.get("sog"), "cog": last.get("cog"), "heard": _ago(age_min), "at": last["at"]}
+    if ship and last and not ship["estimated"]:
+        ship["src"] = last.get("src")
     elif est:
         in_port = est["in_port"]
         ship = {"lat": est["lat"], "lon": est["lon"], "xy": xy(est["lat"], est["lon"]), "estimated": True,
@@ -719,6 +818,8 @@ def view(cfg: dict, track: dict, now: datetime, demo: bool = False, house: Optio
         if boards and boards["port_view"]:
             sub = f"from {boards['port_view']['name']}" + (f" at {_clock(boards['depart'])}" if boards["depart"] else "")
 
+    guess = _guess(ship, nxt, age_min, now) if ship and ship.get("stale") and not in_port else None
+
     try:
         home_day = date.fromisoformat(last_day)
         left = (home_day - now.date()).days
@@ -747,7 +848,34 @@ def view(cfg: dict, track: dict, now: datetime, demo: bool = False, house: Optio
         "heard": ship.get("heard") if ship else None,
         "estimated": bool(ship and ship["estimated"]),
         "far": far_from_home(house, ship),
+        "guess": guess,
     }
+
+
+GUESS_KNOTS = (6.0, 22.0)   # cruise ships sail between these
+
+
+def _guess(ship: dict, nxt: Optional[dict], age_min: Optional[float], now: datetime) -> Optional[dict]:
+    """Where the ship probably is now, when it hasn't been heard for a while: from where it was last heard,
+    along the likely way to the next port, at the speed that gets it there on time (6 to 22 knots).
+    It stops short of the port: arriving is for a real position or the itinerary to say."""
+    if not nxt or age_min is None or age_min < 30:
+        return None
+    path = searoute.route(tuple(ship["xy"]), tuple(nxt["port_view"]["xy"]))
+    ll = [searoute.latlon(p) for p in path]
+    dist = sum(km(ll[i - 1], ll[i]) for i in range(1, len(ll)))
+    if dist < 5:
+        return None
+    arrive = _dt(nxt["day"], nxt["arrive"], now.tzinfo) if nxt.get("arrive") else None
+    try:
+        heard = datetime.fromisoformat(ship["at"])
+    except (TypeError, ValueError):
+        return None
+    hrs = (arrive - heard).total_seconds() / 3600 if arrive else 0
+    kn = dist / 1.852 / hrs if hrs > 0.5 else 17.0
+    kn = max(GUESS_KNOTS[0], min(GUESS_KNOTS[1], kn))
+    p = searoute.along(path, min(0.95, kn * 1.852 * age_min / 60 / dist))
+    return {"xy": [round(p[0], 1), round(p[1], 1)], "knots": round(kn)}
 
 
 def far_from_home(house: Optional[tuple], ship: Optional[dict]) -> Optional[dict]:
@@ -842,6 +970,11 @@ def make_routers(require_admin, svc):
             if v and not (v.isdigit() and len(v) == 9):
                 raise HTTPException(400, "The ship’s MMSI is 9 digits. It’s on the ship’s page on CruiseMapper or VesselFinder.")
             new["mmsi"] = v
+        if "phone_entity" in body:
+            v = str(body["phone_entity"] or "").strip().lower()
+            if v and not PHONE_ENTITY.match(v):
+                raise HTTPException(400, "The phone’s tracker looks like device_tracker.travelers_iphone or person.traveler (from Home Assistant).")
+            new["phone_entity"] = v
         if "page_url" in body:
             v = str(body["page_url"] or "").strip()
             if v and not (v.startswith(CM_PREFIX) and len(v) < 200):
@@ -913,6 +1046,15 @@ def make_routers(require_admin, svc):
             return feed_test(api_key(read_store(s.settings.demo)), secs, mmsi=mm)
         except (AisError, OSError, ssl.SSLError) as exc:
             raise HTTPException(502, str(exc))
+
+    @admin.post("/fix")
+    def post_fix(body: dict, s=Depends(svc)):
+        """Settings: a position typed in by hand (seen on a tracking site, or sent by text)."""
+        try:
+            add_fix(s.settings.demo, body.get("lat"), body.get("lon"), body.get("at"), "hand")
+        except ValueError as exc:
+            raise HTTPException(400, str(exc))
+        return settings_view(s)
 
     @admin.post("/check")
     def post_check(s=Depends(svc)):

@@ -25,7 +25,7 @@
   }
   function take(v) {
     T = v;
-    D = { name: v.name, traveler: v.traveler, ship: v.ship, mmsi: v.mmsi, page_url: v.page_url || '', show_from: v.show_from, show_until: v.show_until,
+    D = { name: v.name, traveler: v.traveler, ship: v.ship, mmsi: v.mmsi, page_url: v.page_url || '', phone_entity: v.phone_entity || '', show_from: v.show_from, show_until: v.show_until,
       check_minutes: v.check_minutes, ports: v.ports.map(function (r) { return Object.assign({}, r); }) };
   }
   function load() {
@@ -45,14 +45,23 @@
   }
   function shipBody() {
     var last = T.last_fix;
-    return '<div class="row">' + f('Ship', inp('ship', D.ship)) + f('MMSI (9 digits, from the ship’s AIS)', inp('mmsi', D.mmsi, 'text', ' inputmode="numeric" maxlength="9"')) + '</div>' +
+    return phoneBody() + '<div class="row">' + f('Ship', inp('ship', D.ship)) + f('MMSI (9 digits, from the ship’s AIS)', inp('mmsi', D.mmsi, 'text', ' inputmode="numeric" maxlength="9"')) + '</div>' +
       '<div class="row">' + f('The ship’s CruiseMapper page', inp('page_url', D.page_url, 'url', ' placeholder="https://www.cruisemapper.com/ships/…"')) + '</div>' +
       '<p class="help">' + (last ? 'Last heard ' + esc(when(last.at)) + ' at ' + last.lat.toFixed(3) + ', ' + last.lon.toFixed(3) +
-        (last.sog != null ? ' · ' + last.sog + ' knots' : '') + (T.last_source === 'aisstream' ? ' (from AISStream)' : '') : 'No position heard yet.') +
+        (last.sog != null ? ' · ' + last.sog + ' knots' : '') + (last.src === 'phone' ? ' (from the phone on board)' : last.src === 'hand' ? ' (entered by hand)' : T.last_source === 'aisstream' ? ' (from AISStream)' : '') : 'No position heard yet.') +
       (T.destination ? ' · the ship says it’s heading for “' + esc(T.destination) + '”' : '') + ' · ' + T.fixes + ' positions saved.</p>' +
       (T.fixes ? '<div class="actions"><a class="btn quiet" href="api/admin/trip/export.geojson" download>Download the route (GeoJSON)</a>' +
         '<a class="btn quiet" href="api/admin/trip/export.csv" download>Download the positions (CSV)</a></div>' +
         '<p class="help">Every position with its time, for drawing the route later. GeoJSON opens in Google Earth, QGIS or geojson.io.</p>' : '');
+  }
+  // A phone on board: its tracker in Home Assistant, and a box for a position seen elsewhere or texted home.
+  function phoneBody() {
+    return '<div class="row">' + f('A phone on board, from Home Assistant (optional)', inp('phone_entity', D.phone_entity, 'text', ' placeholder="device_tracker.travelers_iphone"')) + '</div>' +
+      '<p class="help">A tracker from the Home Assistant app or the iCloud integration. Looked at every 5 minutes; when the phone has a newer position than the ship’s, the map uses it.</p>' +
+      '<div class="row">' + f('Add a position by hand', '<input type="text" data-tr-fix placeholder="22.6812, -74.4801">') +
+      f('When', '<input type="datetime-local" data-tr-fix-at>') + '</div>' +
+      '<div class="actions"><button class="btn quiet" data-tr-fixsave>Add this position</button></div>' +
+      '<p class="help">Seen on a tracking site or texted home. Leave “When” empty for right now.</p>';
   }
   function portsBody() {
     var opts = T.ports_list;
@@ -121,7 +130,7 @@
     if (r.getAttribute('data-wired')) return;
     r.setAttribute('data-wired', '1');
     r.addEventListener('click', function (e) {
-      var t = e.target.closest('[data-tr-save], [data-tr-add], [data-tr-del], [data-tr-check]');
+      var t = e.target.closest('[data-tr-save], [data-tr-add], [data-tr-del], [data-tr-check], [data-tr-fixsave]');
       if (!t) return;
       e.preventDefault();
       readAll();
@@ -132,6 +141,11 @@
       } else if (t.hasAttribute('data-tr-del')) {
         D.ports.splice(+t.getAttribute('data-tr-del'), 1);
         paint();
+      } else if (t.hasAttribute('data-tr-fixsave')) {
+        var m = (r.querySelector('[data-tr-fix]').value || '').match(/(-?\d+(?:\.\d+)?)\s*[, ]\s*(-?\d+(?:\.\d+)?)/), w = r.querySelector('[data-tr-fix-at]').value;
+        if (!m) { toast('Type the latitude and longitude, like 22.6812, -74.4801', true); return; }
+        var at = w ? new Date(w).toISOString() : null;   // the browser's own time zone
+        api('POST', 'api/admin/trip/fix', { lat: +m[1], lon: +m[2], at: at }).then(function (v) { var d = D; take(v); D = d; paint(); toast('Position added'); }).catch(function (e2) { toast(e2.message, true); });
       } else if (t.hasAttribute('data-tr-check')) {
         api('POST', 'api/admin/trip/check').then(function (v) { var d = D; take(v); D = d; paint(); toast('Listening for the ship…'); }).catch(function (e2) { toast(e2.message, true); });
       } else {
