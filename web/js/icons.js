@@ -1,6 +1,7 @@
 // Inline stroke icons (24x24 viewBox). Colored by currentColor.
 window.ICONS = (function () {
   var P = {
+    ship: '<path d="M4 15.5 3 12h18l-2 5.5"/><path d="M6 12V8h12v4M9 8V5h6v3"/><path d="M2 20c1.5 0 1.5-1 3-1s1.5 1 3 1 1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1"/>',
     home: '<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
     calendar: '<rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>',
     chores: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12l3 3 5-6"/>',

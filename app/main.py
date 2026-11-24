@@ -206,6 +206,12 @@ def background_loop(app: FastAPI, stop: threading.Event) -> None:
         except Exception:
             log.exception("Google Tasks sync error")
         try:
+            if s.on("trip"):
+                from . import trip
+                trip.CHECKER.tick(s)   # starts its own thread; a check can take a couple of minutes
+        except Exception:
+            log.exception("trip tracker error")
+        try:
             if s.on("email_updates"):
                 from . import email_updates
                 email_updates.tick(s)
@@ -785,6 +791,8 @@ app.include_router(art_public)
 
 from .email_api import admin as email_admin_router, public as email_public_router  # noqa: E402  (Settings > Email updates)
 app.include_router(email_admin_router)
+from .trip import make_routers as trip_routers  # noqa: E402  (Settings > Cruise ship tracker)
+app.include_router(trip_routers(require_admin, svc))
 app.include_router(email_public_router)
 from .bible_api import router as bible_router  # noqa: E402  (Settings > Special days > Bible translation)
 
@@ -823,7 +831,7 @@ def _page(name: str, request: Request) -> HTMLResponse:
     html = (WEB_DIR / name).read_text()
     for asset in ("static/css/frame.css", "static/js/icons.js", "static/js/app.js", "static/js/admin.js",
                   "static/css/kids.css", "static/js/kids.js", "static/css/modules.css", "static/js/looks.js", "static/js/look-options.js",
-                  "static/css/admin-look.css", "static/js/admin-look.js", "static/js/email-admin.js", "static/js/bible-admin.js"):
+                  "static/css/admin-look.css", "static/js/admin-look.js", "static/js/email-admin.js", "static/js/bible-admin.js", "static/js/trip-admin.js"):
         html = html.replace(f'"{asset}"', f'"{asset}?v={v}"')
     html = html.replace('"art.js"', f'"art.js?v={request.app.state.services.packs.signature}"')  # the art packs' drawings
     html = html.replace('"themes.css"', f'"themes.css?v={_themes_version(request.app.state.services)}"')  # the looks (app/themes.py)
@@ -906,7 +914,7 @@ def email_link_page(token: str, request: Request):
     return r
 
 
-ADMIN_PAGES = ("overview", "modules", "frames", "calendars", "special-days", "art-packs", "photos", "family", "kids", "chores", "lists", "screen-time", "email-updates", "house", "pins")
+ADMIN_PAGES = ("overview", "modules", "frames", "calendars", "special-days", "art-packs", "photos", "family", "kids", "chores", "lists", "screen-time", "email-updates", "trip", "house", "pins")
 
 
 def _look_page(name: str, request: Request, page: str) -> HTMLResponse:

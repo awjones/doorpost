@@ -28,6 +28,7 @@ Settings.
 | **Lord's Day pictures** | A picture, a verse and a short note every Sunday. | The Faith art pack, and Special days on. Only listed when the Faith pack is installed. |
 | **Sign in from anywhere** | The parent page and Settings away from home, through Cloudflare Access. | A Cloudflare account and your own web address. |
 | **Multiple frames** | Give each screen in the house its own look and screens. | A second frame. |
+| **Cruise ship tracker** | Follow a family member's cruise ship on a map during the trip: where it is, the ports of call, the way it has sailed and a replay. Off by default. See [cruise-tracker.md](cruise-tracker.md). | The ship's CruiseMapper page. No account. |
 | **Kids view** | A picture-first home screen for a playroom frame. | Nothing extra. Best on its own frame. |
 
 Each card in Settings > Modules shows a short status line, such as how many

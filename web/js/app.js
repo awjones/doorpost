@@ -150,6 +150,7 @@
     if (L && L.lists.length) items.push(['lists', 'list', 'Lists']);
     items.push(['photos', 'photos', 'Photos']);
     items = items.filter(function (t) { return shows(t[0]); });  // this frame's screens (Settings > Frames)
+    if (S.data.trip) items.splice(1, 0, ['trip', 'ship', S.data.trip.name]);   // Cruise ship tracker: only during the trip
     return '<div class="tabs" role="tablist">' + items.map(function (t) {
       var badge = t[0] === 'lists' && hl && hl.open && active !== 'lists' ? '<span class="badge">' + hl.open + '</span>' : '';
       return '<button class="tab' + (t[0] === active ? ' on' : '') + '" data-act="go" data-to="' + t[0] + '"' +
@@ -193,12 +194,15 @@
     var hl = homeList(), out = on('chores') ? [['chores', 'Chores']] : [];
     if (hl) out.push(['groceries', hl.name]);
     if (S.data.weather) out.push(['weather', 'Weather']);
+    if (S.data.trip) out.unshift(['trip', S.data.trip.traveler + '’s trip']);
     return on('screen_time') && S.data.screen ? out.concat([['screen', 'Screen time']]) : out;
   }
   // The panel the frame remembers. Once every chore is done for the day, Weather takes over,
   // unless the grocery list was picked today (it holds for the day) or a panel was picked after that.
   function homeTab() {
     var h = S.home, keys = homeTabs().map(function (t) { return t[0]; }), tab = h.tab || 'chores';
+    // During a trip the map panel comes first each day, until someone picks another panel that day.
+    if (S.data.trip && h.day !== S.data.now.slice(0, 10)) return 'trip';
     if (keys.indexOf(tab) < 0) tab = keys[0] || '';
     if (allChoresDone() && keys.indexOf('weather') >= 0) {
       var today = h.day === S.data.now.slice(0, 10);
@@ -312,7 +316,7 @@
     var flip = '<div class="htabs" role="tablist">' + homeTabs().map(function (x) {
       return '<button class="' + (x[0] === tab ? 'on' : '') + '" data-act="htab" data-tab="' + x[0] + '" aria-selected="' + (x[0] === tab) + '">' + esc(x[1]) + '</button>';
     }).join('') + '</div>';
-    var panel = tab === 'groceries' ? groceriesPanel() : tab === 'weather' ? weatherPanel() : tab === 'screen' ? screenMini() : tab === 'chores' ? choresPanel() : '';
+    var panel = tab === 'trip' ? tripPanel() : tab === 'groceries' ? groceriesPanel() : tab === 'weather' ? weatherPanel() : tab === 'screen' ? screenMini() : tab === 'chores' ? choresPanel() : '';
 
     var tiles = d.kids.map(function (k) {
       var ct = !k.total ? 'No chores' : k.done === k.total ? 'All done!' : k.done + ' of ' + k.total + ' done';
@@ -339,6 +343,7 @@
       '<nav class="nav">' + tabs('today') + homebar() + grownups() + '</nav></div>';
     setHTML($('screen-today'), html);
     fitWeather($('screen-today'));
+    if (S.data.trip) fitMaps($('screen-today'));
   }
   // The 3-day weather cards in a short panel (a tall frame, a look with big type): drop the words ("Partly cloudy"),
   // then the picture, before the last line would be cut off. Classes .tight and .tighter on .wdays.
@@ -632,6 +637,226 @@
       '<nav class="nav">' + tabs('screen') + '<div class="navr">' + homebar() +
       (frameOf().look_kids ? grownups() : frameOf().approvals ? '<button class="btn-chip" data-act="open-pin">' + I('lock', 18) + 'Parent</button>' : '') + '</div></nav></div>';
     setHTML($('screen-screen'), html);
+  }
+
+
+  // ---------------- Cruise ship tracker (app/trip.py) ----------------
+  // The map is one drawing of the whole Caribbean (static/img/caribbean.svg, in the same units as
+  // the x,y the server sends); each view crops it to the ship, the line sailed and the ports.
+  // The box the map must show (ship, ports, line sailed); fitMaps() widens it to the frame's real shape.
+  function tripCrop(t, aspect, focus) {
+    var pts = [];
+    if (focus) pts.push(focus);
+    else {
+      if (t.ship) pts.push(t.ship.xy);
+      (t.days || []).forEach(function (d) { if (d.xy) pts.push(d.xy); });
+      if (t.next) pts.push(t.next.xy);
+      t.track.forEach(function (p, i) { if (i % 10 === 0) pts.push(p); });
+      var ys = (t.days || []).filter(function (d) { return d.xy; }).map(function (d) { return d.xy[1]; });
+      if (ys.length && Math.min.apply(null, ys) < tripXY(0, 23)[1] && Math.max.apply(null, ys) > tripXY(0, 19.5)[1]) pts.push(tripXY(-73.4, 20.0));   // Bahamas to Jamaica: show the Windward Passage
+    }
+    if (!pts.length) pts = [[496, 217]];   // Miami
+    var x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    pts.forEach(function (p) { x0 = Math.min(x0, p[0]); y0 = Math.min(y0, p[1]); x1 = Math.max(x1, p[0]); y1 = Math.max(y1, p[1]); });
+    var pad = focus ? 90 : 70, w = Math.max(x1 - x0 + pad * 2, 160), h = Math.max(y1 - y0 + pad * 2, 120);
+    return fitBox([(x0 + x1) / 2 - w / 2, (y0 + y1) / 2 - h / 2, w, h], aspect, t.map);
+  }
+  function fitBox(b, aspect, m) {
+    var w = b[2], h = b[3], cx = b[0] + w / 2, cy = b[1] + h / 2;
+    if (w / h > aspect) h = w / aspect; else w = h * aspect;
+    if (w > m.w) { w = m.w; h = w / aspect; }
+    if (h > m.h) { h = m.h; w = h * aspect; }
+    return [Math.max(0, Math.min(m.w - w, cx - w / 2)), Math.max(0, Math.min(m.h - h, cy - h / 2)), w, h];
+  }
+  // After drawing: shape each map's view to its box on screen, so nothing it needs is cut off.
+  function fitMaps(root) {
+    Array.prototype.forEach.call(root.querySelectorAll('svg.tmap[data-box]'), function (svg) {
+      var W = svg.parentNode.clientWidth, H = svg.parentNode.clientHeight;
+      if (!W || !H) return;
+      var b = svg.getAttribute('data-box').split(',').map(Number), m = { w: +svg.getAttribute('data-mw'), h: +svg.getAttribute('data-mh') };
+      svg.setAttribute('viewBox', fitBox(b, W / H, m).map(function (v) { return v.toFixed(1); }).join(' '));
+    });
+  }
+  var TRIP_LABELS = [['FLORIDA', -81.6, 27.6], ['CUBA', -79.6, 21.9], ['JAMAICA', -77.3, 17.85], ['HAITI', -72.6, 18.9], ['DOMINICAN REP.', -70.4, 18.4],
+    ['PUERTO RICO', -66.5, 17.85], ['THE BAHAMAS', -76.6, 24.9], ['MEXICO', -89.4, 19.6], ['BELIZE', -88.9, 17.0], ['HONDURAS', -86.6, 14.9], ['GULF OF MEXICO', -90, 25.5],
+    ['CARIBBEAN SEA', -75, 15.5], ['ATLANTIC OCEAN', -72, 27.5]];
+  function tripXY(lon, lat) { return [(lon + 98) * 0.92718 * 30, (33 - lat) * 30]; }
+  var TRIP_MARKER = 'crosshair';   // 'crosshair', or 'ship' (a little ship pointed the way it's heading)
+  function tripGrid(c, u, fs, mini) {   // lines every 5 degrees (2 on the close-up), labeled on the open edges
+    var step = c[2] > 600 ? 5 : c[2] > 250 ? 2 : 1, out = '<g class="tgrid" stroke-width="' + (1 * u) + '">', lab = '';
+    for (var lon = -95; lon <= -60; lon += step) {
+      var x = tripXY(lon, 0)[0];
+      if (x < c[0] || x > c[0] + c[2]) continue;
+      out += '<line x1="' + x + '" y1="0" x2="' + x + '" y2="750"/>';
+      if (!mini) lab += '<text x="' + (x + 4 * u) + '" y="' + (c[1] + fs * 1.3) + '" font-size="' + (fs * 0.85) + '">' + (-lon) + '°W</text>';
+    }
+    for (var lat = 10; lat <= 32; lat += step) {
+      var y = tripXY(-98, lat)[1];
+      if (y < c[1] || y > c[1] + c[3]) continue;
+      out += '<line x1="0" y1="' + y + '" x2="1113" y2="' + y + '"/>';
+      if (!mini) lab += '<text x="' + (c[0] + 6 * u) + '" y="' + (y - 4 * u) + '" font-size="' + (fs * 0.85) + '">' + lat + '°N</text>';
+    }
+    return out + '</g><g class="tgridl">' + lab + '</g>';
+  }
+  function tripMarker(t, p, r, u) {
+    var est = t.ship.estimated, dash = est ? ' stroke-dasharray="' + (4 * u) + ' ' + (3 * u) + '"' : '';
+    if (TRIP_MARKER === 'crosshair') {
+      var a = r * 1.15, b = r * 2.1, sw = 2.4 * u, l = function (x1, y1, x2, y2) { return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>'; };
+      return '<g class="tcross' + (est ? ' est' : '') + '" transform="translate(' + p[0] + ',' + p[1] + ')">' +
+        '<circle class="halo" r="' + a + '" stroke-width="' + (sw + 3 * u) + '"/>' +
+        '<g class="halo" stroke-width="' + (sw + 3 * u) + '">' + l(0, -a, 0, -b) + l(0, a, 0, b) + l(-a, 0, -b, 0) + l(a, 0, b, 0) + '</g>' +
+        '<circle class="ring" r="' + a + '" stroke-width="' + sw + '"' + dash + '/>' +
+        '<g class="ring" stroke-width="' + sw + '">' + l(0, -a * 0.55, 0, -b) + l(0, a * 0.55, 0, b) + l(-a * 0.55, 0, -b, 0) + l(a * 0.55, 0, b, 0) + '</g>' +
+        '<circle class="dot" r="' + (2.6 * u) + '"/></g>';
+    }
+    var deg = t.ship.cog, to = t.next && t.next.xy;   // course over ground; otherwise toward the next port; docked: as is
+    if ((deg == null || t.ship.sog == null || t.ship.sog < 1) && to && !t.in_port) deg = Math.atan2(to[0] - p[0], p[1] - to[1]) * 180 / Math.PI;
+    if (deg == null || (t.in_port && (t.ship.sog == null || t.ship.sog < 1) && t.ship.cog == null)) deg = 0;
+    var k = r * 1.6;
+    return '<g class="tboat' + (est ? ' est' : '') + '" transform="translate(' + p[0] + ',' + p[1] + ') rotate(' + deg.toFixed(0) + ') scale(' + k + ')">' +
+      '<path class="hull" d="M0,-1.7 C0.62,-1.05 0.68,-0.2 0.64,1.05 L0.5,1.45 L-0.5,1.45 L-0.64,1.05 C-0.68,-0.2 -0.62,-1.05 0,-1.7 Z" stroke-width="' + (3 * u / k) + '"' +
+      (est ? ' stroke-dasharray="' + (4 * u / k) + ' ' + (3 * u / k) + '"' : '') + '/>' +
+      '<rect class="deck" x="-0.34" y="-0.75" width="0.68" height="1.75" rx="0.22"/>' +
+      '<circle class="funnel" cy="0.55" r="0.17"/></g>';
+  }
+  function tripMap(t, W, H, opt) {
+    opt = opt || {};
+    var c = tripCrop(t, W / H, opt.focus), u = c[2] / W;   // map units per pixel
+    var fs = 12 * u, out = '<svg class="tmap" viewBox="' + c.join(' ') + '" data-box="' + c.join(',') + '" data-mw="' + t.map.w + '" data-mh="' + t.map.h + '" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+      '<rect x="0" y="0" width="' + t.map.w + '" height="' + t.map.h + '" fill="#DCE7EC"/>' +
+      '<image href="static/img/caribbean.svg" x="0" y="0" width="' + t.map.w + '" height="' + t.map.h + '"/>' + tripGrid(c, u, fs, opt.mini);
+    if (!opt.mini) TRIP_LABELS.forEach(function (l) {
+      var p = tripXY(l[1], l[2]), sea = /SEA|GULF|OCEAN/.test(l[0]);
+      out += '<text x="' + p[0] + '" y="' + p[1] + '" font-size="' + (sea ? fs * 0.95 : fs) + '" class="' + (sea ? 'tl sea' : 'tl') + '" text-anchor="middle" letter-spacing="' + (fs * 0.18) + '">' + l[0] + '</text>';
+    });
+    if (t.track.length > 1) out += '<polyline class="tsailed" fill="none" stroke-width="' + (3 * u) + '" points="' + t.track.map(function (p) { return p[0] + ',' + p[1]; }).join(' ') + '"/>';
+    if (t.ship && t.next && !t.in_port) {   // the likely way to the next port, by sea (the server routes it around land)
+      var way = t.ahead && t.ahead.length > 1 ? t.ahead : [t.ship.xy, t.next.xy];
+      out += '<polyline class="tahead" fill="none" stroke-width="' + (2.4 * u) + '" stroke-dasharray="' + (7 * u) + ' ' + (6 * u) + '" points="' + way.map(function (p) { return p[0] + ',' + p[1]; }).join(' ') + '"/>';
+    }
+    var seen = {};
+    (t.days || []).forEach(function (d) {
+      if (!d.xy || seen[d.port]) return;
+      seen[d.port] = 1;
+      var here = t.in_port && t.in_port.name === d.port;
+      out += '<circle class="tport' + (d.past ? ' past' : '') + '" cx="' + d.xy[0] + '" cy="' + d.xy[1] + '" r="' + (6 * u) + '" stroke-width="' + (2.5 * u) + '"/>';
+      if (!opt.mini && !here) out += '<text class="tpl" x="' + (d.xy[0] + 10 * u) + '" y="' + (d.xy[1] + 4.5 * u) + '" font-size="' + (fs * 1.25) + '" stroke-width="' + (4 * u) + '">' + esc(d.port) + '</text>';
+    });
+    if (!opt.mini && (t.moves || []).length > 1) {   // the replay's own marker and time tag, hidden until it plays
+      var rr = 10 * u, rw = 150 * u;
+      out += '<g class="treplay" style="display:none"><polyline class="tsailed" fill="none" stroke-width="' + (3 * u) + '" points=""/>' +
+        '<g class="trmark">' + tripMarker({ ship: { estimated: false } }, [0, 0], rr, u) +
+        '<g class="ttag"><rect x="' + (-rw / 2) + '" y="' + (-rr - 32 * u) + '" width="' + rw + '" height="' + (24 * u) + '" rx="' + (12 * u) + '"/>' +
+        '<text class="trclock" x="0" y="' + (-rr - 15.5 * u) + '" font-size="' + (fs * 1.08) + '" text-anchor="middle"></text></g></g></g>';
+    }
+    if (t.ship) {
+      var p = t.ship.xy, r = (opt.mini ? 8 : 10) * u;
+      out += '<g class="tme"><circle class="tpulse" cx="' + p[0] + '" cy="' + p[1] + '" r="' + (r * 2.6) + '"/>' + tripMarker(t, p, r, u);
+      var tag = opt.mini ? t.traveler : t.traveler + (t.in_port ? ' · ' + t.in_port.name : t.ship.stale ? ' · ' + tripTime(t.ship.at) : ' is here');
+      var tw = tag.length * fs * (opt.mini ? 0.72 : 0.62) + 18 * u, ty = p[1] - r - 30 * u;
+      out += '<g class="ttag"><rect x="' + (p[0] - tw / 2) + '" y="' + ty + '" width="' + tw + '" height="' + (24 * u) + '" rx="' + (12 * u) + '"/>' +
+        '<text x="' + p[0] + '" y="' + (ty + 16.5 * u) + '" font-size="' + (fs * (opt.mini ? 1.15 : 1.08)) + '" text-anchor="middle">' + esc(tag) + '</text></g></g>';
+    }
+    return out + '</svg>';
+  }
+  // Replay: the crosshair sails every position saved so far, in order, with the day and time on its tag.
+  // Sailing runs at about 2.5 s a day (6 to 20 s in all). A stay in one spot is cut to a short pause: it
+  // counts as 45 minutes however long the ship sat there. The saved positions are untouched.
+  function tripReplay() {
+    var t = S.data && S.data.trip, root = $('screen-trip'), svg = root && root.querySelector('svg.tmap');
+    var g = svg && svg.querySelector('.treplay');
+    if (!g || S.replay) return;
+    var pts = [];
+    (t.moves || []).forEach(function (m) {
+      var a = Date.parse(m.since || m.at), b = Date.parse(m.at);
+      if (!isNaN(a)) pts.push({ xy: m.xy, ms: a });
+      if (!isNaN(b) && b > a) pts.push({ xy: m.xy, ms: b });
+    });
+    if (pts.length < 2) return;
+    var STAY = 45 * 6e4, acc = 0;   // replay clock: real time, except a stay counts as STAY at most
+    pts.forEach(function (p, j) {
+      if (j) {
+        var q = pts[j - 1], dt = p.ms - q.ms, still = Math.abs(p.xy[0] - q.xy[0]) + Math.abs(p.xy[1] - q.xy[1]) < 0.6;   // ~2 km
+        acc += still ? Math.min(dt, STAY) : dt;
+      }
+      p.rt = acc;
+    });
+    var t0 = 0, t1 = acc, days = (t1 - t0) / 864e5;
+    var dur = Math.min(20000, Math.max(6000, days * 2500)), line = g.querySelector('polyline'), mark = g.querySelector('.trmark'), clk = g.querySelector('.trclock');
+    var hide = svg.querySelectorAll('.tme, .tahead, svg > polyline.tsailed'), start = null, i = 0;
+    S.replay = true;
+    Array.prototype.forEach.call(hide, function (el) { el.style.display = 'none'; });
+    g.style.display = '';
+    function done() {
+      S.replay = false;
+      root._html = null;   // draw the screen fresh
+      if (S.screen === 'trip') render();
+    }
+    function frame(now) {
+      if (!S.replay || S.screen !== 'trip' || !document.body.contains(g)) { S.replay = false; return; }
+      if (start === null) start = now;
+      var f = Math.min(1, (now - start) / dur), rt = t0 + (t1 - t0) * f;
+      while (i < pts.length - 2 && pts[i + 1].rt <= rt) i++;
+      var a = pts[i], b = pts[i + 1], k = b.rt > a.rt ? Math.min(1, Math.max(0, (rt - a.rt) / (b.rt - a.rt))) : 1, ms = a.ms + (b.ms - a.ms) * k;
+      var x = a.xy[0] + (b.xy[0] - a.xy[0]) * k, y = a.xy[1] + (b.xy[1] - a.xy[1]) * k;
+      line.setAttribute('points', pts.slice(0, i + 1).map(function (p) { return p.xy[0] + ',' + p.xy[1]; }).join(' ') + ' ' + x + ',' + y);
+      mark.setAttribute('transform', 'translate(' + x.toFixed(1) + ',' + y.toFixed(1) + ')');
+      var d = new Date(ms);
+      clk.textContent = d.toLocaleDateString('en-US', { weekday: 'short' }) + ' ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+      if (f < 1) requestAnimationFrame(frame);
+      else setTimeout(done, 2500);
+    }
+    requestAnimationFrame(frame);
+  }
+  function tripTime(iso) {
+    var d = new Date(iso);
+    return isNaN(d) ? '' : d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  }
+  function tripKey(kind, est) {   // the legend's little pictures, drawn the same way as the map
+    var svg = '<svg class="tkeysvg" viewBox="0 0 30 16" width="30" height="16" aria-hidden="true">';
+    if (kind === 'sailed') return svg + '<line class="tsailed" x1="2" y1="8" x2="28" y2="8" stroke-width="3"/></svg>';
+    if (kind === 'ahead') return svg + '<line class="tahead" x1="2" y1="8" x2="28" y2="8" stroke-width="2.4" stroke-dasharray="6 4"/></svg>';
+    return '<svg class="tkeysvg" viewBox="-12 -12 24 24" width="22" height="22" aria-hidden="true">' + tripMarker({ ship: { estimated: !!est } }, [0, 0], 5.2, 0.5) + '</svg>';
+  }
+  function tripHeard(t) {
+    if (!t.ship) return '';
+    if (t.ship.stale) return 'Last heard ' + tripTime(t.ship.at) + ' (' + t.heard + ')';
+    if (t.ship.estimated) return 'Estimated from the itinerary' + (t.heard ? ' · last heard ' + t.heard : '');
+    return 'Ship’s position heard ' + t.heard;
+  }
+  function tripPanel() {
+    var t = S.data.trip;
+    return '<div class="hp-head"><h3>' + esc(t.headline) + '</h3><span class="aside">' + esc(t.home) + '</span></div>' +
+      '<div class="hp-body tap trip-mini" data-act="go" data-to="trip"><div class="tmini">' + tripMap(t, S.tall ? 680 : 620, S.tall ? 250 : 185, { mini: true }) + '</div>' +
+      '<div class="tmini-foot"><span>' + esc(t.sub || tripHeard(t)) + '</span><b>Open the map ›</b></div></div>';
+  }
+  function renderTrip() {
+    if (S.replay) return;   // don't redraw under a replay that's playing
+    var t = S.data.trip, c = clock(), pick = null;
+    (t.days || []).forEach(function (d) { if (d.day === S.tripDay) pick = d; });
+    var right = '<div class="clock"><span class="t">' + c.t + '</span><span class="ap">' + c.ap + '</span></div><span class="vrule"></span>' +
+      '<div class="count"><div class="big">' + esc(t.home) + '</div><div class="sm">' + esc(t.ship_name) + '</div></div>';
+    var W = S.tall ? 736 : 724, H = S.tall ? 560 : 560;
+    var map = tripMap(t, W, H, pick && pick.xy ? { focus: pick.xy } : null);
+    var days = (t.days || []).map(function (d) {
+      return '<button class="tday' + (d.today ? ' today' : '') + (d.past ? ' past' : '') + (d.day === S.tripDay ? ' on' : '') + '" data-act="trip-day" data-day="' + esc(d.day) + '">' +
+        '<span class="tdw">' + esc(d.date_label) + '</span><span class="tdp"><b>' + esc(d.port) + '</b>' + (d.place ? '<i>' + esc(d.place) + '</i>' : '') + '</span>' +
+        '<span class="tdh">' + esc(d.hours) + (d.note ? '<em>' + esc(d.note) + '</em>' : '') + '</span></button>';
+    }).join('') || '<p class="empty">The ports of call go in Settings › Cruise ship tracker.</p>';
+    var html = band(bandTitle(76, t.name, dateLabel()), right) +
+      '<div class="body"><div class="main trip-main">' +
+      '<section class="card tmap-card" aria-label="Map"><div class="tmap-wrap">' + map + '</div>' +
+      '<div class="tmap-foot"><span class="tkey">' + tripKey('sailed') + 'sailed</span>' + (t.next && !t.in_port ? '<span class="tkey">' + tripKey('ahead') + 'likely way to ' + esc(t.next.name) + '</span>' : '') +
+      '<span class="tkey">' + tripKey('ship', t.estimated) + esc(tripHeard(t) || 'No position yet') + '</span>' +
+      ((t.moves || []).length > 1 ? '<button class="treplay-btn" data-act="trip-replay">▶ Replay</button>' : '') + '</div></section>' +
+      '<div class="right-col"><section class="card tnow"><div class="tnow-k">' + esc(t.traveler) + ' is</div><h2>' + esc(t.headline) + '</h2>' +
+      (t.sub ? '<p class="aside">' + esc(t.sub) + '</p>' : '') +
+      (t.next && !t.before ? '<p class="tnext">Next: <b>' + esc(t.next.name) + '</b> · ' + esc(t.next.date_label) + (t.next.arrive ? ', ' + esc(t.next.arrive) : '') + '</p>' : '') + '</section>' +
+      '<section class="card tdays" aria-label="The itinerary"><div class="card-head"><h2>The trip</h2><span class="aside">' + (S.tripDay ? 'tap again for the whole trip' : 'tap a day to see it') + '</span></div>' +
+      '<div class="tdlist' + ((t.days || []).length > 6 ? ' dense' : '') + '">' + days + '</div></section></div></div>' +
+      '<nav class="nav">' + tabs('trip') + homebar() + '</nav></div>';
+    setHTML($('screen-trip'), html);
+    fitMaps($('screen-trip'));
   }
 
   // ---------------- Calendar ----------------
@@ -1155,7 +1380,7 @@
     if (!LOOK_NAMES[S.newLook]) S.newLook = list[0].key;
   }
   function lookName(k) { return (LOOK_NAMES[k] || [k])[0]; }
-  var SCREEN_LABEL = { today: 'Today', kids: 'Kids', clock: 'Clock', calendar: 'Calendar', chores: 'Chores', screen: 'Screen Time', lists: 'Lists', photos: 'Photos' };
+  var SCREEN_LABEL = { today: 'Today', kids: 'Kids', clock: 'Clock', calendar: 'Calendar', chores: 'Chores', screen: 'Screen Time', lists: 'Lists', photos: 'Photos', trip: 'Trip' };
   function renderFrameMenu() {
     var first = S.overlay === 'firstrun', px = window.devicePixelRatio || 1;
     var w = Math.round(window.innerWidth * px), h = Math.round(window.innerHeight * px);
@@ -1586,7 +1811,7 @@
       if (S.screen === 'photos') stopPhotos();
       S.screen = homeScreen();
     }
-    ['today', 'kids', 'clock', 'chores', 'calendar', 'screen', 'lists', 'photos', 'night'].forEach(function (n) {
+    ['today', 'kids', 'clock', 'chores', 'calendar', 'screen', 'lists', 'trip', 'photos', 'night'].forEach(function (n) {
       $('screen-' + n).classList.toggle('on', n === S.screen);
     });
     $('gear').style.display = $('hotcorner').style.display = S.screen === 'photos' || S.screen === 'night' ? 'none' : '';
@@ -1597,6 +1822,7 @@
     else if (S.screen === 'calendar') renderCalendar();
     else if (S.screen === 'screen') renderScreen();
     else if (S.screen === 'lists') renderLists();
+    else if (S.screen === 'trip') { if (S.data.trip) renderTrip(); else { S.screen = homeScreen(); render(); return; } }
     else if (S.screen === 'photos') renderPhotoOverlay();
     else if (S.screen === 'night') renderNight();
     if (S.overlay) renderOverlay();
@@ -1611,6 +1837,7 @@
     if (screen !== 'chores' && screen !== 'screen' && S.overlay !== 'listadd') closeOverlay();
     render();
     if (screen === 'photos') startPhotos();
+    if (screen === 'trip') setTimeout(tripReplay, 900);   // opening the trip plays it once
   }
   function closeOverlay() {
     S.overlay = null; S.pin = ''; S.msg = ''; S.ok = ''; S.token = null; S.who = ''; S.confirmWeek = false;
@@ -1667,6 +1894,8 @@
       saveHome(); render();
     }
     else if (act === 'hchores') { S.home.chores = el.getAttribute('data-v'); saveHome(); render(); }
+    else if (act === 'trip-replay') tripReplay();
+    else if (act === 'trip-day') { S.tripDay = el.getAttribute('data-day') === S.tripDay ? null : el.getAttribute('data-day'); render(); }
     else if (act === 'hweather') { S.home.weather = el.getAttribute('data-v'); saveHome(); render(); }
     // Lists
     else if (act === 'list-pick') { S.list = el.getAttribute('data-list'); render(); }

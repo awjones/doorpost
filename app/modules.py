@@ -91,6 +91,11 @@ MODULES: list[dict] = [
      "description": "Give each screen in the house its own size, look and screens.",
      "needs": ["frame"], "needs_text": "A second frame on the same network",
      "routes": ["/api/parent/frames"]},
+    {"id": "trip", "name": "Cruise ship tracker", "icon": "ship", "default_on": False,
+     "description": "Follow a family member’s cruise ship on a map for the days of the trip: where it is, the ports of call, the way it has sailed and a replay.",
+     "needs": ["internet"], "needs_text": "A free AISStream.io key for the ship’s position",
+     "today": ["trip"], "admin_pages": ["trip"],
+     "routes": ["/api/admin/trip", "/admin/trip"], "jobs": ["check the ship’s position about once an hour during the trip"]},
     {"id": "kids_view", "name": "Kids view", "icon": "people", "default_on": False,
      "description": "A picture-first home screen for a playroom frame, for kids who can’t read yet.",
      "needs": ["nothing"], "needs_text": "Nothing extra (best on its own frame)",
@@ -300,6 +305,8 @@ def narrow(payload: dict, settings) -> dict:
         p["photos_count"], p["photos_version"] = 0, ""
     if "screen_time" not in on:
         p["screen"] = None
+    if "trip" not in on:
+        p["trip"] = None
     if "chores" not in on or "portraits" not in on:
         kids = []
         for k in p.get("kids") or []:

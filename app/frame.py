@@ -230,6 +230,9 @@ def build_payload(services) -> dict:
         "photos_version": services.photos.version(),
         "demo": s.demo,
     }
+    if services.on("trip"):   # Settings > Cruise ship tracker: only between the trip's dates (app/trip.py)
+        from . import trip
+        payload["trip"] = trip.frame_view(services)
     payload["kids"], payload["screen"] = build_kids(services, today, now)
     payload["status"] = {
         "calendar_errors": services.calendar.errors,

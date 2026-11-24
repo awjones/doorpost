@@ -737,3 +737,71 @@ button.dp-row.tap:active { background: var(--tile); }
 .day .evs { overflow: hidden; }
 .nav > .grownups { flex-shrink: 0; }
 .vert .nav > .grownups { align-self: flex-end; }                                  /* a very busy day never spills out of its column */
+
+/* ---------- Cruise ship tracker (app/trip.py; app.js renderTrip, tripPanel) ---------- */
+.trip-main { grid-template-columns: 740px minmax(0, 1fr); }
+.tmap-card { padding: 0; }
+.tmap-wrap { flex: 1; min-height: 0; position: relative; overflow: hidden; }
+.tmap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.tmap .tl { fill: #9C8A62; font-family: var(--sans); font-weight: 600; }
+.tmap .tl.sea { fill: #7F98A5; font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: 0.1em; }
+.tmap .tsailed { stroke: var(--navy); stroke-linecap: round; stroke-linejoin: round; }
+.tmap .tahead { stroke: var(--navy); opacity: 0.55; stroke-linecap: round; }
+.tmap .tport { fill: var(--card); stroke: var(--navy); }
+.tmap .tport.past { fill: var(--navy); }
+.tmap .tpl { fill: var(--ink); font-family: var(--serif); font-weight: 600; paint-order: stroke; stroke: rgba(246, 241, 231, 0.9); stroke-linejoin: round; }
+.tmap .tship { fill: var(--red); stroke: #FFFFFF; }
+.tmap .tship.est { fill: #E07A8A; }
+.treplay-btn { margin-left: auto; border: 0; border-radius: 999px; padding: 6px 14px; font: inherit; font-weight: 700; font-size: 14px;
+  background: var(--navy, #16324F); color: #FFFFFF; }
+.tkeysvg { flex-shrink: 0; overflow: visible; }
+.tkeysvg .tsailed { stroke: var(--navy); stroke-linecap: round; }
+.tkeysvg .tahead { stroke: var(--navy); opacity: 0.55; stroke-linecap: round; }
+.tkeysvg .tcross .halo { fill: none; stroke: #FFFFFF; }
+.tkeysvg .tcross .ring { fill: none; stroke: var(--red); }
+.tkeysvg .tcross.est .ring { stroke: #E07A8A; }
+.tkeysvg .tcross .dot { fill: var(--red); }
+.tmap .tgrid line { stroke: #5B7C8C; stroke-opacity: .28; }
+.tmap .tgridl text { fill: #4A6878; fill-opacity: .8; font-weight: 600; paint-order: stroke; stroke: #DCE7EC; stroke-width: 3px; }
+.tmap .tboat .hull { fill: var(--red); stroke: #FFFFFF; }
+.tmap .tboat.est .hull { fill: #E07A8A; }
+.tmap .tboat .deck { fill: #FFFFFF; opacity: .9; }
+.tmap .tboat .funnel { fill: var(--red); }
+.tmap .tcross .halo { fill: none; stroke: #FFFFFF; }
+.tmap .tcross .ring { fill: none; stroke: var(--red); }
+.tmap .tcross.est .ring { stroke: #E07A8A; }
+.tmap .tcross .dot { fill: var(--red); }
+.tmap .tpulse { fill: var(--red); opacity: 0.18; transform-box: fill-box; transform-origin: center; animation: tpulse 2.4s ease-out infinite; }
+@keyframes tpulse { 0% { transform: scale(0.4); opacity: 0.35; } 100% { transform: scale(1.3); opacity: 0; } }
+.tmap .ttag rect { fill: var(--navy); }
+.tmap .ttag text { fill: var(--gilt); font-family: var(--sans); font-weight: 700; }
+.tmap-foot { display: flex; gap: 22px; align-items: center; padding: 10px 18px; border-top: 1px solid var(--line); font-size: 14px; color: var(--soft); flex-shrink: 0; }
+.tkey { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tnow { gap: 4px; }
+.tnow-k { font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gilt-dim); }
+.tnow h2 { font-family: var(--serif); font-size: 32px; font-weight: 600; line-height: 1.15; }
+.tnext { font-size: 16px; color: var(--soft); padding-top: 6px; }
+.tnext b { color: var(--ink); }
+.tdays { gap: 6px; }
+.tdlist { display: flex; flex-direction: column; gap: 4px; overflow: hidden; min-height: 0; }
+.tday { display: grid; grid-template-columns: 92px minmax(0, 1fr) auto; align-items: center; gap: 12px; text-align: left; padding: 8px 10px; border-radius: 10px; border-bottom: 1px solid var(--line-soft); }
+.tday .tdw { font-size: 14px; font-weight: 700; color: var(--soft); }
+.tday .tdp { min-width: 0; display: flex; flex-direction: column; }
+.tday .tdp b { font-family: var(--serif); font-size: 18px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tday .tdp i { font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--soft); }
+.tday .tdh { font-size: 14px; color: var(--soft); text-align: right; display: flex; flex-direction: column; }
+.tday .tdh em { font-family: var(--serif); font-size: 13px; }
+.tday.past { opacity: 0.6; }
+.tday.today { background: var(--next-bg); border-bottom-color: transparent; }
+.tday.on { box-shadow: inset 0 0 0 2px var(--navy); }
+.trip-mini { position: relative; }
+.tmini { flex: 1; min-height: 0; position: relative; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
+.tmini-foot { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; color: var(--soft); flex-shrink: 0; }
+.tmini-foot span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tmini-foot b { color: var(--navy); white-space: nowrap; }
+.vert .trip-main > .tmap-card { flex: 1.3; min-height: 0; }
+.vert .trip-main .right-col { flex: 1; }
+.tdlist.dense { gap: 0; }
+.tdlist.dense .tday { padding: 5px 10px; }
+.tdlist.dense .tday .tdp i, .tdlist.dense .tday .tdh em { display: none; }
+.tdlist.dense .tday .tdp b { font-size: 17px; }

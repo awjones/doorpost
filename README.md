@@ -190,7 +190,7 @@ The frame lives on its own Wi-Fi network that can reach the home computer on por
 
 ![A small core surrounded by modules that turn on or off, plus art packs](docs/img/modules.svg)
 
-Everything beyond a small core is a module you turn on or off in Settings > Modules: weather, chores, screen time, photos, lists, Home Assistant, special days, more than one frame, the kids view and more. A module that is off disappears from every frame, and nothing is deleted. See [docs/modules.md](docs/modules.md). Special-day pictures come in art packs: U.S. holidays, Seasons, Family basics and Faith come with it (Faith can be turned off or removed), and Outings and Kids' activities install from Settings > Art packs. See [docs/art-packs.md](docs/art-packs.md), which also explains how to make your own. Looks live in `themes/`; see [docs/themes.md](docs/themes.md).
+Everything beyond a small core is a module you turn on or off in Settings > Modules: weather, chores, screen time, photos, lists, Home Assistant, special days, more than one frame, the kids view, a cruise ship tracker for when someone's away at sea ([docs/cruise-tracker.md](docs/cruise-tracker.md)) and more. A module that is off disappears from every frame, and nothing is deleted. See [docs/modules.md](docs/modules.md). Special-day pictures come in art packs: U.S. holidays, Seasons, Family basics and Faith come with it (Faith can be turned off or removed), and Outings and Kids' activities install from Settings > Art packs. See [docs/art-packs.md](docs/art-packs.md), which also explains how to make your own. Looks live in `themes/`; see [docs/themes.md](docs/themes.md).
 
 ![Three ways to run the server, then three steps to set up the frame](docs/img/setup-paths.svg)
 
