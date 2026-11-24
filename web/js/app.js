@@ -774,11 +774,38 @@
   // Replay: the crosshair sails every position saved so far, in order, with the day and time on its tag.
   // Sailing runs at about 2.5 s a day (6 to 20 s in all). A stay in one spot is cut to a short pause: it
   // counts as 45 minutes however long the ship sat there. The saved positions are untouched.
+  // A day tapped in the list zooms the map onto its port. The replay and "How far" are about the whole
+  // trip, so they go back to it first; the pick also clears itself (see pickTripDay) and on leaving.
+  function tripWhole() {
+    if (!S.tripDay) return;
+    clearTimeout(S.tripDayTimer);
+    S.tripDay = null;
+    var root = $('screen-trip');
+    if (root) root._html = null;
+    renderTrip();
+  }
+  var TRIP_DAY_MS = 60000;   // a picked day goes back to the whole trip after this long
+  function pickTripDay(day) {
+    clearTimeout(S.tripDayTimer);
+    S.tripDay = day === S.tripDay ? null : day;
+    if (S.tripDay) tripDayLater(day, TRIP_DAY_MS);
+    render();
+  }
+  function tripDayLater(day, ms) {
+    S.tripDayTimer = setTimeout(function () {
+      if (S.tripDay !== day) return;
+      if (S.replay || S.far) { tripDayLater(day, 5000); return; }   // not under an animation; a bit later
+      S.tripDay = null;
+      if (S.screen === 'trip') render();
+    }, ms);
+  }
   function tripReplay() {
+    if (S.replay) return;
+    if (S.far) { tripFarEnd(tripReplay); return; }   // zoomed out to the house: zoom back in first
+    tripWhole();
     var t = S.data && S.data.trip, root = $('screen-trip'), svg = root && root.querySelector('svg.tmap');
     var g = svg && svg.querySelector('.treplay');
-    if (!g || S.replay) return;
-    if (S.far) { tripFarEnd(tripReplay); return; }   // zoomed out to the house: zoom back in first
+    if (!g) return;
     var pts = [];
     (t.moves || []).forEach(function (m) {
       var a = Date.parse(m.since || m.at), b = Date.parse(m.at);
@@ -830,6 +857,7 @@
     if (!t || !t.far || !t.ship || !root) return;
     if (S.far) { tripFarEnd(); return; }   // a second tap: back now
     if (S.replay) { S.replay = false; root._html = null; renderTrip(); }
+    tripWhole();
     var svg = root.querySelector('svg.tmap');
     if (!svg) return;
     var W = svg.parentNode.clientWidth, H = svg.parentNode.clientHeight;
@@ -1928,6 +1956,7 @@
   function go(screen) {
     if (screen === S.screen) return;
     if (S.screen === 'photos') stopPhotos();
+    if (S.screen === 'trip') { clearTimeout(S.tripDayTimer); S.tripDay = null; }   // come back to the whole trip
     if (screen === homeScreen()) { S.calOffset = { week: 0, rolling: 0, month: 0 }; S.calAlt = {}; }
     S.screen = screen;
     if (screen !== 'chores' && screen !== 'screen' && S.overlay !== 'listadd') closeOverlay();
@@ -1992,7 +2021,7 @@
     else if (act === 'hchores') { S.home.chores = el.getAttribute('data-v'); saveHome(); render(); }
     else if (act === 'trip-replay') tripReplay();
     else if (act === 'trip-far') tripFar();
-    else if (act === 'trip-day') { S.tripDay = el.getAttribute('data-day') === S.tripDay ? null : el.getAttribute('data-day'); render(); }
+    else if (act === 'trip-day') pickTripDay(el.getAttribute('data-day'));
     else if (act === 'hweather') { S.home.weather = el.getAttribute('data-v'); saveHome(); render(); }
     // Lists
     else if (act === 'list-pick') { S.list = el.getAttribute('data-list'); render(); }

@@ -22,6 +22,10 @@ so it can stay on all year and come back for the next trip.
   far, with the day and time on its tag. Sailing runs at about 2.5 seconds a day,
   and a long stay in port is cut to a short pause. Tap **Replay** to watch it
   again.
+- **A day in the list**: tap it and the map zooms in on that day's port. Tap it
+  again, or wait a minute, and the map goes back to the whole trip. **Replay**
+  and **How far** also go back to the whole trip first, and so does leaving the
+  screen.
 - **How far is Mom?**: a button on the map (named for whoever's on board). It
   zooms out until the house and the ship both show, draws a line between them
   with the miles as the crow flies, holds a few seconds, then zooms back in. Tap
