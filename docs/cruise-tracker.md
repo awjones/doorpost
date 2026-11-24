@@ -90,7 +90,7 @@ traveler's iPhone, in the Shortcuts app:
 4. Automation tab › **+** › **Time of Day**. Pick a time, then **Run
    Immediately** (and turn off **Notify When Run**), then pick the shortcut.
    iOS has no "every 30 minutes", so add one automation per time you want (for
-   example every 2 hours from 6 AM to 10 PM). Tapping the shortcut sends one
+   example every hour from 6 AM to 10 PM). Tapping the shortcut sends one
    anytime.
 
 At home, `mac/trip-phone-relay.py` reads the new "Ship spot" messages from that
