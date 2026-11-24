@@ -212,3 +212,12 @@ def test_a_stay_in_port_keeps_when_she_arrived():
     assert t["fixes"] == [{"lat": 25.08, "lon": -77.34, "sog": 0.0, "at": "2027-11-22T14:00:00+00:00", "since": "2027-11-22T13:00:00+00:00"}]
     v = trip.view(CFG, t, at("2027-11-22T10:30"))
     assert v["moves"][0]["since"] == "2027-11-22T13:00:00+00:00"
+
+
+def test_how_far_from_home():
+    now = at("2027-11-23T12:00")
+    track = {"fixes": [fix(18.47, -77.925, now - timedelta(minutes=8), sog=0.1)]}   # Falmouth, Jamaica
+    v = trip.view(CFG, track, now, house=(40.71, -74.01))   # New York
+    assert 1530 <= v["far"]["miles"] <= 1570 and v["far"]["miles"] % 10 == 0
+    assert v["far"]["xy"][1] < 0   # north of the Caribbean map, on north.svg
+    assert trip.view(CFG, track, now)["far"] is None   # no weather location: no button

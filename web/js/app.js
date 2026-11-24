@@ -666,7 +666,8 @@
     if (w / h > aspect) h = w / aspect; else w = h * aspect;
     if (w > m.w) { w = m.w; h = w / aspect; }
     if (h > m.h) { h = m.h; w = h * aspect; }
-    return [Math.max(0, Math.min(m.w - w, cx - w / 2)), Math.max(0, Math.min(m.h - h, cy - h / 2)), w, h];
+    var y0 = m.y0 || 0;   // the far view reaches up past the Caribbean map (north.svg), to the house
+    return [Math.max(0, Math.min(m.w - w, cx - w / 2)), Math.max(y0, Math.min(y0 + m.h - h, cy - h / 2)), w, h];
   }
   // After drawing: shape each map's view to its box on screen, so nothing it needs is cut off.
   function fitMaps(root) {
@@ -721,9 +722,10 @@
   }
   function tripMap(t, W, H, opt) {
     opt = opt || {};
-    var c = tripCrop(t, W / H, opt.focus), u = c[2] / W;   // map units per pixel
+    var c = tripCrop(t, W / H, opt.focus), u = c[2] / W, far = t.far && !opt.mini;   // map units per pixel
     var fs = 12 * u, out = '<svg class="tmap" viewBox="' + c.join(' ') + '" data-box="' + c.join(',') + '" data-mw="' + t.map.w + '" data-mh="' + t.map.h + '" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
-      '<rect x="0" y="0" width="' + t.map.w + '" height="' + t.map.h + '" fill="#DCE7EC"/>' +
+      '<rect x="0" y="' + (far ? -NORTH_H : 0) + '" width="' + t.map.w + '" height="' + (t.map.h + (far ? NORTH_H : 0)) + '" fill="#DCE7EC"/>' +
+      (far ? '<image href="static/img/north.svg" x="0" y="' + (-NORTH_H) + '" width="' + t.map.w + '" height="' + NORTH_H + '"/>' : '') +
       '<image href="static/img/caribbean.svg" x="0" y="0" width="' + t.map.w + '" height="' + t.map.h + '"/>' + tripGrid(c, u, fs, opt.mini);
     if (!opt.mini) TRIP_LABELS.forEach(function (l) {
       var p = tripXY(l[1], l[2]), sea = /SEA|GULF|OCEAN/.test(l[0]);
@@ -766,6 +768,7 @@
     var t = S.data && S.data.trip, root = $('screen-trip'), svg = root && root.querySelector('svg.tmap');
     var g = svg && svg.querySelector('.treplay');
     if (!g || S.replay) return;
+    if (S.far) { tripFarEnd(tripReplay); return; }   // zoomed out to the house: zoom back in first
     var pts = [];
     (t.moves || []).forEach(function (m) {
       var a = Date.parse(m.since || m.at), b = Date.parse(m.at);
@@ -808,6 +811,88 @@
     }
     requestAnimationFrame(frame);
   }
+  // "How far is Mom?": zoom out until the house and the ship both show, draw a line between them with
+  // the miles on it, hold a few seconds, then zoom back in. Markers and labels keep their size on screen
+  // while the map zooms (they're scaled by the map units per pixel each frame).
+  var NORTH_H = 480;   // static/img/north.svg: 33 to 49 N, drawn above the Caribbean map in the same units
+  function tripFar() {
+    var t = S.data && S.data.trip, root = $('screen-trip');
+    if (!t || !t.far || !t.ship || !root) return;
+    if (S.far) { tripFarEnd(); return; }   // a second tap: back now
+    if (S.replay) { S.replay = false; root._html = null; renderTrip(); }
+    var svg = root.querySelector('svg.tmap');
+    if (!svg) return;
+    var W = svg.parentNode.clientWidth, H = svg.parentNode.clientHeight;
+    if (!W || !H) return;
+    var from = svg.getAttribute('viewBox').split(' ').map(Number), a = t.far.xy, b = t.ship.xy;
+    var pad = Math.max(60, Math.hypot(a[0] - b[0], a[1] - b[1]) * 0.16);
+    var to = fitBox([Math.min(a[0], b[0]) - pad, Math.min(a[1], b[1]) - pad * 1.4, Math.abs(a[0] - b[0]) + pad * 2, Math.abs(a[1] - b[1]) + pad * 2.4],
+      W / H, { w: t.map.w, h: t.map.h + NORTH_H, y0: -NORTH_H });
+    var NS = 'http://www.w3.org/2000/svg', g = document.createElementNS(NS, 'g'), miles = t.far.miles.toLocaleString('en-US') + ' miles';
+    var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, len = Math.hypot(a[0] - b[0], a[1] - b[1]), lw = miles.length * 13.5 + 36;
+    var house = 'M0,-13 L12,-2 L8,-2 L8,10 L-8,10 L-8,-2 L-12,-2 Z';
+    g.setAttribute('class', 'tfar');
+    g.innerHTML = '<line class="tfar-halo" x1="' + a[0] + '" y1="' + a[1] + '" x2="' + b[0] + '" y2="' + b[1] + '" stroke-dasharray="' + len + '" stroke-dashoffset="' + len + '"/>' +
+      '<line class="tfar-line" x1="' + a[0] + '" y1="' + a[1] + '" x2="' + b[0] + '" y2="' + b[1] + '" stroke-dasharray="' + len + '" stroke-dashoffset="' + len + '"/>' +
+      '<g class="tfar-k" data-x="' + a[0] + '" data-y="' + a[1] + '"><path class="thouse" d="' + house + '" stroke-width="3"/>' +
+      '<g class="ttag"><rect x="-34" y="-46" width="68" height="26" rx="13"/><text x="0" y="-28" font-size="15" text-anchor="middle">Home</text></g></g>' +
+      '<g class="tfar-k" data-x="' + b[0] + '" data-y="' + b[1] + '">' + tripMarker(t, [0, 0], 10, 1) +
+      '<g class="ttag"><rect x="' + (-(t.traveler.length * 9 + 36) / 2) + '" y="-50" width="' + (t.traveler.length * 9 + 36) + '" height="26" rx="13"/>' +
+      '<text x="0" y="-32" font-size="15" text-anchor="middle">' + esc(t.traveler) + '</text></g></g>' +
+      '<g class="tfar-k tfar-miles" data-x="' + mx + '" data-y="' + my + '" style="opacity:0"><rect x="' + (-lw / 2) + '" y="-20" width="' + lw + '" height="40" rx="20"/>' +
+      '<text x="0" y="8" font-size="23" text-anchor="middle">' + miles + '</text></g>';
+    svg.appendChild(g);
+    svg.classList.add('far');
+    var line = g.querySelector('.tfar-line'), halo = g.querySelector('.tfar-halo'), label = g.querySelector('.tfar-miles'), keep = g.querySelectorAll('.tfar-k');
+    var f = S.far = { svg: svg, g: g, from: from, at: from, timers: [] };
+    function place(vb) {   // set the view and keep the markers the same size on screen
+      f.at = vb;
+      svg.setAttribute('viewBox', vb.map(function (v) { return v.toFixed(1); }).join(' '));
+      var u = vb[2] / W;
+      line.setAttribute('stroke-width', 4 * u); halo.setAttribute('stroke-width', 9 * u);
+      Array.prototype.forEach.call(keep, function (k) {
+        k.setAttribute('transform', 'translate(' + k.getAttribute('data-x') + ',' + k.getAttribute('data-y') + ') scale(' + u.toFixed(4) + ')');
+      });
+    }
+    f.place = place;
+    place(from);
+    tripZoom(f, to, 1600, function () {
+      tripAnim(f, 1300, function (k) { line.setAttribute('stroke-dashoffset', len * (1 - k)); halo.setAttribute('stroke-dashoffset', len * (1 - k)); }, function () {
+        label.style.opacity = 1;
+        f.timers.push(setTimeout(function () { tripFarEnd(); }, 6000));
+      });
+    });
+  }
+  function tripAnim(f, ms, step, then) {
+    var start = null;
+    function frame(now) {
+      if (S.far !== f || !document.body.contains(f.svg)) { if (S.far === f) S.far = null; return; }
+      if (start === null) start = now;
+      var k = Math.min(1, (now - start) / ms);
+      step(k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2);
+      if (k < 1) requestAnimationFrame(frame); else if (then) then();
+    }
+    requestAnimationFrame(frame);
+  }
+  function tripZoom(f, to, ms, then) {
+    var a = f.at;
+    tripAnim(f, ms, function (k) { f.place(a.map(function (v, i) { return v + (to[i] - v) * k; })); }, then);
+  }
+  function tripFarEnd(then) {   // zoom back in, then draw the screen fresh (and run `then`, e.g. the replay)
+    var f = S.far;
+    if (!f || f.ending) return;
+    f.ending = true;
+    f.timers.forEach(clearTimeout);
+    var label = f.g.querySelector('.tfar-miles');
+    if (label) label.style.opacity = 0;
+    tripZoom(f, f.from, then ? 900 : 1600, function () {
+      S.far = null;
+      var root = $('screen-trip');
+      if (root) root._html = null;
+      if (S.screen === 'trip') render();
+      if (then) setTimeout(then, 60);
+    });
+  }
   function tripTime(iso) {
     var d = new Date(iso);
     return isNaN(d) ? '' : d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
@@ -831,7 +916,7 @@
       '<div class="tmini-foot"><span>' + esc(t.sub || tripHeard(t)) + '</span><b>Open the map ›</b></div></div>';
   }
   function renderTrip() {
-    if (S.replay) return;   // don't redraw under a replay that's playing
+    if (S.replay || S.far) return;   // don't redraw under a replay or the zoom out that's playing
     var t = S.data.trip, c = clock(), pick = null;
     (t.days || []).forEach(function (d) { if (d.day === S.tripDay) pick = d; });
     var right = '<div class="clock"><span class="t">' + c.t + '</span><span class="ap">' + c.ap + '</span></div><span class="vrule"></span>' +
@@ -845,7 +930,8 @@
     }).join('') || '<p class="empty">The ports of call go in Settings › Cruise ship tracker.</p>';
     var html = band(bandTitle(76, t.name, dateLabel()), right) +
       '<div class="body"><div class="main trip-main">' +
-      '<section class="card tmap-card" aria-label="Map"><div class="tmap-wrap">' + map + '</div>' +
+      '<section class="card tmap-card" aria-label="Map"><div class="tmap-wrap">' + map +
+      (t.far && t.ship ? '<button class="tfar-btn" data-act="trip-far">How far is ' + esc(t.traveler) + '?</button>' : '') + '</div>' +
       '<div class="tmap-foot"><span class="tkey">' + tripKey('sailed') + 'sailed</span>' + (t.next && !t.in_port ? '<span class="tkey">' + tripKey('ahead') + 'likely way to ' + esc(t.next.name) + '</span>' : '') +
       '<span class="tkey">' + tripKey('ship', t.estimated) + esc(tripHeard(t) || 'No position yet') + '</span>' +
       ((t.moves || []).length > 1 ? '<button class="treplay-btn" data-act="trip-replay">▶ Replay</button>' : '') + '</div></section>' +
@@ -1895,6 +1981,7 @@
     }
     else if (act === 'hchores') { S.home.chores = el.getAttribute('data-v'); saveHome(); render(); }
     else if (act === 'trip-replay') tripReplay();
+    else if (act === 'trip-far') tripFar();
     else if (act === 'trip-day') { S.tripDay = el.getAttribute('data-day') === S.tripDay ? null : el.getAttribute('data-day'); render(); }
     else if (act === 'hweather') { S.home.weather = el.getAttribute('data-v'); saveHome(); render(); }
     // Lists

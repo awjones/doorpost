@@ -1,9 +1,15 @@
 """Natural Earth 50m land (world-atlas topojson) -> one SVG path for the Caribbean, Gulf and Bahamas.
-Projection (shared with app/trip.py and app.js): x=(lon-LON0)*K*S, y=(LAT1-lat)*S."""
+Projection (shared with app/trip.py and app.js): x=(lon-LON0)*K*S, y=(LAT1-lat)*S.
+
+  make-caribbean-map.py land-50m.json web/img/caribbean.svg            (8 to 33 N)
+  make-caribbean-map.py land-50m.json web/img/north.svg 33 49          (the US above it, for "How far is Mom?";
+                                                                       same units, so its y runs negative)"""
 import json,math,sys
 LON0,LON1,LAT0,LAT1=-98.0,-58.0,8.0,33.0
 K=math.cos(math.radians(22)); S=30.0
-W=(LON1-LON0)*K*S; H=(LAT1-LAT0)*S
+W=(LON1-LON0)*K*S
+C0,C1=(float(sys.argv[3]),float(sys.argv[4])) if len(sys.argv)>4 else (LAT0,LAT1)   # the latitudes to draw
+Y0=(LAT1-C1)*S; H=(C1-C0)*S
 topo=json.load(open(sys.argv[1]))
 sc=topo['transform']['scale']; tr=topo['transform']['translate']
 arcs=[]
@@ -36,15 +42,15 @@ for poly in polys:
     for r in poly:
         pts=ring(r)
         lo=[p[0] for p in pts]; la=[p[1] for p in pts]
-        if max(lo)<LON0-2 or min(lo)>LON1+2 or max(la)<LAT0-2 or min(la)>LAT1+2: continue
+        if max(lo)<LON0-2 or min(lo)>LON1+2 or max(la)<C0-2 or min(la)>C1+2: continue
         xy=[((lon-LON0)*K*S,(LAT1-lat)*S) for lon,lat in pts]
         # clamp far-away parts (big continents) to a margin box so the path stays small
-        m=60; xy=[(min(max(x,-m),W+m),min(max(y,-m),H+m)) for x,y in xy]
+        m=60; xy=[(min(max(x,-m),W+m),min(max(y,Y0-m),Y0+H+m)) for x,y in xy]
         area=abs(sum(xy[i][0]*xy[i-1][1]-xy[i-1][0]*xy[i][1] for i in range(len(xy))))/2
         if area<0.08: continue
         s=rdp(xy,0.2)
         if len(s)<3: continue
         d.append('M'+' '.join('%.1f,%.1f'%p for p in s).replace('.0,',',').replace('.0 ',' ')+'Z')
 path=''.join(d)
-open(sys.argv[2],'w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W:.1f} {H:.1f}" width="{W:.1f}" height="{H:.1f}"><path d="{path}" fill="#E8DFC9" stroke="#B9A57A" stroke-width="0.8" stroke-linejoin="round"/></svg>\n')
+open(sys.argv[2],'w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 {Y0:.1f} {W:.1f} {H:.1f}" width="{W:.1f}" height="{H:.1f}"><path d="{path}" fill="#E8DFC9" stroke="#B9A57A" stroke-width="0.8" stroke-linejoin="round"/></svg>\n')
 print(len(d), len(path), round(W,1), H)

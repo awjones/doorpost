@@ -22,6 +22,13 @@ so it can stay on all year and come back for the next trip.
   far, with the day and time on its tag. Sailing runs at about 2.5 seconds a day,
   and a long stay in port is cut to a short pause. Tap **Replay** to watch it
   again.
+- **How far is Mom?**: a button on the map (named for whoever's on board). It
+  zooms out until the house and the ship both show, draws a line between them
+  with the miles as the crow flies, holds a few seconds, then zooms back in. Tap
+  it again to come back sooner; tap **Replay** and it zooms back in and replays.
+  The house is the weather location in **Settings > General**; without one, the
+  button doesn't show. The land north of the Caribbean map is
+  `web/img/north.svg` (see `scripts/make-caribbean-map.py`).
 
 ## Setting it up
 

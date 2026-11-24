@@ -647,8 +647,9 @@ def _ago(minutes: float) -> str:
     return f"{int(h // 24)} day{'s' if h >= 48 else ''} ago"
 
 
-def view(cfg: dict, track: dict, now: datetime, demo: bool = False) -> dict:
-    """What the frame draws: the ship, the line sailed, the ports, and a sentence or two."""
+def view(cfg: dict, track: dict, now: datetime, demo: bool = False, house: Optional[tuple] = None) -> dict:
+    """What the frame draws: the ship, the line sailed, the ports, and a sentence or two.
+    house: (lat, lon) of the house (the weather location), for "How far is Mom?"."""
     days = _days(cfg)
     today = now.date().isoformat()
     fixes = track.get("fixes") or []
@@ -745,7 +746,16 @@ def view(cfg: dict, track: dict, now: datetime, demo: bool = False) -> dict:
                   "note": r["note"]} for r in days],
         "heard": ship.get("heard") if ship else None,
         "estimated": bool(ship and ship["estimated"]),
+        "far": far_from_home(house, ship),
     }
+
+
+def far_from_home(house: Optional[tuple], ship: Optional[dict]) -> Optional[dict]:
+    """The house on the map and how far the ship is from it, in miles as the crow flies (nearest 10)."""
+    if not ship or not house or house[0] is None or house[1] is None:
+        return None
+    miles = km(house, (ship["lat"], ship["lon"])) * 0.621371
+    return {"xy": xy(house[0], house[1]), "miles": int(round(miles, -1)) if miles >= 20 else int(round(miles))}
 
 
 def frame_view(services) -> Optional[dict]:
@@ -755,7 +765,7 @@ def frame_view(services) -> Optional[dict]:
     now = services.now()
     if not showing(cfg, now.date()):
         return None
-    return view(cfg, read_track(demo), now, demo)
+    return view(cfg, read_track(demo), now, demo, (services.settings.latitude, services.settings.longitude))
 
 
 # ---------------- Settings > Cruise ship tracker ----------------
