@@ -107,7 +107,7 @@ def main() -> int:
     since = datetime.now(timezone.utc) - timedelta(days=FIRST_LOOK_DAYS)
     try:
         spots, last = new_spots(CHAT_DB, [str(h) for h in cfg.get("from") or []], int(state.get("last_rowid", 0)), since)
-    except sqlite3.OperationalError as exc:
+    except sqlite3.DatabaseError as exc:
         log(f"can't read Messages ({exc}); give whatever runs this Full Disk Access")
         return 1
     for rowid, (lat, lon), at in spots:
